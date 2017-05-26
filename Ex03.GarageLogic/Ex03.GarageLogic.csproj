@@ -39,6 +39,7 @@
     <Compile Include="eFuelType.cs" />
     <Compile Include="eLicenseType.cs" />
     <Compile Include="Vehicle.cs" />
+    <Compile Include="Wheel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
