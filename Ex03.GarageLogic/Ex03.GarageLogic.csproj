@@ -34,18 +34,21 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Bike.cs" />
-    <Compile Include="Car.cs" />
-    <Compile Include="eColor.cs" />
-    <Compile Include="eFuelType.cs" />
-    <Compile Include="ElectricBike.cs" />
-    <Compile Include="ElectricCar.cs" />
-    <Compile Include="eLicenseType.cs" />
-    <Compile Include="MotorBike.cs" />
-    <Compile Include="MotorCar.cs" />
-    <Compile Include="ValueOutOfRangeException.cs" />
-    <Compile Include="Vehicle.cs" />
-    <Compile Include="Wheel.cs" />
+    <Compile Include="Vehicle\Bike\Bike.cs" />
+    <Compile Include="Vehicle\Car\Car.cs" />
+    <Compile Include="enums\eColor.cs" />
+    <Compile Include="enums\eFuelType.cs" />
+    <Compile Include="Vehicle\Bike\ElectricBike.cs" />
+    <Compile Include="Vehicle\Car\ElectricCar.cs" />
+    <Compile Include="enums\eLicenseType.cs" />
+    <Compile Include="Vehicle\Bike\MotorBike.cs" />
+    <Compile Include="Vehicle\Car\MotorCar.cs" />
+    <Compile Include="Exceptions\ValueOutOfRangeException.cs" />
+    <Compile Include="Vehicle\Motorized.cs" />
+    <Compile Include="Vehicle\Truck\Truck.cs" />
+    <Compile Include="Vehicle\Vehicle.cs" />
+    <Compile Include="Vehicle\Wheel.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

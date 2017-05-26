@@ -7,13 +7,18 @@ namespace Ex03.GarageLogic
     public class Bike : Vehicle
     {
         private const int k_MaxEngineCapacity = 1000000;    // TODO update to a relevant max value
+        protected const float k_MaxAirPress = 33f;        
+        private readonly int m_EngineCapacity;              // TODO can this value ever change?
         private eLicenseType m_LicenseType;
-        private int m_EngineCapacity;
 
-        public Bike(string i_LicensePlate, eLicenseType i_LicenseType, int i_EngineCapacity)
-            :base(i_LicensePlate)
+        public Bike(string i_LicensePlate, string i_ModelName, eLicenseType i_LicenseType, int i_EngineCapacity)
+            : base(i_LicensePlate, i_ModelName)
         {
-            base.m_NumWheels = 2;
+            m_NumWheels = 2;                                // TODO not sur about this member
+            for (int i = 0; i < m_NumWheels; i++)
+            {
+                Wheels.Add(new Wheel("A Wheels", k_MaxAirPress));
+            }
 
             m_LicenseType = i_LicenseType;
             m_EngineCapacity = i_EngineCapacity;
@@ -28,18 +33,6 @@ namespace Ex03.GarageLogic
         public int EngineCapacity
         {
             get { return m_EngineCapacity; }
-            set
-            {
-                if (value > 0)
-                {
-                    m_EngineCapacity = value;
-                }
-                else
-                {
-                    throw new ValueOutOfRangeException(0, k_MaxEngineCapacity);
-                }
-            }
         }
-        
     }
 }

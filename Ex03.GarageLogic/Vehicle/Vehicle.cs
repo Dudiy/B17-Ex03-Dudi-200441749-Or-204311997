@@ -10,13 +10,14 @@ namespace Ex03.GarageLogic
         private string m_ModelName;
         private float m_EnergyRemaining;
         private float m_MaxEnergy;
-        private List<Wheel> m_Wheels;
-        private byte m_NumWheels;
+        private List<Wheel> m_Wheels = new List<Wheel>();
+        protected byte m_NumWheels;
 
         // assumption, input parameters are validated before calling the ctor        
-        public Vehicle(string i_LicensePlate)
+        public Vehicle(string i_LicensePlate, string i_ModelName)
         {
             m_LicensePlate = i_LicensePlate;
+            m_ModelName = i_ModelName;
         }
 
         // assumption, input parameters are validated before calling the ctor        
@@ -96,12 +97,6 @@ namespace Ex03.GarageLogic
         {
             get { return m_Wheels; }
             set { m_Wheels = value; }
-        }
-
-        protected byte NumWheels
-        {
-            get { return m_NumWheels; }
-            set { m_NumWheels = value; }
         }
 
         // ========================================= Methods =========================================

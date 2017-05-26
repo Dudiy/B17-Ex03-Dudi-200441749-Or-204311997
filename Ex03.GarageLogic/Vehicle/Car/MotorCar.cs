@@ -4,18 +4,15 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class MotorCar : Car
+    public class MotorCar : Car
     {
-        private eFuelType m_FuelType;
-        private float m_CurrentFuelAmount;
-        private static float s_MaxFuelCapacity= 42;
+        private const eFuelType m_FuelType = eFuelType.Octan98;     // TODO const?    
 
-        public MotorCar(string i_LicensePlate, eColor i_CarColor, byte i_NumDoors,
-            eFuelType i_FuelType, float i_CurrentFuelAmount)
-            : base(i_LicensePlate, i_CarColor, i_NumDoors)
+        public MotorCar(string i_LicensePlate, string i_ModelName, eColor i_CarColor, byte i_NumDoors)
+            : base(i_LicensePlate, i_ModelName, i_CarColor, i_NumDoors)
         {
-            m_FuelType = i_FuelType;
-            m_CurrentFuelAmount = i_CurrentFuelAmount;
+            MaxEnergy = 42;
+            EnergyRemaining = MaxEnergy;
         }
 
         // TODO interface
