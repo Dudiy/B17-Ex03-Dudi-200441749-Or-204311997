@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class Wheel
+    public class Wheel
     {
         private string m_Manufacturer;
         private float m_CurrentAirPressure;
@@ -18,7 +18,7 @@ namespace Ex03.GarageLogic
         }
 
         //  public void FillAir(float i_AmontOfAirToFill)
-        public void AddAir(float i_AmontOfAirToAdd)
+        public void FillAir(float i_AmontOfAirToAdd)
         {
             if(m_CurrentAirPressure + i_AmontOfAirToAdd <= m_MaxAirPressure)
             {
@@ -26,7 +26,8 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                // TODO return that we exceed from max air pressure
+                // TODO why not add until max value reached?
+                throw new ValueOutOfRangeException(0, m_MaxAirPressure);
             }
         }
     }

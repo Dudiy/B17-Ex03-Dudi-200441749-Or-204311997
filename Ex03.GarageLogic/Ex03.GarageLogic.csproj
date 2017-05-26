@@ -38,6 +38,7 @@
     <Compile Include="Car.cs" />
     <Compile Include="eColor.cs" />
     <Compile Include="eFuelType.cs" />
+    <Compile Include="ElectricBike.cs" />
     <Compile Include="eLicenseType.cs" />
     <Compile Include="MotorBike.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
