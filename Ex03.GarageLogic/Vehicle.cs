@@ -10,7 +10,7 @@ namespace Ex03.GarageLogic
         private string m_ModelName;
         private float m_EnergyRemaining;
         private float m_MaxEnergy;
-        private Dictionary<string, Wheel> m_Wheels;
+        private List<Wheel> m_Wheels;
 
         // assumption, input parameters are validated before calling the ctor        
         public Vehicle(string i_LicensePlate)
@@ -19,7 +19,8 @@ namespace Ex03.GarageLogic
         }
 
         // assumption, input parameters are validated before calling the ctor        
-        public Vehicle(string i_LicensePlate, string i_ModelName,
+        public Vehicle(
+            string i_LicensePlate, string i_ModelName,
             float i_EnergyRemaining, float i_MaxEnergy)
         {
             m_LicensePlate = i_LicensePlate;
@@ -51,11 +52,13 @@ namespace Ex03.GarageLogic
         {
             get { return m_LicensePlate; }
         }
+
         public string ModelName
         {
             get { return m_ModelName; }
             set { m_ModelName = value; }
         }
+
         public float EnergyRemaining
         {
             get { return m_EnergyRemaining; }
@@ -71,6 +74,7 @@ namespace Ex03.GarageLogic
                 }
             }
         }
+
         public float MaxEnergy
         {
             get { return m_MaxEnergy; }
@@ -87,10 +91,19 @@ namespace Ex03.GarageLogic
             }
         }
 
-        //public Dictionary<string, Wheel> Wheels
-        //{
-        //    get { return m_Wheels; }
-        //    set { m_Wheels = value; }
-        //}
+        public List<Wheel> Wheels
+        {
+            get { return m_Wheels; }
+            set { m_Wheels = value; }
+        }
+
+        // ========================================= Methods =========================================
+        public void FillAir(float i_AirToFill)
+        {
+            foreach (Wheel wheel in m_Wheels)
+            {
+                wheel.FillAir(i_AirToFill);
+            }
+        }
     }
 }

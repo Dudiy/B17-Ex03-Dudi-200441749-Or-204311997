@@ -6,13 +6,15 @@ namespace Ex03.GarageLogic
 {
     public class Bike : Vehicle
     {
+        private const int k_MaxEngineCapacity = 1000000;    // TODO update to a relevant max value
         private eLicenseType m_LicenseType;
         private int m_EngineCapacity;
-        private const int k_MaxEngineCapacity = 1000000;    // TODO update to a relevant max value
 
         public Bike(string i_LicensePlate, eLicenseType i_LicenseType, int i_EngineCapacity)
             :base(i_LicensePlate)
         {
+            
+
             m_LicenseType = i_LicenseType;
             m_EngineCapacity = i_EngineCapacity;
         }
@@ -22,6 +24,7 @@ namespace Ex03.GarageLogic
             get { return m_LicenseType; }
             set { m_LicenseType = value; }
         }
+
         public int EngineCapacity
         {
             get { return m_EngineCapacity; }
@@ -37,5 +40,6 @@ namespace Ex03.GarageLogic
                 }
             }
         }
+        
     }
 }
