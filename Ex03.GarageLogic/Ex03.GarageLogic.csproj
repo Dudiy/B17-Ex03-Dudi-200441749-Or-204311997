@@ -34,6 +34,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Bike.cs" />
+    <Compile Include="eColor.cs" />
+    <Compile Include="eFuelType.cs" />
+    <Compile Include="eLicenseType.cs" />
     <Compile Include="Vehicle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
