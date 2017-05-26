@@ -20,13 +20,12 @@ namespace Ex03.GarageLogic
 
         // assumption, input parameters are validated before calling the ctor        
         public Vehicle(string i_LicensePlate, string i_ModelName,
-            float i_EnergyRemaining, float i_MaxEnergy, Dictionary<string, Wheel> i_Wheels)
+            float i_EnergyRemaining, float i_MaxEnergy)
         {
             m_LicensePlate = i_LicensePlate;
             m_ModelName = i_ModelName;
             m_EnergyRemaining = i_EnergyRemaining;
             m_MaxEnergy = i_MaxEnergy;
-            m_Wheels = i_Wheels;
         }
 
         public override bool Equals(object obj)
@@ -88,9 +87,10 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Dictionary<string, Wheel> Wheels
-        {
-
-        }
+        //public Dictionary<string, Wheel> Wheels
+        //{
+        //    get { return m_Wheels; }
+        //    set { m_Wheels = value; }
+        //}
     }
 }

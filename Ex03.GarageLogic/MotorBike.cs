@@ -4,10 +4,8 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public enum eFuelType
+    public class MotorBike : Bike
     {
-        Octan95,
-        Octan96,
-        Octan98
+        private const short k_MaxAirPress = 33;
     }
 }
