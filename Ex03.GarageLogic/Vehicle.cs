@@ -11,6 +11,7 @@ namespace Ex03.GarageLogic
         private float m_EnergyRemaining;
         private float m_MaxEnergy;
         private List<Wheel> m_Wheels;
+        private byte m_NumWheels;
 
         // assumption, input parameters are validated before calling the ctor        
         public Vehicle(string i_LicensePlate)
@@ -97,13 +98,34 @@ namespace Ex03.GarageLogic
             set { m_Wheels = value; }
         }
 
+        protected byte NumWheels
+        {
+            get { return m_NumWheels; }
+            set { m_NumWheels = value; }
+        }
+
         // ========================================= Methods =========================================
         public void FillAir(float i_AirToFill)
         {
+            List<Wheel> unfilledWheels = null;          // TOOO do we really nead to save unfillef wheels?
+
             foreach (Wheel wheel in m_Wheels)
             {
-                wheel.FillAir(i_AirToFill);
+                try
+                {
+                    wheel.FillAir(i_AirToFill);
+                }
+                catch(ValueOutOfRangeException valueRangeEx)
+                {
+                    unfilledWheels.Add(wheel);
+                }
             }
+
+            if (unfilledWheels != null)
+            {
+                throw new Exception("Not all wheels filled");
+            }
+
         }
     }
 }

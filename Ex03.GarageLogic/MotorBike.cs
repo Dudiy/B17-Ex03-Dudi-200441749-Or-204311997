@@ -7,8 +7,7 @@ namespace Ex03.GarageLogic
     public class MotorBike : Bike
     {
         private const short k_MaxAirPress = 33;
-        private eFuelType m_FuelType = eFuelType.Octan95;
-        private byte m_NumWheels = 2;
+        private eFuelType m_FuelType = eFuelType.Octan95;        
         
         public MotorBike(string i_LicensePlate, eLicenseType i_LicenseType, int i_EngineCapacity)
             : base(i_LicensePlate, i_LicenseType, i_EngineCapacity)

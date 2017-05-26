@@ -13,7 +13,7 @@ namespace Ex03.GarageLogic
         public Bike(string i_LicensePlate, eLicenseType i_LicenseType, int i_EngineCapacity)
             :base(i_LicensePlate)
         {
-            
+            base.m_NumWheels = 2;
 
             m_LicenseType = i_LicenseType;
             m_EngineCapacity = i_EngineCapacity;
