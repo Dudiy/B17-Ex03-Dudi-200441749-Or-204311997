@@ -25,8 +25,7 @@ namespace Ex03.GarageLogic
                 m_CurrentAirPressure = m_CurrentAirPressure + i_AmontOfAirToAdd;
             }
             else
-            {
-                // TODO why not add until max value reached?
+            {                
                 throw new ValueOutOfRangeException(0, m_MaxAirPressure);
             }
         }
