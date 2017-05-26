@@ -39,6 +39,7 @@
     <Compile Include="eColor.cs" />
     <Compile Include="eFuelType.cs" />
     <Compile Include="ElectricBike.cs" />
+    <Compile Include="ElectricCar.cs" />
     <Compile Include="eLicenseType.cs" />
     <Compile Include="MotorBike.cs" />
     <Compile Include="MotorCar.cs" />

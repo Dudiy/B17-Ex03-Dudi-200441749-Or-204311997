@@ -17,18 +17,19 @@ namespace Ex03.GarageLogic
             m_MaxAirPressure = i_MaxAirPessure;
         }
 
-        //  public void FillAir(float i_AmontOfAirToFill)
-        public void FillAir(float i_AmontOfAirToAdd)
-        {
-            if(m_CurrentAirPressure + i_AmontOfAirToAdd <= m_MaxAirPressure)
-            {
-                m_CurrentAirPressure = m_CurrentAirPressure + i_AmontOfAirToAdd;
-            }
-            else
-            {
-                // TODO why not add until max value reached?
-                throw new ValueOutOfRangeException(0, m_MaxAirPressure);
-            }
-        }
+        ////////// interface
+        ////  public void FillAir(float i_AmontOfAirToFill)
+        //public void FillAir(float i_AmontOfAirToAdd)
+        //{
+        //    if(m_CurrentAirPressure + i_AmontOfAirToAdd <= m_MaxAirPressure)
+        //    {
+        //        m_CurrentAirPressure = m_CurrentAirPressure + i_AmontOfAirToAdd;
+        //    }
+        //    else
+        //    {
+        //        // TODO why not add until max value reached?
+        //        throw new ValueOutOfRangeException(0, m_MaxAirPressure);
+        //    }
+        //}
     }
 }
