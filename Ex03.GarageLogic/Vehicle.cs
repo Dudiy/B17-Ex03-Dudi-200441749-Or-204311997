@@ -17,7 +17,7 @@ namespace Ex03.GarageLogic
         {
             m_LicensePlate = i_LicensePlate;
         }
-        
+
         // assumption, input parameters are validated before calling the ctor        
         public Vehicle(string i_LicensePlate, string i_ModelName,
             float i_EnergyRemaining, float i_MaxEnergy, Dictionary<string, Wheel> i_Wheels)
@@ -68,11 +68,29 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-
+                    throw new ValueOutOfRangeException(0, m_MaxEnergy);   // TODO update after creating the class
                 }
             }
         }
-        public float MaxEnergy;
-        public Dictionary<string, Wheel> Wheels;
+        public float MaxEnergy
+        {
+            get { return m_MaxEnergy; }
+            set
+            {
+                if (value >= m_EnergyRemaining)
+                {
+                    m_MaxEnergy = value;
+                }
+                else
+                {
+                    throw new ValueOutOfRangeException(0, m_EnergyRemaining);   // TODO update after creating the class
+                }
+            }
+        }
+
+        public Dictionary<string, Wheel> Wheels
+        {
+
+        }
     }
 }
