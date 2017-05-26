@@ -40,6 +40,7 @@
     <Compile Include="eFuelType.cs" />
     <Compile Include="eLicenseType.cs" />
     <Compile Include="MotorBike.cs" />
+    <Compile Include="MotorCar.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
     <Compile Include="Vehicle.cs" />
     <Compile Include="Wheel.cs" />
