@@ -10,8 +10,8 @@ namespace Ex03.GarageLogic
             eColor i_CarColor, byte i_NumDoors, string i_WheelManufacturer)
             : base(i_LicensePlate, i_ModelName, i_CarColor, i_NumDoors, i_WheelManufacturer)
         {
-            m_EnergyRemaining = (float)2.5;
-            m_MaxEnergy = (float)2.5;
+            m_EnergyRemaining = 2.5f;
+            m_MaxEnergy = 2.5f;
         }
         // TODO interface add ?
     }

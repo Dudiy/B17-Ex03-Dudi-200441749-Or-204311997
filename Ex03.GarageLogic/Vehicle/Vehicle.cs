@@ -10,10 +10,10 @@ namespace Ex03.GarageLogic
         private readonly string m_ModelName;
         protected float m_EnergyRemaining;
         protected float m_MaxEnergy;
-        protected byte m_RequiredNumWheels;
+        //protected byte m_RequiredNumWheels;
         protected float k_MaxAirPress;
         protected List<Wheel> m_Wheels = new List<Wheel>();
-        
+
         // assumption, input parameters are validated before calling the ctor        
         public Vehicle(string i_LicensePlate, string i_ModelName)
         {
@@ -40,10 +40,9 @@ namespace Ex03.GarageLogic
         }
 
         // ========================================= Setters and Getters ====================================
-        // TODO getter
-        private void updatePercentOfEnergyRemaining()
+        public float PercentOfEnergyRemaining
         {
-            //m_EnergyRemainingInPercent = m_CurrentEnergyRemaining / m_MaxEnergy;
+            get{ return m_EnergyRemaining / m_MaxEnergy; }
         }
 
 
