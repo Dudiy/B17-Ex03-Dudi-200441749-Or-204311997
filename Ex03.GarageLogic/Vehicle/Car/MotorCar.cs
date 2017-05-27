@@ -15,7 +15,8 @@ namespace Ex03.GarageLogic
             m_EnergyRemaining = 42;
             m_MaxEnergy = 42;
         }
-
+    }
+}
         // TODO interface
         //public void AddFuel(float i_AmountFuelToAdd)
         //{
@@ -28,5 +29,3 @@ namespace Ex03.GarageLogic
         //        // TODO exception
         //    }
         //}
-    }
-}
