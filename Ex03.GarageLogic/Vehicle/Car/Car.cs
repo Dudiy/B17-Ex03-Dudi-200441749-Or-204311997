@@ -17,17 +17,22 @@ namespace Ex03.GarageLogic
         private eColor m_CarColor;
         private byte m_NumDoors;
 
-        public Car(string i_LicensePlate, string i_ModelName, float i_MaxEnergy, byte i_RequiredNumWheels,
-            float i_MaxAirPress, eColor i_CarColor, byte i_NumDoors, List<Wheel> i_Wheels)
-            : base(i_LicensePlate, i_ModelName, i_MaxEnergy, i_RequiredNumWheels, i_MaxAirPress, i_Wheels)
+        public Car(string i_LicensePlate, string i_ModelName, byte i_RequiredNumWheels,
+            float i_MaxAirPress, eColor i_CarColor, byte i_NumDoors, string i_WheelManufacturer, 
+            byte m_RequiredNumWheels)
+            : base(i_LicensePlate, i_ModelName)
         {
+            RequiredNumWheels = i_RequiredNumWheels;
+            MaxAirPress = i_MaxAirPress;
             m_CarColor = i_CarColor;
             m_NumDoors = i_NumDoors;
+            //i_WheelManufacturer
+            //m_RequiredNumWheels
         }
 
-        private addWheelInPossition(ePossitionOfCarWheel)
-        {
-            // create 
-        }
+        //private addWheelInPossition(ePossitionOfCarWheel)
+        //{
+        //    // create 
+        //}
     }
 }

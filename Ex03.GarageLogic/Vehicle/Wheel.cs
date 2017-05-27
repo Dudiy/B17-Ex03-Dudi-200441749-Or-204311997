@@ -9,7 +9,9 @@ namespace Ex03.GarageLogic
         private string m_Manufacturer;
         private float m_CurrentAirPressure;
         private float m_MaxAirPressure;
+        //protected readonly float k_MaxAirPress;
 
+        ////TODO add k_MaxAirPress
         public Wheel(string i_Manufacturer, float i_MaxAirPessure)
         {
             m_Manufacturer = i_Manufacturer;
