@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic
             : base(i_LicensePlate, i_ModelName, i_RequiredNumWheels, i_MaxAirPress, i_CarColor,
                   i_NumDoors, i_WheelManufacturer, m_RequiredNumWheels)
         {
-            MaxEnergy = i_MaxEnergy;
+            m_MaxEnergy = i_MaxEnergy;
         }
         // TODO interface add ?
     }

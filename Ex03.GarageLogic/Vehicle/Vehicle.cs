@@ -8,11 +8,11 @@ namespace Ex03.GarageLogic
     {
         private readonly string m_LicensePlate;
         private readonly string m_ModelName;
-        protected float m_EnergyRemaining;
-        private float m_MaxEnergy;
-        private byte m_RequiredNumWheels;
-        private float k_MaxAirPress;
-        private List<Wheel> m_Wheels = new List<Wheel>();
+        protected float m_EnergyRemaining;// TODO getter
+        protected float m_MaxEnergy;
+        protected byte m_RequiredNumWheels;
+        protected float k_MaxAirPress;
+        protected List<Wheel> m_Wheels = new List<Wheel>();
         
         // assumption, input parameters are validated before calling the ctor        
         public Vehicle(string i_LicensePlate, string i_ModelName)
@@ -46,39 +46,6 @@ namespace Ex03.GarageLogic
             //m_EnergyRemainingInPercent = m_CurrentEnergyRemaining / m_MaxEnergy;
         }
 
-        public float MaxEnergy
-        {
-            get { return m_MaxEnergy; } // TODO not work public get
-            protected set
-            {
-                if (value >= m_EnergyRemaining)
-                {
-                    m_MaxEnergy = value;
-                }
-                else
-                {
-                    throw new ValueOutOfRangeException(0, m_EnergyRemaining);   // TODO update after creating the class
-                }
-            }
-        }
-
-        public byte RequiredNumWheels
-        {
-            get { return m_RequiredNumWheels; }
-            protected set
-            {
-                m_RequiredNumWheels = value;
-            }
-        }
-
-        public float MaxAirPress
-        {
-            get { return k_MaxAirPress; }
-            set
-            {
-                k_MaxAirPress = value;
-            }
-        }
 
         // ========================================= Methods =========================================
         public void AddAir(float i_AirToAdd)
@@ -123,6 +90,39 @@ namespace Ex03.GarageLogic
         //        {
         //            throw new ValueOutOfRangeException(0, m_MaxEnergy);   // TODO update after creating the class
         //        }
+        //    }
+        //}
+        //public float MaxEnergy
+        //{
+        //    get { return m_MaxEnergy; } // TODO not work public get
+        //    protected set
+        //    {
+        //        if (value >= m_EnergyRemaining)
+        //        {
+        //            m_MaxEnergy = value;
+        //        }
+        //        else
+        //        {
+        //            throw new ValueOutOfRangeException(0, m_EnergyRemaining);   // TODO update after creating the class
+        //        }
+        //    }
+        //}
+
+        //public byte RequiredNumWheels
+        //{
+        //    get { return m_RequiredNumWheels; }
+        //    protected set
+        //    {
+        //        m_RequiredNumWheels = value;
+        //    }
+        //}
+
+        //public float MaxAirPress
+        //{
+        //    get { return k_MaxAirPress; }
+        //    set
+        //    {
+        //        k_MaxAirPress = value;
         //    }
         //}
     }

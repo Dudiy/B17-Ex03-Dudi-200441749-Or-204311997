@@ -22,8 +22,8 @@ namespace Ex03.GarageLogic
             byte m_RequiredNumWheels)
             : base(i_LicensePlate, i_ModelName)
         {
-            RequiredNumWheels = i_RequiredNumWheels;
-            MaxAirPress = i_MaxAirPress;
+            m_RequiredNumWheels = i_RequiredNumWheels;
+            k_MaxAirPress = i_MaxAirPress;
             m_CarColor = i_CarColor;
             m_NumDoors = i_NumDoors;
             //i_WheelManufacturer
