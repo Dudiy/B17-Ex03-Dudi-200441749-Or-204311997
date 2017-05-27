@@ -10,6 +10,7 @@ namespace Ex03.GarageLogic
             eColor i_CarColor, byte i_NumDoors, string i_WheelManufacturer)
             : base(i_LicensePlate, i_ModelName, i_CarColor, i_NumDoors, i_WheelManufacturer)
         {
+            AddWheels(typeof(ePossitionOfCarWheel), new Wheel(i_WheelManufacturer, k_MaxAirPress));
             m_EnergyRemaining = (float)2.5;
             m_MaxEnergy = (float)2.5;
         }

@@ -6,7 +6,7 @@ namespace Ex03.GarageLogic
 {
     public abstract class Car : Vehicle
     {
-        private enum ePossitionOfCarWheel
+        protected enum ePossitionOfCarWheel
         {
             FR,     // Front Right
             FL,     // Front Left
