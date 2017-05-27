@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
     {
         private readonly string m_LicensePlate;
         private readonly string m_ModelName;
-        protected float m_EnergyRemaining;// TODO getter
+        protected float m_EnergyRemaining;
         protected float m_MaxEnergy;
         protected byte m_RequiredNumWheels;
         protected float k_MaxAirPress;
@@ -68,8 +68,9 @@ namespace Ex03.GarageLogic
             {
                 throw new Exception("Not all wheels filled");
             }
-
         }
+    }
+}
         
         //public string ModelName
         //{
@@ -125,5 +126,3 @@ namespace Ex03.GarageLogic
         //        k_MaxAirPress = value;
         //    }
         //}
-    }
-}
