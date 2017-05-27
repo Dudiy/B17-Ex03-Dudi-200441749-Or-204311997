@@ -44,7 +44,8 @@
     <Compile Include="Vehicle\Bike\MotorBike.cs" />
     <Compile Include="Vehicle\Car\MotorCar.cs" />
     <Compile Include="Exceptions\ValueOutOfRangeException.cs" />
-    <Compile Include="Vehicle\Motorized.cs" />
+    <Compile Include="Vehicle\IElectricVehicle.cs" />
+    <Compile Include="Vehicle\IMotorizedVehicle.cs" />
     <Compile Include="Vehicle\Truck\Truck.cs" />
     <Compile Include="Vehicle\Vehicle.cs" />
     <Compile Include="Vehicle\Wheel.cs" />

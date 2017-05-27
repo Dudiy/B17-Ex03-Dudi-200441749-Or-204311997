@@ -4,16 +4,20 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public class ElectricCar : Car
+    public class ElectricCar : Car, IElectricVehicle
     {
-        public ElectricCar(string i_LicensePlate, string i_ModelName, byte i_RequiredNumWheels, 
-            eColor i_CarColor, byte i_NumDoors, string i_WheelManufacturer)
+        public ElectricCar(string i_LicensePlate, string i_ModelName, eColor i_CarColor, 
+            byte i_NumDoors, string i_WheelManufacturer)
             : base(i_LicensePlate, i_ModelName, i_CarColor, i_NumDoors, i_WheelManufacturer)
         {
-            AddWheels(typeof(ePossitionOfCarWheel), new Wheel(i_WheelManufacturer, k_MaxAirPress));
-            m_EnergyRemaining = 2.5f;
+            m_EnergyRemaining = 0;
             m_MaxEnergy = 2.5f;
         }
-        // TODO interface add ?
+
+        public void Charge(float i_AmountPowerInHourToAdd)
+        {
+            fillEnergy(i_AmountPowerInHourToAdd);
+            //TODO exception
+        }
     }
 }

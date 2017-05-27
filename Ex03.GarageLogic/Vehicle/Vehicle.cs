@@ -10,7 +10,6 @@ namespace Ex03.GarageLogic
         private readonly string m_ModelName;
         protected float m_EnergyRemaining;
         protected float m_MaxEnergy;
-        //protected byte m_RequiredNumWheels;
         protected float k_MaxAirPress;
         protected Dictionary<Enum, Wheel> m_Wheels = new Dictionary<Enum, Wheel>();
 
@@ -28,7 +27,7 @@ namespace Ex03.GarageLogic
 
             if (compareTo != null)
             {
-                equals = m_LicensePlate == compareTo.m_LicensePlate;
+                equals = m_LicensePlate.GetHashCode() == compareTo.GetHashCode();
             }
 
             return equals;
@@ -39,99 +38,54 @@ namespace Ex03.GarageLogic
             return m_LicensePlate.GetHashCode();
         }
 
-        public void AddWheels(Type i_enum, Wheel i_wheel)
-        {
-
-            foreach (Enum e in Enum.GetValues(i_enum))
-            {
-                m_Wheels.Add(e, i_wheel);
-            }
-        }
-
-
         // ========================================= Setters and Getters ====================================
         public float PercentOfEnergyRemaining
         {
-            get{ return m_EnergyRemaining / m_MaxEnergy; }
+            get { return m_EnergyRemaining / m_MaxEnergy; }
         }
 
 
-        // ========================================= Methods =========================================
-        public void AddAir(float i_AirToAdd)
+        // ========================================= Methods ================================================
+        protected void fillEnergy(float i_AmountEnergyToAdd)
         {
-            List<Wheel> unfilledWheels = null;          // TOOO do we really nead to save unfillef wheels?
+            m_EnergyRemaining += i_AmountEnergyToAdd;
+            // TODO exception
+        }
 
-            foreach (KeyValuePair<Enum,Wheel> wheel in m_Wheels)
+        public void AddAllWheels(Wheel i_Wheel, Type i_TypeOfWheelPosition)
+        {
+            i_Wheel.FillAirToMax();
+            foreach (Enum wheelPosition in Enum.GetValues(i_TypeOfWheelPosition))
             {
-                try
-                {
-                    wheel.AddAir(i_AirToAdd);
-                }
-                catch (ValueOutOfRangeException valueRangeEx)
-                {
-                    unfilledWheels.Add(wheel);
-                }
+                m_Wheels.Add(wheelPosition, i_Wheel.Clone());
             }
-            // TODO 
-            if (unfilledWheels != null)
-            {
-                throw new Exception("Not all wheels filled");
-            }
+        }
+
+        public void FillAir(Enum i_WheelPosition, float i_AirToFill)
+        {
+            m_Wheels[i_WheelPosition].FillAir(i_AirToFill);
+            // TODO exception, return unfilledWheels
         }
     }
 }
+        //public void FillAir(float i_FillToAdd)
+        //{
+        //    List<Wheel> unfilledWheels = null;          // TOOO do we really nead to save unfillef wheels?
 
-//public string ModelName
-//{
-//    get { return m_ModelName; }
-//    //set { m_ModelName = value; }
-//}
-
-//public float EnergyRemaining
-//{
-//    get { return m_EnergyRemaining; }
-//    set
-//    {
-//        if (value <= m_MaxEnergy)
-//        {
-//            m_EnergyRemaining = value;
-//        }
-//        else
-//        {
-//            throw new ValueOutOfRangeException(0, m_MaxEnergy);   // TODO update after creating the class
-//        }
-//    }
-//}
-//public float MaxEnergy
-//{
-//    get { return m_MaxEnergy; } // TODO not work public get
-//    protected set
-//    {
-//        if (value >= m_EnergyRemaining)
-//        {
-//            m_MaxEnergy = value;
-//        }
-//        else
-//        {
-//            throw new ValueOutOfRangeException(0, m_EnergyRemaining);   // TODO update after creating the class
-//        }
-//    }
-//}
-
-//public byte RequiredNumWheels
-//{
-//    get { return m_RequiredNumWheels; }
-//    protected set
-//    {
-//        m_RequiredNumWheels = value;
-//    }
-//}
-
-//public float MaxAirPress
-//{
-//    get { return k_MaxAirPress; }
-//    set
-//    {
-//        k_MaxAirPress = value;
-//    }
-//}
+        //    foreach (KeyValuePair<Enum,Wheel> wheel in m_Wheels)
+        //    {
+        //        try
+        //        {
+        //            wheel.FillAir(i_FillToAdd);
+        //        }
+        //        catch (ValueOutOfRangeException valueRangeEx)
+        //        {
+        //            unfilledWheels.Add(wheel);
+        //        }
+        //    }
+        //    // TODO 
+        //    if (unfilledWheels != null)
+        //    {
+        //        throw new Exception("Not all wheels filled");
+        //    }
+        //}
