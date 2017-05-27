@@ -27,7 +27,7 @@ namespace Ex03.GarageLogic
 
             Wheel wheelToAdd = new Wheel(i_WheelManufacturer, k_MaxAirPress);
             
-            AddAllWheels(wheelToAdd, typeof(ePossitionOfCarWheel));
+            AddAllWheels(wheelToAdd, typeof(ePossitionOfCarWheel));     
         }
     }
 }

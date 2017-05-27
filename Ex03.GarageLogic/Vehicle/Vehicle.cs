@@ -33,6 +33,8 @@ namespace Ex03.GarageLogic
             return equals;
         }
 
+        // TODO implement "==" and "!=" operators
+
         public override int GetHashCode()
         {
             return m_LicensePlate.GetHashCode();
@@ -44,7 +46,6 @@ namespace Ex03.GarageLogic
             get { return m_EnergyRemaining / m_MaxEnergy; }
         }
 
-
         // ========================================= Methods ================================================
         protected void fillEnergy(float i_AmountEnergyToAdd)
         {
@@ -54,7 +55,7 @@ namespace Ex03.GarageLogic
 
         public void AddAllWheels(Wheel i_Wheel, Type i_TypeOfWheelPosition)
         {
-            i_Wheel.FillAirToMax();
+            i_Wheel.FillAirToMax();         // TODO no need to fill to max, the wheels are filled to max in the ctor
             foreach (Enum wheelPosition in Enum.GetValues(i_TypeOfWheelPosition))
             {
                 m_Wheels.Add(wheelPosition, i_Wheel.Clone());
