@@ -18,7 +18,7 @@ namespace Ex03.GarageLogic
         }
 
         //  public void FillAir(float i_AmontOfAirToFill)
-        public void FillAir(float i_AmontOfAirToAdd)
+        public void AddAir(float i_AmontOfAirToAdd)
         {
             if (m_CurrentAirPressure + i_AmontOfAirToAdd <= m_MaxAirPressure)
             {

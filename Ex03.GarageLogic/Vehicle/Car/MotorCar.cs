@@ -6,14 +6,16 @@ namespace Ex03.GarageLogic
 {
     public class MotorCar : Car
     {
-        private const eFuelType m_FuelType = eFuelType.Octan98;     // TODO const?    
+        private const eFuelType m_FuelType = eFuelType.Octan98;   
 
-        public MotorCar(string i_LicensePlate, string i_ModelName, eColor i_CarColor, byte i_NumDoors)
-            : base(i_LicensePlate, i_ModelName, i_CarColor, i_NumDoors)
+        public MotorCar(string i_LicensePlate, string i_ModelName, float i_MaxEnergy, byte i_RequiredNumWheels,
+            float i_MaxAirPress, eColor i_CarColor, byte i_NumDoors, List<Wheel> i_Wheels)
+            : base(i_LicensePlate, i_ModelName, i_MaxEnergy, i_RequiredNumWheels, i_MaxAirPress,
+                  i_CarColor, i_NumDoors, i_Wheels)
         {
-            MaxEnergy = 42;
-            EnergyRemaining = MaxEnergy;
+
         }
+        
 
         // TODO interface
         //public void AddFuel(float i_AmountFuelToAdd)

@@ -9,7 +9,7 @@ namespace Ex03.ConsoleUI
     {
         public static void Main()
         {
-            Vehicle mb = new MotorBike("123", "Cool Bike", eLicenseType.A, 1200);
+            Vehicle motorBike = new MotorBike("123", "Cool Bike", eLicenseType.A, 1200);
         }
     }
 }

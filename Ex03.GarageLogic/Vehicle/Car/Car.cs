@@ -4,23 +4,30 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public class Car : Vehicle
+    public abstract class Car : Vehicle
     {
+        private enum ePossitionOfCarWheel
+        {
+            FR,     // Front Right
+            FL,     // Front Left
+            BR,     // Back Right
+            BL      // Back Left
+        }
+
         private eColor m_CarColor;
         private byte m_NumDoors;
-        protected const float k_MaxAirPress = 30f;
 
-        public Car(string i_LicensePlate, string i_ModelName, eColor i_CarColor, byte i_NumDoors) 
-            : base(i_LicensePlate, i_ModelName)
+        public Car(string i_LicensePlate, string i_ModelName, float i_MaxEnergy, byte i_RequiredNumWheels,
+            float i_MaxAirPress, eColor i_CarColor, byte i_NumDoors, List<Wheel> i_Wheels)
+            : base(i_LicensePlate, i_ModelName, i_MaxEnergy, i_RequiredNumWheels, i_MaxAirPress, i_Wheels)
         {
-            m_NumWheels = 4;
-            for (int i = 0; i < m_NumWheels; i++)
-            {
-                Wheels.Add(new Wheel("Wheel Company", k_MaxAirPress));
-            }
-
             m_CarColor = i_CarColor;
             m_NumDoors = i_NumDoors;
+        }
+
+        private addWheelInPossition(ePossitionOfCarWheel)
+        {
+            // create 
         }
     }
 }
