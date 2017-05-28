@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public class Wheel
+    public class Wheel : ICloneable
     {
         private string m_Manufacturer;
         private float m_CurrentAirPressure;
@@ -37,6 +37,12 @@ namespace Ex03.GarageLogic
         public Wheel Clone()
         {
             return MemberwiseClone() as Wheel;
+        }
+
+        // TODO according to the book Clone() should be implemented this way        
+        object ICloneable.Clone()
+        {
+            throw new NotImplementedException();
         }
     }
 }
