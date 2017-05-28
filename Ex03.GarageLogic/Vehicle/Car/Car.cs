@@ -6,7 +6,7 @@ namespace Ex03.GarageLogic
 {
     public abstract class Car : Vehicle
     {
-        protected enum ePossitionOfCarWheel
+        private enum ePossitionOfCarWheel
         {
             FR,     // Front Right
             FL,     // Front Left
@@ -19,15 +19,15 @@ namespace Ex03.GarageLogic
         private static readonly byte[] sr_PossibleNumDoors = { 2, 3, 4, 5 };
 
         // assumption, input parameters are validated before calling the ctor  
-        public Car(string i_LicensePlate, string i_ModelName, eColor i_CarColor,
-            byte i_NumDoors, string i_WheelManufacturer, float i_WheelsAirPress)
+        public Car(string i_LicensePlate, string i_ModelName, eColor i_CarColor, byte i_NumDoors, 
+            string i_WheelManufacturer, float m_CurrentAirPressure)
             : base(i_LicensePlate, i_ModelName)
         {
             k_MaxWheelAirPress = 30;
             m_CarColor = i_CarColor;
             m_NumDoors = i_NumDoors;
 
-            Wheel wheelToAdd = new Wheel(i_WheelManufacturer, i_WheelsAirPress);
+            Wheel wheelToAdd = new Wheel(i_WheelManufacturer, m_CurrentAirPressure, k_MaxWheelAirPress);
 
             AddAllWheels(wheelToAdd, typeof(ePossitionOfCarWheel));
         }

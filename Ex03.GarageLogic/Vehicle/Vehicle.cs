@@ -55,14 +55,13 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new ValueOutOfRangeException(0, m_MaxEnergy);
+                throw new ValueOutOfRangeException(0, m_MaxEnergy-m_EnergyRemaining);
             }
         }
 
         // TODO confusing function name
         public void AddAllWheels(Wheel i_Wheel, Type i_TypeOfWheelPosition)
         {
-            i_Wheel.FillAirToMax();         // TODO no need to fill to max, the wheels are filled to max in the ctor
             foreach (Enum wheelPosition in Enum.GetValues(i_TypeOfWheelPosition))
             {
                 m_Wheels.Add(wheelPosition, i_Wheel.Clone());

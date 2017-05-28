@@ -9,10 +9,10 @@ namespace Ex03.GarageLogic
         private const eFuelType m_FuelType = eFuelType.Octan98;
 
         // assumption, input parameters are validated before calling the ctor  
-        public MotorCar(string i_LicensePlate, string i_ModelName, eColor i_CarColor,
-            byte i_NumDoors, string i_WheelManufacturer, float i_WheelsAirPress)
+        public MotorCar(string i_LicensePlate, string i_ModelName, eColor i_CarColor, 
+            byte i_NumDoors, string i_WheelManufacturer,float m_CurrentAirPressure)
             : base(i_LicensePlate, i_ModelName, i_CarColor, i_NumDoors, 
-                  i_WheelManufacturer, i_WheelsAirPress)
+                  i_WheelManufacturer, m_CurrentAirPressure)
         {
             m_EnergyRemaining = 0;
             m_MaxEnergy = 42;
