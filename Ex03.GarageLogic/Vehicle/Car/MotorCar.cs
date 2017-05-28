@@ -6,9 +6,10 @@ namespace Ex03.GarageLogic
 {
     public class MotorCar : Car, IMotorizedVehicle
     {
-        private const eFuelType m_FuelType = eFuelType.Octan98;   
+        private const eFuelType m_FuelType = eFuelType.Octan98;
 
-        public MotorCar(string i_LicensePlate, string i_ModelName, string i_CarColor,
+        // assumption, input parameters are validated before calling the ctor  
+        public MotorCar(string i_LicensePlate, string i_ModelName, eColor i_CarColor,
             byte i_NumDoors, string i_WheelManufacturer, float i_WheelsAirPress)
             : base(i_LicensePlate, i_ModelName, i_CarColor, i_NumDoors, 
                   i_WheelManufacturer, i_WheelsAirPress)
