@@ -26,10 +26,10 @@ namespace Ex03.GarageLogic
             k_MaxWheelAirPress = 30;
             m_CarColor = i_CarColor;
             m_NumDoors = i_NumDoors;
-
+            
             Wheel wheelToAdd = new Wheel(i_WheelManufacturer, m_CurrentAirPressure, k_MaxWheelAirPress);
 
-            AddAllWheels(wheelToAdd, typeof(ePossitionOfCarWheel));
+            InitAllWheels(wheelToAdd, typeof(ePossitionOfCarWheel));
         }
     }
 }

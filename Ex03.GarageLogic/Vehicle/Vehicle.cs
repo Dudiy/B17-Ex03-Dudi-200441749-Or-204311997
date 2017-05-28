@@ -49,28 +49,29 @@ namespace Ex03.GarageLogic
         // ========================================= Methods ================================================
         protected void fillEnergy(float i_AmountEnergyToAdd)
         {
-            if(m_EnergyRemaining + i_AmountEnergyToAdd <= m_MaxEnergy)
+            if (m_EnergyRemaining + i_AmountEnergyToAdd <= m_MaxEnergy)
             {
                 m_EnergyRemaining += i_AmountEnergyToAdd;
             }
             else
             {
-                throw new ValueOutOfRangeException(0, m_MaxEnergy-m_EnergyRemaining);
+                // (m_MaxEnergy - m_EnergyRemaining) is the max value that can fill
+                throw new ValueOutOfRangeException(0, m_MaxEnergy - m_EnergyRemaining);
             }
         }
-
-        // TODO confusing function name
-        public void AddAllWheels(Wheel i_Wheel, Type i_TypeOfWheelPosition)
+        
+        public void InitAllWheels(Wheel i_Wheel, Type i_TypeOfWheelPosition)
         {
             foreach (Enum wheelPosition in Enum.GetValues(i_TypeOfWheelPosition))
             {
                 m_Wheels.Add(wheelPosition, i_Wheel.Clone());
             }
         }
-        
+
+        // TODO FillAirToMax
         public void FillAllWheelsToMaxAirPress(float i_AirToFill)
         {
-            foreach(Wheel currrentWhell in m_Wheels.Values)
+            foreach (Wheel currrentWhell in m_Wheels.Values)
             {
                 currrentWhell.FillAirToMax();
             }
@@ -78,24 +79,24 @@ namespace Ex03.GarageLogic
     }
 }
 
-        //public void FillAir(float i_FillToAdd)
-        //{
-        //    List<Wheel> unfilledWheels = null;          // TOOO do we really nead to save unfillef wheels?
+//public void FillAir(float i_FillToAdd)
+//{
+//    List<Wheel> unfilledWheels = null;          // TOOO do we really nead to save unfillef wheels?
 
-        //    foreach (KeyValuePair<Enum,Wheel> wheel in m_Wheels)
-        //    {
-        //        try
-        //        {
-        //            wheel.FillAir(i_FillToAdd);
-        //        }
-        //        catch (ValueOutOfRangeException valueRangeEx)
-        //        {
-        //            unfilledWheels.Add(wheel);
-        //        }
-        //    }
-        //    // TODO 
-        //    if (unfilledWheels != null)
-        //    {
-        //        throw new Exception("Not all wheels filled");
-        //    }
-        //}
+//    foreach (KeyValuePair<Enum,Wheel> wheel in m_Wheels)
+//    {
+//        try
+//        {
+//            wheel.FillAir(i_FillToAdd);
+//        }
+//        catch (ValueOutOfRangeException valueRangeEx)
+//        {
+//            unfilledWheels.Add(wheel);
+//        }
+//    }
+//    // TODO 
+//    if (unfilledWheels != null)
+//    {
+//        throw new Exception("Not all wheels filled");
+//    }
+//}
