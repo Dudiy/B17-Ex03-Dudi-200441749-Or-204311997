@@ -34,6 +34,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="LogicUtilities.cs" />
     <Compile Include="Vehicle\Bike\Bike.cs" />
     <Compile Include="Vehicle\Car\Car.cs" />
     <Compile Include="enums\eColor.cs" />

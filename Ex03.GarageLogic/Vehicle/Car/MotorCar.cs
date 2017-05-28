@@ -8,9 +8,10 @@ namespace Ex03.GarageLogic
     {
         private const eFuelType m_FuelType = eFuelType.Octan98;   
 
-        public MotorCar(string i_LicensePlate, string i_ModelName, eColor i_CarColor,
-            byte i_NumDoors, string i_WheelManufacturer)
-            : base(i_LicensePlate, i_ModelName, i_CarColor, i_NumDoors, i_WheelManufacturer)
+        public MotorCar(string i_LicensePlate, string i_ModelName, string i_CarColor,
+            byte i_NumDoors, string i_WheelManufacturer, float i_WheelsAirPress)
+            : base(i_LicensePlate, i_ModelName, i_CarColor, i_NumDoors, 
+                  i_WheelManufacturer, i_WheelsAirPress)
         {
             m_EnergyRemaining = 0;
             m_MaxEnergy = 42;
@@ -20,11 +21,18 @@ namespace Ex03.GarageLogic
         {
             if(i_FuelType == m_FuelType)
             {
-                fillEnergy(i_AmountOfFuelToFill);
+                try
+                {
+                    fillEnergy(i_AmountOfFuelToFill);
+                }
+                catch(ValueOutOfRangeException amountOfFuelToFillIsOutOfRange)
+                {
+                    throw amountOfFuelToFillIsOutOfRange;
+                }
             }
             else
             {
-                // TODO exception
+                throw new ArgumentException("Inappropiate type of fuel");
             }
         }
     }

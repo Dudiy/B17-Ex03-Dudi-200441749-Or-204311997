@@ -6,9 +6,10 @@ namespace Ex03.GarageLogic
 {
     public class ElectricCar : Car, IElectricVehicle
     {
-        public ElectricCar(string i_LicensePlate, string i_ModelName, eColor i_CarColor, 
-            byte i_NumDoors, string i_WheelManufacturer)
-            : base(i_LicensePlate, i_ModelName, i_CarColor, i_NumDoors, i_WheelManufacturer)
+        public ElectricCar(string i_LicensePlate, string i_ModelName, string i_CarColor, 
+            byte i_NumDoors, string i_WheelsManufacturer, float i_WheelsAirPress)
+            : base(i_LicensePlate, i_ModelName, i_CarColor, i_NumDoors, 
+                  i_WheelsManufacturer, i_WheelsAirPress)
         {
             m_EnergyRemaining = 0;
             m_MaxEnergy = 2.5f;
@@ -16,8 +17,14 @@ namespace Ex03.GarageLogic
 
         public void Charge(float i_AmountPowerInHourToAdd)
         {
-            fillEnergy(i_AmountPowerInHourToAdd);
-            //TODO exception
+            try
+            {
+                fillEnergy(i_AmountPowerInHourToAdd);
+            }
+            catch (ValueOutOfRangeException amountPowerInHourToAddIsOutOfRange)
+            {
+                throw amountPowerInHourToAddIsOutOfRange;
+            }
         }
     }
 }

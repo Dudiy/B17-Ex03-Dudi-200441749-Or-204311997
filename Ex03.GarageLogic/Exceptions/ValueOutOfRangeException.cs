@@ -13,6 +13,16 @@ namespace Ex03.GarageLogic
         {
             m_MinValue = i_MinValue;
             m_MaxValue = i_MaxValue;
-        }        
+        }
+     
+        public override string ToString()
+        {
+            string exceptionMessage =
+                string.Format("ValueOutOfRangeException: The value is out of range, " +
+                "the required range is between {0} to {1}.",
+                m_MinValue, m_MaxValue);
+
+            return exceptionMessage;
+        }
     }
 }

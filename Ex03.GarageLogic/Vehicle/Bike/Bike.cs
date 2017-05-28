@@ -7,7 +7,7 @@ namespace Ex03.GarageLogic
     //public class Bike : Vehicle
     //{
     //    private const int k_MaxEngineCapacity = 1000000;    // TODO update to a relevant max value
-    //    protected const float k_MaxAirPress = 33f;        
+    //    protected const float k_MaxWheelAirPress = 33f;        
     //    private readonly int m_EngineCapacity;              // TODO can this value ever change?
     //    private eLicenseType m_LicenseType;
 
@@ -17,7 +17,7 @@ namespace Ex03.GarageLogic
     //        m_NumWheels = 2;                                // TODO not sur about this member
     //        for (int i = 0; i < m_NumWheels; i++)
     //        {
-    //            Wheels.Add(new Wheel("A Wheels", k_MaxAirPress));
+    //            Wheels.Add(new Wheel("A Wheels", k_MaxWheelAirPress));
     //        }
 
     //        m_LicenseType = i_LicenseType;

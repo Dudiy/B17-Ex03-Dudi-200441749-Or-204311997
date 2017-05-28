@@ -10,7 +10,7 @@ namespace Ex03.GarageLogic
         private readonly string m_ModelName;
         protected float m_EnergyRemaining;
         protected float m_MaxEnergy;
-        protected float k_MaxAirPress;
+        protected float k_MaxWheelAirPress;
         protected Dictionary<Enum, Wheel> m_Wheels = new Dictionary<Enum, Wheel>();
 
         // assumption, input parameters are validated before calling the ctor        
@@ -48,10 +48,17 @@ namespace Ex03.GarageLogic
         // ========================================= Methods ================================================
         protected void fillEnergy(float i_AmountEnergyToAdd)
         {
-            m_EnergyRemaining += i_AmountEnergyToAdd;
-            // TODO exception
+            if(m_EnergyRemaining + i_AmountEnergyToAdd <= m_MaxEnergy)
+            {
+                m_EnergyRemaining += i_AmountEnergyToAdd;
+            }
+            else
+            {
+                throw new ValueOutOfRangeException(0, m_MaxEnergy);
+            }
         }
 
+        // TODO confusing function name
         public void AddAllWheels(Wheel i_Wheel, Type i_TypeOfWheelPosition)
         {
             i_Wheel.FillAirToMax();
@@ -60,14 +67,17 @@ namespace Ex03.GarageLogic
                 m_Wheels.Add(wheelPosition, i_Wheel.Clone());
             }
         }
-
-        public void FillAir(Enum i_WheelPosition, float i_AirToFill)
+        
+        public void FillAllWheelsToMaxAirPress(float i_AirToFill)
         {
-            m_Wheels[i_WheelPosition].FillAir(i_AirToFill);
-            // TODO exception, return unfilledWheels
+            foreach(Wheel currrentWhell in m_Wheels.Values)
+            {
+                currrentWhell.FillAirToMax();
+            }
         }
     }
 }
+
         //public void FillAir(float i_FillToAdd)
         //{
         //    List<Wheel> unfilledWheels = null;          // TOOO do we really nead to save unfillef wheels?
