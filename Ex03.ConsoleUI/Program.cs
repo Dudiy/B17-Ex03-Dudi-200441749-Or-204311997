@@ -10,11 +10,14 @@ namespace Ex03.ConsoleUI
         public static void Main()
         {
             Vehicle[] v = new Vehicle[3];
+
             v[0] = new ElectricCar("123", "Model", eColor.Blue, 3, "WheelManufaucturer",0);
             v[1] = new MotorCar("44", "Model", eColor.Blue, 4, "WheelManufaucturer",0);
             v[2] = new ElectricCar("55", "Model", eColor.Blue, 5, "WheelManufaucturer",0);
-
             // energy test 
+
+            CarFactory cf = new CarFactory();
+
             foreach(Vehicle v1 in v)
             {
                 if (v1 is IMotorizedVehicle)

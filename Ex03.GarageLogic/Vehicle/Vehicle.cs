@@ -11,7 +11,7 @@ namespace Ex03.GarageLogic
         protected float m_EnergyRemaining;
         protected float m_MaxEnergy;
         protected float k_MaxWheelAirPress;
-        protected Dictionary<Enum, Wheel> m_Wheels = new Dictionary<Enum, Wheel>();
+        protected List<Wheel> m_Wheels = new List<Wheel>();
 
         // assumption, input parameters are validated before calling the ctor        
         public Vehicle(string i_LicensePlate, string i_ModelName)
@@ -60,20 +60,22 @@ namespace Ex03.GarageLogic
             }
         }
         
-        public void InitAllWheels(Wheel i_Wheel, Type i_TypeOfWheelPosition)
+        public void InitAllWheels(Wheel i_Wheel, byte i_NumWheels)
         {
-            foreach (Enum wheelPosition in Enum.GetValues(i_TypeOfWheelPosition))
+            for (byte i = 0; i < i_NumWheels; i++)
             {
-                m_Wheels.Add(wheelPosition, i_Wheel.Clone());
+                m_Wheels.Add(i_Wheel.Clone());
             }
         }
 
         // TODO FillAirToMax
         public void FillAllWheelsToMaxAirPress(float i_AirToFill)
         {
-            foreach (Wheel currrentWhell in m_Wheels.Values)
+            foreach (Wheel wheel in m_Wheels)
             {
-                currrentWhell.FillAirToMax();
+                float airToFill = wheel.MaxAirPressure - wheel.CurrentAirPressure;
+
+                wheel.FillAir(airToFill);
             }
         }
     }

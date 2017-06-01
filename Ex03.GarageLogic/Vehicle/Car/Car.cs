@@ -23,13 +23,12 @@ namespace Ex03.GarageLogic
             string i_WheelManufacturer, float m_CurrentAirPressure)
             : base(i_LicensePlate, i_ModelName)
         {
+            Wheel wheelToAdd = new Wheel(i_WheelManufacturer, m_CurrentAirPressure, k_MaxWheelAirPress);
+
             k_MaxWheelAirPress = 30;
             m_CarColor = i_CarColor;
             m_NumDoors = i_NumDoors;
-            
-            Wheel wheelToAdd = new Wheel(i_WheelManufacturer, m_CurrentAirPressure, k_MaxWheelAirPress);
-
-            InitAllWheels(wheelToAdd, typeof(ePossitionOfCarWheel));
+            InitAllWheels(wheelToAdd, 4);
         }
     }
 }
