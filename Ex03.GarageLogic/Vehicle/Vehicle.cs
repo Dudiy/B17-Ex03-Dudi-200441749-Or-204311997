@@ -9,15 +9,20 @@ namespace Ex03.GarageLogic
         private readonly string m_LicensePlate;
         private readonly string m_ModelName;
         protected float m_EnergyRemaining;
-        protected float m_MaxEnergy;
         protected float k_MaxWheelAirPress;
         protected List<Wheel> m_Wheels = new List<Wheel>();
+        protected Engine m_Engine;
 
         // assumption, input parameters are validated before calling the ctor        
         public Vehicle(string i_LicensePlate, string i_ModelName)
         {
             m_LicensePlate = i_LicensePlate;
             m_ModelName = i_ModelName;
+        }
+
+        public Type EngineType
+        {
+            get { return m_Engine.GetType(); }
         }
 
         public override bool Equals(object obj)
@@ -41,24 +46,17 @@ namespace Ex03.GarageLogic
         }
 
         // ========================================= Setters and Getters ====================================
-        public float PercentOfEnergyRemaining
+        public string ModelName
         {
-            get { return m_EnergyRemaining / m_MaxEnergy; }
-        }
+            get { return m_ModelName; }
+        } 
 
-        // ========================================= Methods ================================================
-        protected void fillEnergy(float i_AmountEnergyToAdd)
+        public Engine CloneEngine()
         {
-            if (m_EnergyRemaining + i_AmountEnergyToAdd <= m_MaxEnergy)
-            {
-                m_EnergyRemaining += i_AmountEnergyToAdd;
-            }
-            else
-            {
-                // (m_MaxEnergy - m_EnergyRemaining) is the max value that can fill
-                throw new ValueOutOfRangeException(0, m_MaxEnergy - m_EnergyRemaining);
-            }
+            return (Engine)m_Engine.Clone();
         }
+         
+        // ========================================= Methods ================================================
         
         public void InitAllWheels(Wheel i_Wheel, byte i_NumWheels)
         {
@@ -78,27 +76,7 @@ namespace Ex03.GarageLogic
                 wheel.FillAir(airToFill);
             }
         }
+
+        public abstract Vehicle CreateNewFromModel(string i_LicensePlate, params object[] i_params);
     }
 }
-
-//public void FillAir(float i_FillToAdd)
-//{
-//    List<Wheel> unfilledWheels = null;          // TOOO do we really nead to save unfillef wheels?
-
-//    foreach (KeyValuePair<Enum,Wheel> wheel in m_Wheels)
-//    {
-//        try
-//        {
-//            wheel.FillAir(i_FillToAdd);
-//        }
-//        catch (ValueOutOfRangeException valueRangeEx)
-//        {
-//            unfilledWheels.Add(wheel);
-//        }
-//    }
-//    // TODO 
-//    if (unfilledWheels != null)
-//    {
-//        throw new Exception("Not all wheels filled");
-//    }
-//}

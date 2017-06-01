@@ -11,14 +11,16 @@ namespace Ex03.ConsoleUI
         {
             Vehicle[] v = new Vehicle[3];
 
-            v[0] = new ElectricCar("123", "Model", eColor.Blue, 3, "WheelManufaucturer",0);
-            v[1] = new MotorCar("44", "Model", eColor.Blue, 4, "WheelManufaucturer",0);
-            v[2] = new ElectricCar("55", "Model", eColor.Blue, 5, "WheelManufaucturer",0);
+            v[0] = new Car("123", "Model1", eColor.Blue, 3, "WheelManufaucturer", typeof(MotorEngine));
+            v[1] = new Car("44", "Model2", eColor.Blue, 4, "WheelManufaucturer", typeof(ElectricEngine));
+            v[2] = new Car("55", "Model3", eColor.Blue, 5, "WheelManufaucturer", typeof(ElectricEngine));
             // energy test 
 
-            CarFactory cf = new CarFactory();
+            VehicleFactory vehicleFactory = new VehicleFactory();
+            Vehicle testVehicle = vehicleFactory.NewVehicleFromModel("Electric Mazda", "1234", eColor.White, (byte)4);
+            Vehicle testVehicle2 = vehicleFactory.NewVehicleFromModel("Motorized Mazda", "5678", eColor.Black, (byte)3);
 
-            foreach(Vehicle v1 in v)
+            foreach (Vehicle v1 in v)
             {
                 if (v1 is IMotorizedVehicle)
                 {
