@@ -21,9 +21,13 @@ namespace Ex03.GarageLogic
             {
                 m_Engine = new ElectricEngine(2.5f);
             }
-            else
+            else if (i_EngineType.Equals(typeof(MotorEngine)))
             {
                 m_Engine = new MotorEngine(42f, eFuelType.Octan98);
+            }
+            else
+            {
+                throw new Exception("Illegal engine type entered");
             }
 
             m_EnergyRemaining = m_Engine.MaxEnergy;
