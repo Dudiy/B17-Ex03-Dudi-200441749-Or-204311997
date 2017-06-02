@@ -50,11 +50,6 @@ namespace Ex03.GarageLogic
         {
             get { return m_ModelName; }
         } 
-
-        public Engine CloneEngine()
-        {
-            return (Engine)m_Engine.Clone();
-        }
          
         // ========================================= Methods ================================================
         

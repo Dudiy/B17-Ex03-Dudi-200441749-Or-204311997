@@ -20,6 +20,11 @@ namespace Ex03.GarageLogic
         {
             Vehicle model = m_VehicleList[i_Model];
 
+            if (model == null)
+            {
+                throw new Exception("The model does not exist in the garage");
+            }
+
             return model.CreateNewFromModel(i_LicensePlate, i_Params);
         }
     }

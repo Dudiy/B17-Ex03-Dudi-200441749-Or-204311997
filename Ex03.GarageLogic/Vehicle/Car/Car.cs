@@ -27,7 +27,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new Exception("Illegal engine type entered");
+                throw new Exception("Invalid engine type entered");
             }
 
             m_EnergyRemaining = m_Engine.MaxEnergy;
@@ -41,8 +41,10 @@ namespace Ex03.GarageLogic
         // order and type of input params for i_Params: eColor color, byte numDoors 
         public override Vehicle CreateNewFromModel(string i_LicensePlate, params object[] i_params)
         {
+            // TODO instead of params we can use default values and update them after creating the new car
             eColor color = (eColor)i_params[0];
             byte numDoors = (byte)(i_params[1]);
+
             return new Car(i_LicensePlate, ModelName, m_CarColor, numDoors, "Default Wheel Manufacturer", EngineType);
         }
     }
