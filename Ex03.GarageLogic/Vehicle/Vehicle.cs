@@ -73,5 +73,7 @@ namespace Ex03.GarageLogic
         }
 
         public abstract Vehicle CreateNewFromModel(string i_LicensePlate, params object[] i_params);
+
+        public abstract void GetUserInputParamsListForNewCar();
     }
 }

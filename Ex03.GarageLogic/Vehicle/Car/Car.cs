@@ -15,7 +15,7 @@ namespace Ex03.GarageLogic
             string i_WheelManufacturer, Type i_EngineType)
             : base(i_LicensePlate, i_ModelName)
         {
-            
+
             // TODO maintainability issue - what if there is a new engine someday?
             if (i_EngineType.Equals(typeof(ElectricEngine)))
             {
@@ -37,6 +37,12 @@ namespace Ex03.GarageLogic
             m_NumDoors = i_NumDoors;
         }
 
+        // ctor to create a new car with a new license plate based on a given car model
+        public Car(string i_LicensePlate, Car i_Model)
+            : this(i_LicensePlate, i_Model.ModelName, i_Model.m_CarColor, i_Model.m_NumDoors,
+                  i_Model.m_Wheels[0].Manufacturer, i_Model.EngineType)
+        { }
+
         // creates a new instance of a model, returnes null if the model given is not a car
         // order and type of input params for i_Params: eColor color, byte numDoors 
         public override Vehicle CreateNewFromModel(string i_LicensePlate, params object[] i_params)
@@ -46,6 +52,11 @@ namespace Ex03.GarageLogic
             byte numDoors = (byte)(i_params[1]);
 
             return new Car(i_LicensePlate, ModelName, m_CarColor, numDoors, "Default Wheel Manufacturer", EngineType);
+        }
+
+        public override void GetUserInputParamsListForNewCar()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -19,13 +19,27 @@ namespace Ex03.GarageLogic
         public Vehicle NewVehicleFromModel(string i_Model, string i_LicensePlate, params object[] i_Params)
         {
             Vehicle model = m_VehicleList[i_Model];
+            Vehicle newVehicleFromModel = null;
 
             if (model == null)
             {
                 throw new Exception("The model does not exist in the garage");
             }
+            else if (model.GetType().Equals(typeof(Car)))
+            {
+                newVehicleFromModel = new Car(i_LicensePlate, (Car)model);
 
-            return model.CreateNewFromModel(i_LicensePlate, i_Params);
+            }
+            //else if (model.GetType().Equals(typeof(Bike)))
+            //{
+
+            //}
+            else
+            {
+                throw new Exception("unknown model entered");
+            }
+
+            return newVehicleFromModel; // model.CreateNewFromModel(i_LicensePlate, i_Params);
         }
     }
 }
