@@ -32,7 +32,7 @@ namespace Ex03.GarageLogic
             }
             //else if (model.GetType().Equals(typeof(Bike)))
             //{
-
+            
             //}
             else
             {

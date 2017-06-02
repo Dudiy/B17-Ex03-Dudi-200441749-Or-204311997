@@ -42,19 +42,13 @@
     <Compile Include="GarageLogic.cs" />
     <Compile Include="LogicUtilities.cs" />
     <Compile Include="VehicleInGarage.cs" />
-    <Compile Include="Vehicle\Bike\Bike.cs" />
-    <Compile Include="Vehicle\Car\Car.cs" />
+    <Compile Include="Vehicle\Bike.cs" />
+    <Compile Include="Vehicle\Car.cs" />
     <Compile Include="enums\eColor.cs" />
     <Compile Include="enums\eFuelType.cs" />
-    <Compile Include="Vehicle\Bike\ElectricBike.cs" />
-    <Compile Include="Vehicle\Car\ElectricCar.cs" />
     <Compile Include="enums\eLicenseType.cs" />
-    <Compile Include="Vehicle\Bike\MotorBike.cs" />
-    <Compile Include="Vehicle\Car\MotorCar.cs" />
     <Compile Include="Exceptions\ValueOutOfRangeException.cs" />
-    <Compile Include="Vehicle\IElectricVehicle.cs" />
-    <Compile Include="Vehicle\IMotorizedVehicle.cs" />
-    <Compile Include="Vehicle\Truck\Truck.cs" />
+    <Compile Include="Vehicle\Truck.cs" />
     <Compile Include="Vehicle\Vehicle.cs" />
     <Compile Include="Vehicle\Wheel.cs" />
   </ItemGroup>
