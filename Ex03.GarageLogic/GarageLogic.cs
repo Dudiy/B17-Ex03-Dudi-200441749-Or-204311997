@@ -12,5 +12,11 @@ namespace Ex03.GarageLogic
         {
 
         }
+
+        public bool LicensePlateExists(string i_LicensePlate)
+        {
+            return m_VehicleInGarage.ContainsKey(i_LicensePlate);
+        }
+
     }
 }

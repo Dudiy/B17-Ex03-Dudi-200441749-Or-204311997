@@ -20,6 +20,8 @@ namespace Ex03.ConsoleUI
             Vehicle testVehicle = vehicleFactory.NewVehicleFromModel("Electric Mazda", "1234", eColor.White, (byte)4);
             Vehicle testVehicle2 = vehicleFactory.NewVehicleFromModel("Motorized Mazda", "5678", eColor.Black, (byte)3);
 
+            ConsoleUI c = new ConsoleUI();
+            c.AddVehicle();
 
             // fillAir test: need to change to public some variable
             // there isn't require to fill specipic wheel in specipic amount

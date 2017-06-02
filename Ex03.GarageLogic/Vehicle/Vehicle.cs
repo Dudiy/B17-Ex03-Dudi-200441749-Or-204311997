@@ -9,7 +9,7 @@ namespace Ex03.GarageLogic
         private readonly string m_LicensePlate;
         private readonly string m_ModelName;
         protected float m_EnergyRemaining;
-        protected float k_MaxWheelAirPress;
+        protected float k_MaxWheelAirPress;        
         protected List<Wheel> m_Wheels = new List<Wheel>();
         protected Engine m_Engine;
 
@@ -23,6 +23,18 @@ namespace Ex03.GarageLogic
         public Type EngineType
         {
             get { return m_Engine.GetType(); }
+        }
+
+        public string WheelManufacturer
+        {
+            get { return m_Wheels[0].Manufacturer; }
+            set
+            {
+                foreach(Wheel wheel in m_Wheels)
+                {
+                    wheel.Manufacturer = value;
+                }
+            }
         }
 
         public override bool Equals(object obj)
@@ -74,6 +86,6 @@ namespace Ex03.GarageLogic
 
         // public abstract Vehicle CreateNewFromModel(string i_LicensePlate, params object[] i_params);
 
-        public abstract object[] GetUserInputParamsListForNewCar();
+        public abstract List<KeyValuePair<string, object>> GetUserInputPropertiesForNewVehicle();
     }
 }

@@ -20,6 +20,7 @@ namespace Ex03.GarageLogic
         public string Manufacturer
         {
             get { return m_Manufacturer; }
+            set { m_Manufacturer = value; }
         }
 
         public float MaxAirPressure
