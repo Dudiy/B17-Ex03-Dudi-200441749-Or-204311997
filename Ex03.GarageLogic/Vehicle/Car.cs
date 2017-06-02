@@ -43,19 +43,51 @@ namespace Ex03.GarageLogic
                   i_Model.m_Wheels[0].Manufacturer, i_Model.EngineType)
         { }
 
-        // creates a new instance of a model, returnes null if the model given is not a car
-        // order and type of input params for i_Params: eColor color, byte numDoors 
-        public override Vehicle CreateNewFromModel(string i_LicensePlate, params object[] i_params)
+        // ======================================== Properties ========================================
+        public eColor CarColor
         {
-            // TODO instead of params we can use default values and update them after creating the new car
-            eColor color = (eColor)i_params[0];
-            byte numDoors = (byte)(i_params[1]);
-
-            return new Car(i_LicensePlate, ModelName, m_CarColor, numDoors, "Default Wheel Manufacturer", EngineType);
+            get { return m_CarColor; }
+            set { m_CarColor = value; }
         }
 
-        public override void GetUserInputParamsListForNewCar()
+        public byte NumDoors
         {
+            get { return m_NumDoors; }
+            set
+            {
+                bool isValidOption = false;
+
+                foreach (byte numDoorsOption in sr_PossibleNumDoors)
+                {
+                    if (numDoorsOption == value)
+                    {
+                        m_NumDoors = value;
+                        isValidOption = true;
+                        break;
+                    }
+                }
+
+                if (!isValidOption) // TODO is it ok to write like this or do we need "isValidOption == true"
+                {
+                    throw new Exception("Invalid value for number of doors");   // not ValueOutOfRangeException because num doors doesnt have to be a range
+                }
+            }
+        }
+
+        // creates a new instance of a model, returnes null if the model given is not a car
+        // order and type of input params for i_Params: eColor color, byte numDoors 
+        //public override Vehicle CreateNewFromModel(string i_LicensePlate, params object[] i_params)
+        //{
+        //    // TODO instead of params we can use default values and update them after creating the new car
+        //    eColor color = (eColor)i_params[0];
+        //    byte numDoors = (byte)(i_params[1]);
+
+        //    return new Car(i_LicensePlate, ModelName, m_CarColor, numDoors, "Default Wheel Manufacturer", EngineType);
+        //}
+
+        public override object[] GetUserInputParamsListForNewCar()
+        {
+            //return object[] userInputParamsList = { eColor }
             throw new NotImplementedException();
         }
     }
