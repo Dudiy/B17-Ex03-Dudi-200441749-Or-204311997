@@ -89,7 +89,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public abstract List<KeyValuePair<string, PropertyInfo>> GetUserInputPropertiesForNewVehicle();
+        public abstract Dictionary<string, PropertyInfo> GetUserInputPropertiesForNewVehicle();
     }
 }
         // public abstract Vehicle CreateNewFromModel(string i_LicensePlate, params object[] i_params);

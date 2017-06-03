@@ -15,7 +15,7 @@ namespace Ex03.GarageLogic
         {
             m_VehicleTypes.Add(typeof(Car));
             m_EngineTypes.Add(typeof(ElectricEngine));
-            m_EngineTypes.Add(typeof(MotorEngine));
+            m_EngineTypes.Add(typeof(MotorEngine));            
         }
 
         public static Type GetEngineTypeAtI(int i)
