@@ -9,6 +9,7 @@ namespace Ex03.GarageLogic
     public class VehicleFactory
     {
         private static List<Type> m_VehicleTypes = new List<Type>();
+        private static List<Type> m_EngineTypes = new List<Type>();
         //private Dictionary<string, Vehicle> m_VehicleList = new Dictionary<string, Vehicle>();
 
         static VehicleFactory()
@@ -17,6 +18,19 @@ namespace Ex03.GarageLogic
             //m_VehicleList.Add("Motorized Mazda", new Car("Motorized Mazda Template", "Motorized Mazda", eColor.White, 5, "Default Wheel Company", typeof(MotorEngine)));
             m_VehicleTypes.Add(typeof(Car));
             //m_VehicleTypes.Add(typeof(Bike));
+
+            m_EngineTypes.Add(typeof(ElectricEngine));
+            m_EngineTypes.Add(typeof(MotorEngine));
+        }
+
+        public static Type GetEngineTypeAtI(int i)
+        {
+            return m_EngineTypes[i];
+        }
+
+        public static int NumOfEngineTypes
+        {
+            get { return m_EngineTypes.Count; }
         }
 
         public static Type GetVehicleTypeAtI(int i)

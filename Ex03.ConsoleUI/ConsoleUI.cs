@@ -14,18 +14,23 @@ namespace Ex03.ConsoleUI
         public void AddVehicle()
         {
             string licensePlate = string.Empty;
-            Type vehicleType;
+            Type vehicleType, engineType;
+            string modelName = string.Empty;
+            string wheelManufacturer = string.Empty;
+            Vehicle vehicleToAdd;
 
             Console.WriteLine(
 @"Please input vehicle License Plate");
             licensePlate = Console.ReadLine();
-            licensePlate.Trim();
+            // licensePlate.Trim();    // TODO delete, this doesnt do anything and its ok to have spaces
 
             // TODO check validation 
             if (garageLogic.LicensePlateExists(licensePlate))
             {
                 Console.WriteLine(
 @"The given license plate already exists");
+                garageLogic.GetVehicleInGarage(licensePlate).Status = eVehicleStatus.InProgress;
+                
             }
             else
             {
@@ -34,16 +39,56 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine(
 @"Please select the vehicle type:");
                 vehicleType = selectVehicleType();
-                // TODO i got stuck here, can't call the method for getting the list of properties because it
-                // cant be a static method (cant have abstract static)
+                Console.WriteLine(
+@"Please enter the model name:");
+                modelName = Console.ReadLine();
+                Console.WriteLine(
+@"Please enter the wheel manufacturer:");
+                wheelManufacturer = Console.ReadLine();
+                Console.WriteLine(
+@"Please select engine type:");
+                engineType = typeof(MotorEngine);       // TODO change to be like "selectVehicleType()|
 
+                Type[] ctorParamTypes = new Type[] {
+                    typeof(string),
+                    typeof(string),
+                    typeof(string),
+                    typeof(Type)
+                };
 
-                //MethodInfo m = vehicleType.GetMethod("GetUserInputPropertiesForNewVehicle");
-                //foreach (KeyValuePair<string, object> kp in m.Invoke(vehicleType, new object[] { }))
-                //{
+                ConstructorInfo m1 = vehicleType.GetConstructor(ctorParamTypes);
+                vehicleToAdd = (Vehicle)m1.Invoke(new object[] { licensePlate, modelName, wheelManufacturer, engineType });
+                MethodInfo userPropertiesMethod = vehicleToAdd.GetType().GetMethod("GetUserInputPropertiesForNewVehicle");
+                string input;
 
-                //}
+                foreach (KeyValuePair<string, PropertyInfo> pair in 
+                    (List<KeyValuePair<string, PropertyInfo>>)userPropertiesMethod.Invoke(vehicleToAdd, new object[] { }))
+                {
+                    bool success = false;
+
+                    while (!success)
+                    {
+                        Console.WriteLine(
+@"please input {0}:",
+pair.Key);
+                        input = Console.ReadLine();
+                        try
+                        {
+                            pair.Value.GetSetMethod().Invoke(vehicleToAdd, new object[] { input });
+                            success = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(
+@"error - {0}. please try again",
+ex.InnerException.Message);
+                        }
+                    }
+                }
+
+                garageLogic.AddVehicleToGarage("Customer", "123", vehicleToAdd);
             }
+
         }
 
         private Type selectVehicleType()
@@ -55,8 +100,8 @@ namespace Ex03.ConsoleUI
             for (int i = 0; i < VehicleFactory.NumOfVehicleTypes; i++)
             {
                 Console.WriteLine(
-@"{0}. {1}", 
-i + 1, 
+@"{0}. {1}",
+i + 1,
 VehicleFactory.GetVehicleTypeAtI(i).Name);
             }
 

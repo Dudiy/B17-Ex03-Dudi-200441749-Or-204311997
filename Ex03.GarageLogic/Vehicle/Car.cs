@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace Ex03.GarageLogic
@@ -43,25 +44,61 @@ namespace Ex03.GarageLogic
                   i_Model.m_Wheels[0].Manufacturer, i_Model.EngineType)
         { }
 
-        // ======================================== Properties ========================================
-        public eColor CarColor
-        {                           
-            get { return m_CarColor; }
-            set { m_CarColor = value; }
+        // ctor to create a new car with no user parameters
+        public Car(string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
+            : base(i_LicensePlate, i_ModelName)
+        {
+            // TODO maintainability issue - what if there is a new engine someday?
+            if (i_EngineType.Equals(typeof(ElectricEngine)))
+            {
+                m_Engine = new ElectricEngine(2.5f);
+            }
+            else if (i_EngineType.Equals(typeof(MotorEngine)))
+            {
+                m_Engine = new MotorEngine(42f, eFuelType.Octan98);
+            }
+            else
+            {
+                throw new Exception("Invalid engine type entered");
+            }
+
+            m_EnergyRemaining = m_Engine.MaxEnergy;
+            k_MaxWheelAirPress = 30;
+            InitAllWheels(new Wheel(i_WheelManufacturer, k_MaxWheelAirPress), 4);
         }
 
-        public byte NumDoors
+        // ======================================== Properties ========================================
+        //public eColor CarColor
+        //{                           
+        //    get { return m_CarColor; }
+        //    set
+        //    {
+        //        m_CarColor = value;
+        //    }
+        //}
+
+        public string CarColor
         {
-            get { return m_NumDoors; }
+            get { return m_CarColor.ToString(); }
+            set
+            {
+                m_CarColor = (eColor)Enum.Parse(typeof(eColor), value);
+            }
+        }
+
+        public string NumDoors
+        {
+            get { return m_NumDoors.ToString(); }
             set
             {
                 bool isValidOption = false;
+                byte byteValue = Byte.Parse(value);
 
                 foreach (byte numDoorsOption in sr_PossibleNumDoors)
                 {
-                    if (numDoorsOption == value)
+                    if (numDoorsOption == byteValue)
                     {
-                        m_NumDoors = value;
+                        m_NumDoors = byteValue;
                         isValidOption = true;
                         break;
                     }
@@ -85,12 +122,12 @@ namespace Ex03.GarageLogic
         //    return new Car(i_LicensePlate, ModelName, m_CarColor, numDoors, "Default Wheel Manufacturer", EngineType);
         //}
 
-        public override List<KeyValuePair<string, object>> GetUserInputPropertiesForNewVehicle()
+        public override List<KeyValuePair<string, PropertyInfo>> GetUserInputPropertiesForNewVehicle()
         {
-            List<KeyValuePair<string, object>> userInputProperties = new List<KeyValuePair<string, object>>();
-            userInputProperties.Add(new KeyValuePair<string, object>("Car Color", CarColor));
-            userInputProperties.Add(new KeyValuePair<string, object>("Number of doors", NumDoors));
-            userInputProperties.Add(new KeyValuePair<string, object>("Wheel Manufacturer", WheelManufacturer));
+            List<KeyValuePair<string, PropertyInfo>> userInputProperties = new List<KeyValuePair<string, PropertyInfo>>();
+            userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Car Color", this.GetType().GetProperty("CarColor")));
+            userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Number of doors", this.GetType().GetProperty("NumDoors")));
+            userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Wheel Manufacturer", this.GetType().GetProperty("WheelManufacturer")));
 
             return userInputProperties;
             //return new List<object> { CarColor, NumDoors, WheelManufacturer };

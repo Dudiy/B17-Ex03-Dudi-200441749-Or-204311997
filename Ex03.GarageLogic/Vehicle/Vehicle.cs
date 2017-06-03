@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace Ex03.GarageLogic
@@ -86,6 +87,6 @@ namespace Ex03.GarageLogic
 
         // public abstract Vehicle CreateNewFromModel(string i_LicensePlate, params object[] i_params);
 
-        public abstract List<KeyValuePair<string, object>> GetUserInputPropertiesForNewVehicle();
+        public abstract List<KeyValuePair<string, PropertyInfo>> GetUserInputPropertiesForNewVehicle();
     }
 }

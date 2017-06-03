@@ -18,6 +18,7 @@ namespace Ex03.ConsoleUI
 
             ConsoleUI c = new ConsoleUI();
             c.AddVehicle();
+            c.AddVehicle();
         }
     }
 }
