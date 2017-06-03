@@ -79,14 +79,6 @@ namespace Ex03.GarageLogic
         }
 
         // ======================================== Properties ========================================
-        //public eColor CarColor
-        //{                           
-        //    get { return m_CarColor; }
-        //    set
-        //    {
-        //        m_CarColor = value;
-        //    }
-        //}
 
         public string CarColor
         {
@@ -122,6 +114,25 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public override List<KeyValuePair<string, PropertyInfo>> GetUserInputPropertiesForNewVehicle()
+        {
+            List<KeyValuePair<string, PropertyInfo>> userInputProperties = new List<KeyValuePair<string, PropertyInfo>>();
+            userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Car Color", this.GetType().GetProperty("CarColor")));
+            userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Number of doors", this.GetType().GetProperty("NumDoors")));
+            userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Wheel Manufacturer", this.GetType().GetProperty("WheelManufacturer")));
+
+            return userInputProperties;
+        }
+    }
+}
+        //public eColor CarColor
+        //{                           
+        //    get { return m_CarColor; }
+        //    set
+        //    {
+        //        m_CarColor = value;
+        //    }
+        //}
         // creates a new instance of a model, returnes null if the model given is not a car
         // order and type of input params for i_Params: eColor color, byte numDoors 
         //public override Vehicle CreateNewFromModel(string i_LicensePlate, params object[] i_params)
@@ -132,16 +143,3 @@ namespace Ex03.GarageLogic
 
         //    return new Car(i_LicensePlate, ModelName, m_CarColor, numDoors, "Default Wheel Manufacturer", EngineType);
         //}
-
-        public override List<KeyValuePair<string, PropertyInfo>> GetUserInputPropertiesForNewVehicle()
-        {
-            List<KeyValuePair<string, PropertyInfo>> userInputProperties = new List<KeyValuePair<string, PropertyInfo>>();
-            userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Car Color", this.GetType().GetProperty("CarColor")));
-            userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Number of doors", this.GetType().GetProperty("NumDoors")));
-            userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Wheel Manufacturer", this.GetType().GetProperty("WheelManufacturer")));
-
-            return userInputProperties;
-            //return new List<object> { CarColor, NumDoors, WheelManufacturer };
-        }
-    }
-}

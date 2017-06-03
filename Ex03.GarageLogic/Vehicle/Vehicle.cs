@@ -74,7 +74,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        // TODO FillAirToMax
         public void FillAllWheelsToMaxAirPress(float i_AirToFill)
         {
             foreach (Wheel wheel in m_Wheels)
@@ -85,8 +84,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        // public abstract Vehicle CreateNewFromModel(string i_LicensePlate, params object[] i_params);
-
         public abstract List<KeyValuePair<string, PropertyInfo>> GetUserInputPropertiesForNewVehicle();
     }
 }
+        // public abstract Vehicle CreateNewFromModel(string i_LicensePlate, params object[] i_params);
