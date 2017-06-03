@@ -33,7 +33,6 @@ namespace Ex03.ConsoleUI
             else
             {
                 Type vehicleType;
-                object[] commondPropertiesOfAllVehicle;
                 Vehicle vehicleToAdd; 
 
                 Console.WriteLine(

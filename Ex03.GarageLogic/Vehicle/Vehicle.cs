@@ -21,6 +21,11 @@ namespace Ex03.GarageLogic
             m_ModelName = i_ModelName;
         }
 
+        public string LicensePlate
+        {
+            get { return m_LicensePlate; }
+        }
+
         public Type EngineType
         {
             get { return m_Engine.GetType(); }

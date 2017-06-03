@@ -23,5 +23,32 @@ namespace Ex03.GarageLogic
         {
             m_VehiclesInGarage[i_LicensePlate.GetHashCode()].Status = i_VehicleStatus;
         }
+
+        public List<string> GetLicensePlates()
+        {
+            List<string> licensePlatesList = new List<string>();
+
+            foreach (var vehicle in m_VehiclesInGarage)
+            {
+                licensePlatesList.Add(vehicle.Value.LicensePlate);
+            }
+
+            return licensePlatesList;
+        }
+
+        public List<string> GetLicensePlates(eVehicleStatus i_StatusFilter)
+        {
+            List<string> licensePlatesList = new List<string>();
+
+            foreach (var vehicle in m_VehiclesInGarage)
+            {
+                if (vehicle.Value.Status == i_StatusFilter)
+                {
+                    licensePlatesList.Add(vehicle.Value.LicensePlate);
+                }
+            }
+
+            return licensePlatesList;
+        }
     }
 }

@@ -22,6 +22,8 @@ namespace Ex03.ConsoleUI
 
             Garage g = new Garage();
             g.AddVehicleToGarage("asd", "das", v[0]);
+            g.GetLicensePlates();
+            g.GetLicensePlates(eVehicleStatus.Finished);
         }
     }
 }
