@@ -109,9 +109,19 @@ namespace Ex03.GarageLogic
 
             userInputProperties.Add("Car Color", this.GetType().GetProperty("CarColor"));
             userInputProperties.Add("Number of doors", this.GetType().GetProperty("NumDoors"));
-            userInputProperties.Add("Wheel Manufacturer", this.GetType().GetProperty("WheelManufacturer"));
 
             return userInputProperties;
+        }
+
+        public override string ToString()
+        {
+            return String.Format(
+@"{0}
+Car Color: {1},
+Number of doors: {2}",
+base.ToString(),
+m_CarColor,
+m_NumDoors);
         }
     }
 }

@@ -48,5 +48,21 @@ namespace Ex03.GarageLogic
         }
 
         // TODO implement "==" and "!=" opertors
+
+        public override string ToString()
+        {
+            return String.Format(
+@"Owner information:
+    Name: {0}
+    Phone number: {1} 
+    Vehicle status: {2}
+
+Vehicle information:
+{3}",
+m_OwnerName,
+m_OwnerPhone,
+m_Status,
+m_Vehicle.ToString());
+        }
     }
 }
