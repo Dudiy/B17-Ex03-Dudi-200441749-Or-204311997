@@ -19,6 +19,7 @@ namespace Ex03.GarageLogic
             return m_VehiclesInGarage.ContainsKey(i_LicensePlate.GetHashCode());
         }
 
+        // TODO can't return an object
         public VehicleInGarage GetVehicleInGarage(string i_LicensePlate)
         {
             return m_VehiclesInGarage[i_LicensePlate.GetHashCode()];

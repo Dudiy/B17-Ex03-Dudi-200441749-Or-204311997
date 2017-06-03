@@ -22,15 +22,13 @@ namespace Ex03.ConsoleUI
             Console.WriteLine(
 @"Please input vehicle License Plate");
             licensePlate = Console.ReadLine();
-            // licensePlate.Trim();    // TODO delete, this doesnt do anything and its ok to have spaces
 
-            // TODO check validation 
+            // TODO check validation (no empty string)
             if (garageLogic.LicensePlateExists(licensePlate))
             {
                 Console.WriteLine(
 @"The given license plate already exists");
                 garageLogic.GetVehicleInGarage(licensePlate).Status = eVehicleStatus.InProgress;
-                
             }
             else
             {
@@ -56,7 +54,7 @@ namespace Ex03.ConsoleUI
                     typeof(Type)
                 };
 
-                ConstructorInfo m1 = vehicleType.GetConstructor(ctorParamTypes);
+                ConstructorInfo m1 = vehicleType.GetConstructor(ctorParamTypes);  // TODO can force all inheritants of Vehicle to have this ctor?
                 vehicleToAdd = (Vehicle)m1.Invoke(new object[] { licensePlate, modelName, wheelManufacturer, engineType });
                 MethodInfo userPropertiesMethod = vehicleToAdd.GetType().GetMethod("GetUserInputPropertiesForNewVehicle");
                 string input;
