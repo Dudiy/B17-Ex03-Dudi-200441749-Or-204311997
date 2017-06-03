@@ -16,10 +16,19 @@ namespace Ex03.GarageLogic
         static Car()
         {
             Car car = new Car("123", "Model1", eColor.Blue, 3, "WheelManufaucturer", typeof(MotorEngine));
-
+            typeof(Car).GetProperties();
             userInputProperties.Add(new KeyValuePair<PropertyInfo, string>(car.GetType().GetProperty("CarColor"), "Car Color"));
             userInputProperties.Add(new KeyValuePair<PropertyInfo, string>(car.GetType().GetProperty("NumDoors"), "Number of doors"));
             userInputProperties.Add(new KeyValuePair<PropertyInfo, string>(car.GetType().GetProperty("WheelManufacturer"), "Wheel Manufacturer"));
+        }
+        public static List<KeyValuePair<string, PropertyInfo>> GetParamertersList()
+        {
+            List<KeyValuePair<string, PropertyInfo>> l = new List<KeyValuePair<string, PropertyInfo>>();
+
+
+            l.Add(new KeyValuePair<string, PropertyInfo>("Car Color", typeof(Car).GetProperty("CarColor")));
+
+            return l;
         }
 
         // assumption, input parameters are validated before calling the ctor  
