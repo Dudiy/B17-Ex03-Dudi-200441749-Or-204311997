@@ -74,7 +74,7 @@ namespace Ex03.GarageLogic
         {
             Vehicle newVehicle = null;
 
-            if (i_VehicleType.GetType().Equals(typeof(Car)))
+            if (i_VehicleType.Name.Equals(typeof(Car).Name))
             {
                 newVehicle = new Car(i_LicensePlate, i_ModelName, i_WheelManufacturer, i_EngineType);
             }

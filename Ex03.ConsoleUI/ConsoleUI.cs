@@ -8,7 +8,7 @@ namespace Ex03.ConsoleUI
 {
     public class ConsoleUI
     {
-        private GarageLogic.GarageLogic garageLogic = new GarageLogic.GarageLogic();
+        private GarageLogic.Garage garageLogic = new GarageLogic.Garage();
 
         public void AddNewVehicleToGarage()
         {
@@ -26,7 +26,8 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine(
 @"The given license plate already exists");
-                garageLogic.GetVehicleInGarage(licensePlate).Status = eVehicleStatus.InProgress;
+                garageLogic.SetVehicleInGarageStatus(licensePlate,eVehicleStatus.InProgress);
+
                 
             }
             else

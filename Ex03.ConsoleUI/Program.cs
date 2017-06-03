@@ -15,10 +15,13 @@ namespace Ex03.ConsoleUI
             v[1] = new Car("44", "Model2", eColor.Blue, 4, "WheelManufaucturer", typeof(ElectricEngine));
             v[2] = new Car("55", "Model3", eColor.Blue, 5, "WheelManufaucturer", typeof(ElectricEngine));
 
-
+            
             ConsoleUI c = new ConsoleUI();
             c.AddNewVehicleToGarage();
             c.AddNewVehicleToGarage();
+
+            Garage g = new Garage();
+            g.AddVehicleToGarage("asd", "das", v[0]);
         }
     }
 }
