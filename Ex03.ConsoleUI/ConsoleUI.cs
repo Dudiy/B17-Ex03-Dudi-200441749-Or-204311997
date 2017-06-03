@@ -11,82 +11,98 @@ namespace Ex03.ConsoleUI
     {
         private GarageLogic.GarageLogic garageLogic = new GarageLogic.GarageLogic();
 
-        public void AddVehicle()
+        public void AddNewVehicleToGarage()
         {
             string licensePlate = string.Empty;
-            Type vehicleType, engineType;
-            string modelName = string.Empty;
-            string wheelManufacturer = string.Empty;
-            Vehicle vehicleToAdd;
 
             Console.WriteLine(
 @"Please input vehicle License Plate");
             licensePlate = Console.ReadLine();
 
-            // TODO check validation (no empty string)
+            // TODO check validation 
             if (garageLogic.LicensePlateExists(licensePlate))
             {
                 Console.WriteLine(
 @"The given license plate already exists");
                 garageLogic.GetVehicleInGarage(licensePlate).Status = eVehicleStatus.InProgress;
+                
             }
             else
             {
+                Type vehicleType;
+                object[] commondPropertiesOfAllVehicle;
+                Vehicle vehicleToAdd; 
+
                 Console.WriteLine(
 @"The given license plate does not exist, please add it to the garage");
-                Console.WriteLine(
-@"Please select the vehicle type:");
                 vehicleType = selectVehicleType();
-                Console.WriteLine(
-@"Please enter the model name:");
-                modelName = Console.ReadLine();
-                Console.WriteLine(
-@"Please enter the wheel manufacturer:");
-                wheelManufacturer = Console.ReadLine();
-                Console.WriteLine(
-@"Please select engine type:");
-                engineType = typeof(MotorEngine);       // TODO change to be like "selectVehicleType()|
+                commondPropertiesOfAllVehicle = getCommondPropertiesForAllVehicle(licensePlate);
+                vehicleToAdd = createNewVehicle(vehicleType, commondPropertiesOfAllVehicle);
+                garageLogic.AddVehicleToGarage("Customer", "123", vehicleToAdd);
+            }
 
-                Type[] ctorParamTypes = new Type[] {
+        }
+
+        private object[] getCommondPropertiesForAllVehicle(string i_LicensePlate)
+        {
+            Type engineType;
+            string modelName = string.Empty;
+            string wheelManufacturer = string.Empty;
+            
+            Console.WriteLine(
+@"Please enter the model name:");
+            modelName = Console.ReadLine();
+            Console.WriteLine(
+@"Please enter the wheel manufacturer:");
+            wheelManufacturer = Console.ReadLine();
+            Console.WriteLine(
+@"Please select engine type:");
+            engineType = typeof(MotorEngine);       // TODO change to be like "selectVehicleType()|
+
+            return new object[] { i_LicensePlate, modelName, wheelManufacturer, engineType };
+        }
+
+        private Vehicle createNewVehicle(Type i_VehicleType, params object[] i_CommondPropertiesOfAllVehicle)
+        {
+            Type[] ctorParamTypes = new Type[] {
                     typeof(string),
                     typeof(string),
                     typeof(string),
                     typeof(Type)
                 };
 
-                ConstructorInfo m1 = vehicleType.GetConstructor(ctorParamTypes);  // TODO can force all inheritants of Vehicle to have this ctor?
-                vehicleToAdd = (Vehicle)m1.Invoke(new object[] { licensePlate, modelName, wheelManufacturer, engineType });
-                MethodInfo userPropertiesMethod = vehicleToAdd.GetType().GetMethod("GetUserInputPropertiesForNewVehicle");
-                string input;
+            ConstructorInfo vehicleConstructorInfo = i_VehicleType.GetConstructor(ctorParamTypes);
+            Vehicle vehicleToAdd = (Vehicle)vehicleConstructorInfo.Invoke(i_CommondPropertiesOfAllVehicle);
+            MethodInfo userPropertiesMethod = vehicleToAdd.GetType().GetMethod("GetUserInputPropertiesForNewVehicle");
+            List<KeyValuePair<string, PropertyInfo>> uninitializeProperties =
+                (List<KeyValuePair<string, PropertyInfo>>)userPropertiesMethod.Invoke(vehicleToAdd, new object[] { });
+            string inputFromUser;
 
-                foreach (KeyValuePair<string, PropertyInfo> pair in 
-                    (List<KeyValuePair<string, PropertyInfo>>)userPropertiesMethod.Invoke(vehicleToAdd, new object[] { }))
+            foreach (KeyValuePair<string, PropertyInfo> propertyAndDescriptionPair in uninitializeProperties)
+            {
+                bool validPropertyInput = false;
+
+                while (!validPropertyInput)
                 {
-                    bool success = false;
-
-                    while (!success)
+                    Console.WriteLine(
+@"please input {0}:",
+propertyAndDescriptionPair.Key);
+                    inputFromUser = Console.ReadLine();
+                    try
+                    {
+                        propertyAndDescriptionPair.Value.GetSetMethod().Invoke(vehicleToAdd, new object[] { inputFromUser });
+                        validPropertyInput = true;
+                    }
+                    catch (Exception ex)
                     {
                         Console.WriteLine(
-@"please input {0}:",
-pair.Key);
-                        input = Console.ReadLine();
-                        try
-                        {
-                            pair.Value.GetSetMethod().Invoke(vehicleToAdd, new object[] { input });
-                            success = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(
 @"error - {0}. please try again",
 ex.InnerException.Message);
-                        }
                     }
                 }
-
-                garageLogic.AddVehicleToGarage("Customer", "123", vehicleToAdd);
             }
 
+            return vehicleToAdd;
         }
 
         private Type selectVehicleType()
@@ -94,6 +110,8 @@ ex.InnerException.Message);
             byte input = 0;
             bool isValidInput = false;
 
+            Console.WriteLine(
+@"Please select the vehicle type:");
             // print all vehicle types available in VehicleFactory
             for (int i = 0; i < VehicleFactory.NumOfVehicleTypes; i++)
             {
