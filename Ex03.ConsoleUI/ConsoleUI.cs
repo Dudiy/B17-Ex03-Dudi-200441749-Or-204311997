@@ -1,5 +1,6 @@
 ﻿using System;
 using Ex03.GarageLogic;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
@@ -18,7 +19,9 @@ namespace Ex03.ConsoleUI
             Console.WriteLine(
 @"Please input vehicle License Plate");
             licensePlate = Console.ReadLine();
+            licensePlate.Trim();
 
+            // TODO check validation 
             if (garageLogic.LicensePlateExists(licensePlate))
             {
                 Console.WriteLine(

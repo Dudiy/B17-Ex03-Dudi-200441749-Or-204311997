@@ -11,12 +11,12 @@ namespace Ex03.GarageLogic
         private static List<Type> m_VehicleTypes = new List<Type>();
         //private Dictionary<string, Vehicle> m_VehicleList = new Dictionary<string, Vehicle>();
 
-        public VehicleFactory()
+        static VehicleFactory()
         {
             //m_VehicleList.Add("Electric Mazda", new Car("Electric Mazda Template", "Electric Mazda", eColor.White, 5, "Default Wheel Company", typeof(ElectricEngine)));
             //m_VehicleList.Add("Motorized Mazda", new Car("Motorized Mazda Template", "Motorized Mazda", eColor.White, 5, "Default Wheel Company", typeof(MotorEngine)));
             m_VehicleTypes.Add(typeof(Car));
-            m_VehicleTypes.Add(typeof(Bike));
+            //m_VehicleTypes.Add(typeof(Bike));
         }
 
         public static Type GetVehicleTypeAtI(int i)
