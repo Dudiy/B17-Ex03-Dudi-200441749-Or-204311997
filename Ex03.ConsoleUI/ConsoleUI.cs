@@ -13,6 +13,9 @@ namespace Ex03.ConsoleUI
         public void AddNewVehicleToGarage()
         {
             string licensePlate = string.Empty;
+            Type engineType = null;
+            string modelName = string.Empty;
+            string wheelManufacturer = string.Empty;
 
             Console.WriteLine(
 @"Please input vehicle License Plate");
@@ -35,43 +38,40 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine(
 @"The given license plate does not exist, please add it to the garage");
                 vehicleType = selectVehicleType();
-                commondPropertiesOfAllVehicle = getCommondPropertiesForAllVehicle(licensePlate);
-                vehicleToAdd = createNewVehicle(vehicleType, commondPropertiesOfAllVehicle);
+                getCommondPropertiesForAllVehicle(ref modelName, ref wheelManufacturer, ref engineType);
+                vehicleToAdd = createNewVehicle(vehicleType, licensePlate, modelName, wheelManufacturer, engineType);
                 garageLogic.AddVehicleToGarage("Customer", "123", vehicleToAdd);
             }
 
         }
 
-        private object[] getCommondPropertiesForAllVehicle(string i_LicensePlate)
-        {
-            Type engineType;
-            string modelName = string.Empty;
-            string wheelManufacturer = string.Empty;
-            
+        private void getCommondPropertiesForAllVehicle(ref string io_ModelName, ref string io_WheelManufacturer, ref Type io_EngineType)
+        {            
             Console.WriteLine(
 @"Please enter the model name:");
-            modelName = Console.ReadLine();
+            io_ModelName = Console.ReadLine();
             Console.WriteLine(
 @"Please enter the wheel manufacturer:");
-            wheelManufacturer = Console.ReadLine();
+            io_WheelManufacturer = Console.ReadLine();
             Console.WriteLine(
 @"Please select engine type:");
-            engineType = typeof(MotorEngine);       // TODO change to be like "selectVehicleType()|
-
-            return new object[] { i_LicensePlate, modelName, wheelManufacturer, engineType };
+            io_EngineType = typeof(MotorEngine);       // TODO change to be like "selectVehicleType()|
         }
 
-        private Vehicle createNewVehicle(Type i_VehicleType, params object[] i_CommondPropertiesOfAllVehicle)
+        private Vehicle createNewVehicle(Type i_VehicleType, string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
         {
-            Type[] ctorParamTypes = new Type[] {
-                    typeof(string),
-                    typeof(string),
-                    typeof(string),
-                    typeof(Type)
-                };
+            //Type[] ctorParamTypes = new Type[] {
+            //        typeof(string),
+            //        typeof(string),
+            //        typeof(string),
+            //        typeof(Type)
+            //    };
 
-            ConstructorInfo vehicleConstructorInfo = i_VehicleType.GetConstructor(ctorParamTypes);
-            Vehicle vehicleToAdd = (Vehicle)vehicleConstructorInfo.Invoke(i_CommondPropertiesOfAllVehicle);
+            VehicleFactory vf = new VehicleFactory();
+            Vehicle vehicleToAdd = vf.NewVehicle(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer, i_EngineType);
+
+            // ConstructorInfo vehicleConstructorInfo = i_VehicleType.GetConstructor(ctorParamTypes);
+            // Vehicle vehicleToAdd = (Vehicle)vehicleConstructorInfo.Invoke(i_CommondPropertiesOfAllVehicle);
             MethodInfo userPropertiesMethod = vehicleToAdd.GetType().GetMethod("GetUserInputPropertiesForNewVehicle");
             List<KeyValuePair<string, PropertyInfo>> uninitializeProperties =
                 (List<KeyValuePair<string, PropertyInfo>>)userPropertiesMethod.Invoke(vehicleToAdd, new object[] { });

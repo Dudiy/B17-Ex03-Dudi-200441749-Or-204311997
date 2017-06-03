@@ -70,13 +70,13 @@ namespace Ex03.GarageLogic
         //    return newVehicleFromModel; // model.CreateNewFromModel(i_LicensePlate, i_Params);
         //}
 
-        public Vehicle NewVehicle(Type i_VehicleType, Type i_EngineType, string i_LicensePlate)
+        public Vehicle NewVehicle(Type i_VehicleType, string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
         {
             Vehicle newVehicle = null;
 
             if (i_VehicleType.GetType().Equals(typeof(Car)))
             {
-                //newVehicle = new Car()
+                newVehicle = new Car(i_LicensePlate, i_ModelName, i_WheelManufacturer, i_EngineType);
             }
 
             return newVehicle;
