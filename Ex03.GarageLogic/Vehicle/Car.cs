@@ -10,7 +10,18 @@ namespace Ex03.GarageLogic
         private eColor m_CarColor;
         private byte m_NumDoors;
         private static readonly byte[] sr_PossibleNumDoors = { 2, 3, 4, 5 };
-        
+        private static readonly List<KeyValuePair<PropertyInfo, string>> userInputProperties = 
+            new List<KeyValuePair<PropertyInfo, string>>();
+
+        static Car()
+        {
+            Car car = new Car("123", "Model1", eColor.Blue, 3, "WheelManufaucturer", typeof(MotorEngine));
+
+            userInputProperties.Add(new KeyValuePair<PropertyInfo, string>(car.GetType().GetProperty("CarColor"), "Car Color"));
+            userInputProperties.Add(new KeyValuePair<PropertyInfo, string>(car.GetType().GetProperty("NumDoors"), "Number of doors"));
+            userInputProperties.Add(new KeyValuePair<PropertyInfo, string>(car.GetType().GetProperty("WheelManufacturer"), "Wheel Manufacturer"));
+        }
+
         // assumption, input parameters are validated before calling the ctor  
         public Car(string i_LicensePlate, string i_ModelName, eColor i_CarColor, byte i_NumDoors,
             string i_WheelManufacturer, Type i_EngineType)
