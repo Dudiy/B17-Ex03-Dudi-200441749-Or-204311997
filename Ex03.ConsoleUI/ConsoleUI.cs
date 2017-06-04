@@ -6,144 +6,24 @@ using System.Reflection;
 
 namespace Ex03.ConsoleUI
 {
-    public class ConsoleUI : UserInterface
+    internal class ConsoleUI : UserInterface
     {
-        public ConsoleUI(Garage i_Garage) : base(i_Garage) { }
+        internal ConsoleUI(Garage i_Garage) : base(i_Garage) { }
 
-        public override void run()
+        internal override void run()
         {
             byte userSelection;
 
             do
             {
                 Console.Clear();
-                Console.WriteLine(@"Hello and welcome to the new and improved garage managing application :)");
+                Console.WriteLine(
+@"Hello and welcome to the new and improved garage managing application :)");
                 userSelection = getActionRequestFromUser();
                 string str = sr_AvailableActionsForUser[userSelection].Value;
                 Console.Clear();
                 this.GetType().GetMethod(sr_AvailableActionsForUser[userSelection].Value).Invoke(this, new object[] { });
             } while (userSelection != k_ExitProgram);
-        }
-
-        public override void AddNewVehicleToGarage()
-        {
-            string licensePlate = string.Empty;
-            Type engineType = null;
-            string modelName = string.Empty;
-            string wheelManufacturer = string.Empty;
-
-            Console.WriteLine(
-@"Please input vehicle License Plate");
-            licensePlate = Console.ReadLine();
-
-            // TODO check validation 
-            if (m_Garage.LicensePlateExists(licensePlate))
-            {
-                Console.WriteLine(
-@"The given license plate already exists");
-                m_Garage.SetVehicleInGarageStatus(licensePlate, eVehicleStatus.InProgress);
-
-
-            }
-            else
-            {
-                Type vehicleType;
-                Vehicle vehicleToAdd;
-
-                Console.WriteLine(
-@"The given license plate does not exist, please add it to the garage");
-                vehicleType = selectVehicleType();
-                getCommondPropertiesForAllVehicle(ref modelName, ref wheelManufacturer, ref engineType);
-                vehicleToAdd = createNewVehicle(vehicleType, licensePlate, modelName, wheelManufacturer, engineType);
-                m_Garage.AddVehicleToGarage("Customer", "123", vehicleToAdd);
-            }
-
-        }
-
-        public override void PrintLicensePlatesInGarage()
-        {
-            eVehicleStatus? filter = null;
-            byte i = 1;
-            string userSelection = "";
-            bool isValidSelection = false;
-
-            Console.WriteLine("Select filter for list of license plates:");
-            foreach (eVehicleStatus status in Enum.GetValues(typeof(eVehicleStatus)))
-            {
-                Console.WriteLine("- {1}", i, status.ToString());
-                i++;
-            }
-            Console.WriteLine("- No filter", i);
-
-            while (!isValidSelection)
-            {
-                userSelection = Console.ReadLine();
-
-                if (userSelection.ToUpper() == "NO FILTER")
-                {
-                    isValidSelection = true;
-                }
-                else
-                {
-                    try
-                    {
-                        filter = (eVehicleStatus)Enum.Parse(typeof(eVehicleStatus), userSelection); // TODO not sure if this works
-                        isValidSelection = true;
-                    }
-                    catch
-                    {
-                        filter = null;
-                        Console.WriteLine("invalid filter entered, try again (case sensitive)");
-                    }
-                }
-            }
-
-            if (userSelection.ToUpper() == "NO FILTER")
-            {
-                PrintLicensePlatesInGarageWithParameter(filter);
-            }
-            else
-            {
-                PrintLicensePlatesInGarageWithParameter(null);
-            }
-        }
-
-        public override void ChangeVehicleStatus()
-        {
-            // TODO get parameters (string licensePlate, eVehicleStatus status) from user and call the relevant function
-            throw new NotImplementedException();
-        }
-
-        public override void FillAirInWheels()
-        {
-            // TODO get parameters (string licensePlate) from user and call the relevant function
-            throw new NotImplementedException();
-        }
-
-        public override void FillFuelInVehicle()
-        {
-            // TODO get parameters (string i_LicensePlate, eFuelType i_FuelType, float i_AmountToAdd) from user and call the relevant function
-            throw new NotImplementedException();
-        }
-
-        public override void ChargeBatteryInVehicle()
-        {
-            // TODO get parameters (string i_LicensePlate, float i_AmountToAdd) from user and call the relevant function
-            throw new NotImplementedException();
-        }
-
-        public override void PrintVehicleInfo()
-        {
-            // TODO get parameters (string i_LicensePlate, float i_AmountToAdd) from user and call the relevant function          
-
-            //Console.WriteLine(m_Garage.GetVehicleInformation(i_LicensePlate));
-            throw new NotImplementedException();
-        }
-
-        public override void ExitProgram()
-        {
-            // TODO implement
-            throw new NotImplementedException();
         }
 
         private byte getActionRequestFromUser()
@@ -164,24 +44,78 @@ namespace Ex03.ConsoleUI
             return userSelection;
         }
 
-        private void PrintLicensePlatesInGarageWithParameter(eVehicleStatus? i_Status)
+        protected override void AddNewVehicleToGarage()
         {
-            List<string> licensePlateArr = m_Garage.GetLicensePlates(i_Status);
+            string licensePlate = string.Empty;
+            Type engineType = null;
+            string modelName = string.Empty;
+            string wheelManufacturer = string.Empty;
 
-            if (licensePlateArr.Count == 0)
+            Console.WriteLine(
+@"Please input vehicle License Plate");
+            licensePlate = Console.ReadLine();
+
+            // TODO check validation 
+            if (m_Garage.LicensePlateExists(licensePlate))
             {
-                Console.WriteLine("No matching license plates found.");
+                Console.WriteLine(
+@"The given license plate already exists");
+                m_Garage.SetVehicleInGarageStatus(licensePlate, eVehicleStatus.InProgress);
             }
             else
             {
-                foreach (string licensePlate in licensePlateArr)
-                {
-                    Console.WriteLine(licensePlate);
-                }
+                Type vehicleType;
+                Vehicle vehicleToAdd;
+
+                Console.WriteLine(
+@"The given license plate does not exist, please add it to the garage");
+                vehicleType = selectVehicleType();
+                getCommonPropertiesForAllVehicle(ref modelName, ref wheelManufacturer, ref engineType);
+                vehicleToAdd = createNewVehicle(vehicleType, licensePlate, modelName, wheelManufacturer, engineType);
+                m_Garage.AddVehicleToGarage("Customer", "123", vehicleToAdd);
             }
+
         }
 
-        private void getCommondPropertiesForAllVehicle(ref string io_ModelName, ref string io_WheelManufacturer, ref Type io_EngineType)
+        private Type selectVehicleType()
+        {
+            byte input = 0;
+            bool isValidInput = false;
+
+            Console.WriteLine(
+@"Please select the vehicle type:");
+            // print all vehicle types available in VehicleFactory
+            for (int i = 0; i < VehicleFactory.NumOfVehicleTypes; i++)
+            {
+                Console.WriteLine(
+@"{0}. {1}",
+i + 1,
+VehicleFactory.GetVehicleTypeAtI(i).Name);
+            }
+
+            while (!isValidInput)
+            {
+                while (!Byte.TryParse(Console.ReadLine(), out input))
+                {
+                    Console.WriteLine(
+@"Format error - please input a number");
+                }
+
+                if (input > 0 && input <= VehicleFactory.NumOfVehicleTypes)
+                {
+                    isValidInput = true;
+                }
+                else
+                {
+                    Console.WriteLine(
+@"Logic error - given number is not in the list");
+                }
+            }
+
+            return VehicleFactory.GetVehicleTypeAtI(input - 1);
+        }
+
+        private void getCommonPropertiesForAllVehicle(ref string io_ModelName, ref string io_WheelManufacturer, ref Type io_EngineType)
         {
             Console.WriteLine(
 @"Please enter the model name:");
@@ -229,44 +163,6 @@ ex.InnerException.Message);
             return vehicleToAdd;
         }
 
-        private Type selectVehicleType()
-        {
-            byte input = 0;
-            bool isValidInput = false;
-
-            Console.WriteLine(
-@"Please select the vehicle type:");
-            // print all vehicle types available in VehicleFactory
-            for (int i = 0; i < VehicleFactory.NumOfVehicleTypes; i++)
-            {
-                Console.WriteLine(
-@"{0}. {1}",
-i + 1,
-VehicleFactory.GetVehicleTypeAtI(i).Name);
-            }
-
-            while (!isValidInput)
-            {
-                while (!Byte.TryParse(Console.ReadLine(), out input))
-                {
-                    Console.WriteLine(
-@"Format error - please input a number");
-                }
-
-                if (input > 0 && input <= VehicleFactory.NumOfVehicleTypes)
-                {
-                    isValidInput = true;
-                }
-                else
-                {
-                    Console.WriteLine(
-@"Logic error - given number is not in the list");
-                }
-            }
-
-            return VehicleFactory.GetVehicleTypeAtI(input - 1);
-        }
-
         private byte getNumberInputFromUser(byte i_MinValidSelection, byte i_MaxValidSelection)
         {
             bool isValidInput = false;
@@ -285,11 +181,117 @@ VehicleFactory.GetVehicleTypeAtI(i).Name);
                 }
                 else
                 {
+                    // TODO use exception
                     Console.WriteLine("Please input a number between {0} and {1}", i_MinValidSelection, i_MaxValidSelection);
                 }
             }
 
             return userSelection;
+        }
+
+        protected override void PrintLicensePlatesInGarage()
+        {
+            eVehicleStatus? filter = null;
+            byte i = 1;
+            string userSelection = "";
+            bool isValidSelection = false;
+
+            Console.WriteLine("Select filter for list of license plates:");
+            foreach (eVehicleStatus status in Enum.GetValues(typeof(eVehicleStatus)))
+            {
+                Console.WriteLine("- {1}", i, status.ToString());
+                i++;
+            }
+            Console.WriteLine("- No filter", i);
+
+            while (!isValidSelection)
+            {
+                userSelection = Console.ReadLine();
+
+                if (userSelection.ToUpper() == "NO FILTER")
+                {
+                    filter = null;
+                    isValidSelection = true;
+                }
+                else
+                {
+                    try
+                    {
+                        filter = (eVehicleStatus)Enum.Parse(typeof(eVehicleStatus), userSelection); // TODO not sure if this works
+                        isValidSelection = true;
+                    }
+                    catch
+                    {
+                        filter = null;
+                        Console.WriteLine("invalid filter entered, try again (case sensitive)");
+                    }
+                }
+            }
+
+            printLicensePlatesInGarageWithParameter(filter);
+            //if (userSelection.ToUpper() == "NO FILTER")
+            //{
+            //    printLicensePlatesInGarageWithParameter(filter);
+            //}
+            ////else
+            ////{
+            ////    PrintLicensePlatesInGarageWithParameter(null);
+            ////}
+        }
+
+        private void printLicensePlatesInGarageWithParameter(eVehicleStatus? i_Status)
+        {
+            List<string> licensePlateArr = m_Garage.GetLicensePlatesByStatusFilter(i_Status);
+
+            if (licensePlateArr.Count == 0)
+            {
+                Console.WriteLine("No matching license plates found.");
+            }
+            else
+            {
+                foreach (string licensePlate in licensePlateArr)
+                {
+                    Console.WriteLine(licensePlate);
+                }
+            }
+        }
+
+        protected override void ChangeVehicleStatus()
+        {
+            // TODO get parameters (string licensePlate, eVehicleStatus status) from user and call the relevant function
+            throw new NotImplementedException();
+        }
+
+        protected override void FillAirInWheels()
+        {
+            // TODO get parameters (string licensePlate) from user and call the relevant function
+            throw new NotImplementedException();
+        }
+
+        protected override void FillFuelInVehicle()
+        {
+            // TODO get parameters (string i_LicensePlate, eFuelType i_FuelType, float i_AmountToAdd) from user and call the relevant function
+            throw new NotImplementedException();
+        }
+
+        protected override void ChargeBatteryInVehicle()
+        {
+            // TODO get parameters (string i_LicensePlate, float i_AmountToAdd) from user and call the relevant function
+            throw new NotImplementedException();
+        }
+
+        protected override void PrintVehicleInfo()
+        {
+            // TODO get parameters (string i_LicensePlate, float i_AmountToAdd) from user and call the relevant function          
+
+            //Console.WriteLine(m_Garage.GetVehicleInformation(i_LicensePlate));
+            throw new NotImplementedException();
+        }
+
+        protected override void ExitProgram()
+        {
+            // TODO implement
+            throw new NotImplementedException();
         }
     }
 }

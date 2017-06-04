@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic
         private static readonly byte[] sr_PossibleNumDoors = { 2, 3, 4, 5 };
 
         // assumption, input parameters are validated before calling the ctor  
-        public Car(string i_LicensePlate, string i_ModelName, eColor i_CarColor, byte i_NumDoors,
+        internal Car(string i_LicensePlate, string i_ModelName, eColor i_CarColor, byte i_NumDoors,
             string i_WheelManufacturer, Type i_EngineType)
             : base(i_LicensePlate, i_ModelName)
         {
@@ -39,13 +39,13 @@ namespace Ex03.GarageLogic
         }
 
         // ctor to create a new car with a new license plate based on a given car model
-        public Car(string i_LicensePlate, Car i_Model)
+        internal Car(string i_LicensePlate, Car i_Model)
             : this(i_LicensePlate, i_Model.ModelName, i_Model.m_CarColor, i_Model.m_NumDoors,
                   i_Model.m_Wheels[0].Manufacturer, i_Model.EngineType)
         { }
 
         // ctor to create a new car with no user parameters
-        public Car(string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
+        internal Car(string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
             : base(i_LicensePlate, i_ModelName)
         {
             // TODO maintainability issue - what if there is a new engine someday?

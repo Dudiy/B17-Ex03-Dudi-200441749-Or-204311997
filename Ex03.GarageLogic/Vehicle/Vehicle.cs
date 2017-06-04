@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
+// TODO look for change public to internal
 namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
@@ -15,32 +16,10 @@ namespace Ex03.GarageLogic
         protected Engine m_Engine;
 
         // assumption, input parameters are validated before calling the ctor        
-        public Vehicle(string i_LicensePlate, string i_ModelName)
+        internal Vehicle(string i_LicensePlate, string i_ModelName)
         {
             m_LicensePlate = i_LicensePlate;
             m_ModelName = i_ModelName;
-        }
-
-        public string LicensePlate
-        {
-            get { return m_LicensePlate; }
-        }
-
-        public Type EngineType
-        {
-            get { return m_Engine.GetType(); }
-        }
-
-        public string WheelManufacturer
-        {
-            get { return m_Wheels[0].Manufacturer; }
-            set
-            {
-                foreach(Wheel wheel in m_Wheels)
-                {
-                    wheel.Manufacturer = value;
-                }
-            }
         }
 
         public override bool Equals(object obj)
@@ -64,14 +43,36 @@ namespace Ex03.GarageLogic
         }
 
         // ========================================= Setters and Getters ====================================
+        public string LicensePlate
+        {
+            get { return m_LicensePlate; }
+        }
+
         public string ModelName
         {
             get { return m_ModelName; }
-        } 
-         
+        }
+
+        public string WheelManufacturer
+        {
+            get { return m_Wheels[0].Manufacturer; }
+            set
+            {
+                foreach (Wheel wheel in m_Wheels)
+                {
+                    wheel.Manufacturer = value;
+                }
+            }
+        }
+
+        public Type EngineType
+        {
+            get { return m_Engine.GetType(); }
+        }
+
         // ========================================= Methods ================================================
-        
-        public void InitAllWheels(Wheel i_Wheel, byte i_NumWheels)
+
+        protected void InitAllWheels(Wheel i_Wheel, byte i_NumWheels)
         {
             for (byte i = 0; i < i_NumWheels; i++)
             {

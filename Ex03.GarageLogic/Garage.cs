@@ -25,12 +25,12 @@ namespace Ex03.GarageLogic
             m_VehiclesInGarage[i_LicensePlate.GetHashCode()].Status = i_VehicleStatus;
         }
 
-        public List<string> GetLicensePlates()
-        {
-            return GetLicensePlates(null);
-        }
-
-        public List<string> GetLicensePlates(eVehicleStatus? i_StatusFilter)
+        //public List<string> GetLicensePlates()
+        //{
+        //    return GetLicensePlatesByStatusFilter(null);
+        //}
+        // TODO
+        public List<string> GetLicensePlatesByStatusFilter(eVehicleStatus? i_StatusFilter)
         {
             List<string> licensePlatesList = new List<string>();
 
@@ -61,6 +61,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
+                // TODO
                 vehicleInfo = "Vehicle not found in the garage.";
             }
 

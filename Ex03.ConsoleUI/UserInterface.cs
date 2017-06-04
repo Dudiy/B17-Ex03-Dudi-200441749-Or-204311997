@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex03.ConsoleUI
 {
-    public abstract class UserInterface
+    internal abstract class UserInterface
     {
         protected Garage m_Garage;
         protected static readonly Dictionary<byte, KeyValuePair<string, string>> sr_AvailableActionsForUser = new Dictionary<byte, KeyValuePair<string, string>>();
@@ -23,30 +23,29 @@ namespace Ex03.ConsoleUI
             sr_AvailableActionsForUser.Add(5, new KeyValuePair<string, string>("Fill fuel in vehicle", "FillFuelInVehicle"));
             sr_AvailableActionsForUser.Add(6, new KeyValuePair<string, string>("Charge battery in vehicle", "ChargeBatteryInVehicle"));
             sr_AvailableActionsForUser.Add(7, new KeyValuePair<string, string>("Print vehicle info", "PrintVehicleInfo"));
-
         }
 
-        public UserInterface(Garage i_Garage)
+        protected UserInterface(Garage i_Garage)
         {
             m_Garage = i_Garage;
         }
 
-        public abstract void run();
+        internal abstract void run();
 
-        public abstract void AddNewVehicleToGarage();
+        protected abstract void AddNewVehicleToGarage();
 
-        public abstract void PrintLicensePlatesInGarage();
+        protected abstract void PrintLicensePlatesInGarage();
 
-        public abstract void ChangeVehicleStatus();
+        protected abstract void ChangeVehicleStatus();
 
-        public abstract void FillAirInWheels();
+        protected abstract void FillAirInWheels();
 
-        public abstract void FillFuelInVehicle();
+        protected abstract void FillFuelInVehicle();
 
-        public abstract void ChargeBatteryInVehicle();
+        protected abstract void ChargeBatteryInVehicle();
 
-        public abstract void PrintVehicleInfo();
+        protected abstract void PrintVehicleInfo();
 
-        public abstract void ExitProgram();
+        protected abstract void ExitProgram();
     }
 }

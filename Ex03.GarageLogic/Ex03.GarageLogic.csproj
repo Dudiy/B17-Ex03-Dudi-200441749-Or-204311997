@@ -40,7 +40,6 @@
     <Compile Include="VehicleFactory.cs" />
     <Compile Include="enums\eVehicleStatus.cs" />
     <Compile Include="Garage.cs" />
-    <Compile Include="LogicUtilities.cs" />
     <Compile Include="VehicleInGarage.cs" />
     <Compile Include="Vehicle\Bike.cs" />
     <Compile Include="Vehicle\Car.cs" />

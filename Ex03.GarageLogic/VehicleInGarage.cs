@@ -8,11 +8,11 @@ namespace Ex03.GarageLogic
     {
         private string m_OwnerName = string.Empty;
         private string m_OwnerPhone = string.Empty;
-        private eVehicleStatus m_Status = eVehicleStatus.InProgress;
         private Vehicle m_Vehicle;
+        private eVehicleStatus m_Status = eVehicleStatus.InProgress;
 
         //assumption: input vehicle is not in the garage yet (must be checked by the callee)
-        public VehicleInGarage(string i_OwnerName, string i_OwnerPhone, Vehicle i_Vehicle)
+        internal VehicleInGarage(string i_OwnerName, string i_OwnerPhone, Vehicle i_Vehicle)
         {
             m_OwnerName = i_OwnerName;
             m_OwnerPhone = i_OwnerPhone;

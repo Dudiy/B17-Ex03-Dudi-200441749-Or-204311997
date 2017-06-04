@@ -46,11 +46,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void FillAirToMax()
-        {
-            m_CurrentAirPressure = m_MaxAirPressure;
-        }
-
         public Wheel Clone()
         {
             return MemberwiseClone() as Wheel;
@@ -63,3 +58,8 @@ namespace Ex03.GarageLogic
         }
     }
 }
+
+        //public void FillAirToMax()
+        //{
+        //    m_CurrentAirPressure = m_MaxAirPressure;
+        //}
