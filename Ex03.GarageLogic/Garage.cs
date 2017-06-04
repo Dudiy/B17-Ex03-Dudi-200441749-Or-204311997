@@ -6,6 +6,7 @@ namespace Ex03.GarageLogic
 {
     public class Garage
     {
+        // TODO change key to string
         private Dictionary<int, VehicleInGarage> m_VehiclesInGarage = new Dictionary<int, VehicleInGarage>();
         private static readonly VehicleFactory sr_VehicleFactory = new VehicleFactory();
 
@@ -50,20 +51,29 @@ namespace Ex03.GarageLogic
             return sr_VehicleFactory.NewVehicle(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer, i_EngineType);
         }
 
+        public eVehicleStatus GetVehicleStatus(string i_LicensePlate)
+        {
+            try
+            {
+                return m_VehiclesInGarage[i_LicensePlate.GetHashCode()].Status;
+            }
+            catch
+            {
+                throw new ArgumentException("The given licence plate is not in the garage.");
+            }
+        }
+
+        public void FillAirInWheels(string i_LicensePlate)
+        {
+            m_VehiclesInGarage[i_LicensePlate.GetHashCode()].FillAirToMax();
+        }
+
         public string GetVehicleInformation(string i_LicensePlate)
         {
             string vehicleInfo;
             int key = i_LicensePlate.GetHashCode();
 
-            if (m_VehiclesInGarage.ContainsKey(key))
-            {
-                vehicleInfo = m_VehiclesInGarage[key].ToString();
-            }
-            else
-            {
-                // TODO
-                vehicleInfo = "Vehicle not found in the garage.";
-            }
+            vehicleInfo = m_VehiclesInGarage[key].ToString();
 
             return vehicleInfo;
         }

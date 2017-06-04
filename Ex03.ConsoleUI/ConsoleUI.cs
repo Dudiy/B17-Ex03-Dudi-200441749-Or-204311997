@@ -6,6 +6,7 @@ using System.Reflection;
 
 namespace Ex03.ConsoleUI
 {
+    // TODO change all getline of single digits to "Console.ReadKey().KeyChar"
     internal class ConsoleUI : UserInterface
     {
         private bool m_EndOfProgram = false;
@@ -27,6 +28,8 @@ namespace Ex03.ConsoleUI
                 string methodStr = sr_AvailableActionsForUser[userSelection].Value;
                 MethodInfo requiredMethod = base.GetType().GetMethod(methodStr, BindingFlags.NonPublic | BindingFlags.Instance);//, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Default);
                 requiredMethod.Invoke(this, new object[] { });
+                Console.WriteLine("(press any key to continue)");
+                Console.ReadKey();
             } while (!m_EndOfProgram);
         }
 
@@ -41,8 +44,8 @@ namespace Ex03.ConsoleUI
             foreach (var action in sr_AvailableActionsForUser)
             {
                 Console.WriteLine(
-"{0}. {1}", 
-action.Key, 
+"{0}. {1}",
+action.Key,
 action.Value.Key);
             }
 
@@ -192,8 +195,8 @@ ex.InnerException.Message);
                 {
                     // TODO use exception
                     Console.WriteLine(
-@"Please input a number between {0} and {1}", 
-i_MinValidSelection, 
+@"Please input a number between {0} and {1}",
+i_MinValidSelection,
 i_MaxValidSelection);
                 }
             }
@@ -204,15 +207,13 @@ i_MaxValidSelection);
         protected override void PrintLicensePlatesInGarage()
         {
             eVehicleStatus? filter = null;
-            byte i = 1;
-            //string userSelection = "";
-            //bool isValidSelection = false;
 
             Console.WriteLine(
 @"Would you like to add a filter to the list of license plates? (Y/N):");
             if (Console.ReadLine().ToUpper() == "Y")
             {
-                Console.WriteLine("Select filter for list of license plates:");
+                Console.WriteLine(
+@"Select filter for list of license plates:");
                 filter = (eVehicleStatus)getEnumSelectionFromUser(typeof(eVehicleStatus));
             }
             else
@@ -233,15 +234,12 @@ i_MaxValidSelection);
             }
             else
             {
+                Console.WriteLine("All matching license plates:");
                 foreach (string licensePlate in licensePlateArr)
                 {
                     Console.WriteLine(licensePlate);
                 }
             }
-            Console.Write(
-@"
-(Press any key to continue)");
-            Console.ReadKey();
         }
 
         protected override void ChangeVehicleStatus()
@@ -254,26 +252,50 @@ i_MaxValidSelection);
             licensePlate = getLicensePlateFromUser();
             if (m_Garage.LicensePlateExists(licensePlate))
             {
-                eVehicleStatus status;
+                eVehicleStatus newStatus;
+                eVehicleStatus prevStatus = m_Garage.GetVehicleStatus(licensePlate);
 
                 Console.WriteLine("Please select the new status:");
-                status = (eVehicleStatus)getEnumSelectionFromUser(typeof(eVehicleStatus));
-                m_Garage.SetVehicleInGarageStatus(licensePlate, status);
+                newStatus = (eVehicleStatus)getEnumSelectionFromUser(typeof(eVehicleStatus));
+                m_Garage.SetVehicleInGarageStatus(licensePlate, newStatus);
+                Console.WriteLine(
+@"The status of {0} was changed from {1} to {2}.",
+licensePlate,
+prevStatus.ToString(),
+newStatus.ToString());
             }
             else
             {
                 Console.WriteLine(
-@"The license plate {0}, is not in the garage.
-(press any key to continue)",
+@"The license plate {0}, is not in the garage.",
 licensePlate);
-                Console.ReadKey();
             }
         }
 
         protected override void FillAirInWheels()
         {
-            // TODO get parameters (string licensePlate) from user and call the relevant function
-            throw new NotImplementedException();
+            string licensePlate;
+            Console.WriteLine(
+@"Filling air in all wheels to max.");
+
+            licensePlate = getLicensePlateFromUser();
+            try
+            {
+                m_Garage.FillAirInWheels(licensePlate);
+                Console.WriteLine("All wheels in {0} were filled to max", licensePlate);
+            }
+            catch (ArgumentException keyEx)
+            {
+                Console.WriteLine("The given licence plate is not in the garage.");
+            }
+            catch (ValueOutOfRangeException valueRangeEx)
+            {
+                Console.WriteLine(valueRangeEx.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error - {0}", ex.Message);
+            }
         }
 
         // TODO get parameters (string i_LicensePlate, eFuelType i_FuelType, float i_AmountToAdd) from user and call the relevant function
@@ -281,7 +303,7 @@ licensePlate);
         {
             // also check format validation to: ...
             string licensePlate = getLicensePlateFromUser();
-            float amountEnergyToAdd = getAmountEnergyToAdd();
+            float amountEnergyToAdd = getAmountEnergyToAddFromUser();
 
             try
             {
@@ -301,19 +323,30 @@ licensePlate);
 
         protected override void PrintVehicleInfo()
         {
-            // TODO get parameters (string i_LicensePlate, float i_AmountToAdd) from user and call the relevant function          
+            string licensePlate = getLicensePlateFromUser();
 
-            //Console.WriteLine(m_Garage.GetVehicleInformation(i_LicensePlate));
-            throw new NotImplementedException();
+            try
+            {
+                Console.WriteLine(m_Garage.GetVehicleInformation(licensePlate));
+            }
+            catch (KeyNotFoundException keyEx)
+            {
+                Console.WriteLine(
+@"The given licence plate is not in the garage.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(
+@"Error - {0}", 
+ex.Message);
+            }
         }
 
         protected override void ExitProgram()
         {
             Console.WriteLine(
 @"End of program.
-Have a nice day.
-(Press any key to exit)");
-            Console.ReadKey();
+Have a nice day.");
             m_EndOfProgram = true;
         }
 
@@ -335,13 +368,13 @@ Have a nice day.
         public Enum getEnumSelectionFromUser(Type i_EnumType)
         {
             Dictionary<byte, Enum> enumDictinary = new Dictionary<byte, Enum>();
-            byte i = 1;
+            byte enumCounter = 1;
             byte userSelection;
 
             foreach (Enum item in Enum.GetValues(i_EnumType))
             {
-                enumDictinary.Add(i, item);
-                i++;
+                enumDictinary.Add(enumCounter, item);
+                enumCounter++;
             }
 
             foreach (KeyValuePair<byte, Enum> item in enumDictinary)
@@ -349,7 +382,7 @@ Have a nice day.
                 Console.WriteLine("{0}. {1}", item.Key, item.Value);
             }
 
-            userSelection = getNumberInputFromUser(1, (byte)(i - 1));
+            userSelection = getNumberInputFromUser(1, (byte)(enumCounter - 1));
 
             return enumDictinary[userSelection];
         }
@@ -372,8 +405,6 @@ Have a nice day.
         {
             string userInput;
             float amountEnergyToAdd;
-
-
 
             Console.Write(
 @"Please enter amount energy to add: ");
@@ -404,6 +435,12 @@ Have a nice day.
             }
 
             return amountEnergyToAdd;
+        }
+
+        private void pressAnyKeyToContinue()
+        {
+            Console.WriteLine("(press any key to continue)");
+            Console.ReadKey();
         }
     }
 }

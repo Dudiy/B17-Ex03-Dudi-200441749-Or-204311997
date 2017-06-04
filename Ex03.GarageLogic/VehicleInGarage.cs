@@ -25,10 +25,10 @@ namespace Ex03.GarageLogic
             set { m_Status = value; }
         }
 
-        //public Vehicle Vehicle
-        //{
-        //    get { return m_Vehicle; }
-        //}
+        internal void FillAirToMax()
+        {
+            m_Vehicle.FillAllWheelsToMaxAirPress();
+        }
 
         public string LicensePlate
         {

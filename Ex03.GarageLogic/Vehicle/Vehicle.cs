@@ -80,7 +80,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void FillAllWheelsToMaxAirPress(float i_AirToFill)
+        public void FillAllWheelsToMaxAirPress()
         {
             foreach (Wheel wheel in m_Wheels)
             {
