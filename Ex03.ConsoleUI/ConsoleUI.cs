@@ -8,7 +8,7 @@ namespace Ex03.ConsoleUI
 {
     internal class ConsoleUI : UserInterface
     {
-        bool m_EndOfProgram = false;
+        private bool m_EndOfProgram = false;
 
         internal ConsoleUI(Garage i_Garage) : base(i_Garage) { }
 
@@ -40,7 +40,10 @@ namespace Ex03.ConsoleUI
 ");
             foreach (var action in sr_AvailableActionsForUser)
             {
-                Console.WriteLine("{0}. {1}", action.Key, action.Value.Key);
+                Console.WriteLine(
+"{0}. {1}", 
+action.Key, 
+action.Value.Key);
             }
 
             userSelection = getNumberInputFromUser(0, numOptions);
@@ -167,7 +170,7 @@ ex.InnerException.Message);
             return vehicleToAdd;
         }
 
-        //
+        // TODO name
         private byte getNumberInputFromUser(byte i_MinValidSelection, byte i_MaxValidSelection)
         {
             bool isValidInput = false;
@@ -177,7 +180,8 @@ ex.InnerException.Message);
             {
                 while (!Byte.TryParse(Console.ReadLine(), out userSelection))
                 {
-                    Console.WriteLine("Input format error please input a number");
+                    Console.WriteLine(
+@"Input format error please input a number");
                 }
 
                 if (userSelection >= i_MinValidSelection && userSelection <= i_MaxValidSelection)
@@ -187,7 +191,10 @@ ex.InnerException.Message);
                 else
                 {
                     // TODO use exception
-                    Console.WriteLine("Please input a number between {0} and {1}", i_MinValidSelection, i_MaxValidSelection);
+                    Console.WriteLine(
+@"Please input a number between {0} and {1}", 
+i_MinValidSelection, 
+i_MaxValidSelection);
                 }
             }
 
@@ -269,10 +276,21 @@ licensePlate);
             throw new NotImplementedException();
         }
 
+        // TODO get parameters (string i_LicensePlate, eFuelType i_FuelType, float i_AmountToAdd) from user and call the relevant function
         protected override void FillFuelInVehicle()
         {
-            // TODO get parameters (string i_LicensePlate, eFuelType i_FuelType, float i_AmountToAdd) from user and call the relevant function
-            throw new NotImplementedException();
+            // also check format validation to: ...
+            string licensePlate = getLicensePlateFromUser();
+            float amountEnergyToAdd = getAmountEnergyToAdd();
+
+            try
+            {
+
+            }
+            catch
+            {
+
+            }
         }
 
         protected override void ChargeBatteryInVehicle()
@@ -303,7 +321,8 @@ Have a nice day.
         {
             string userInput = string.Empty;
 
-            Console.Write("License plate: ");
+            Console.Write(
+@"License plate: ");
 
             do
             {
@@ -348,5 +367,43 @@ Have a nice day.
 
 
         //}
+
+        private float getFuelTypeFromUser()
+        {
+            string userInput;
+            float amountEnergyToAdd;
+
+
+
+            Console.Write(
+@"Please enter amount energy to add: ");
+            userInput = Console.ReadLine();
+            while (float.TryParse(userInput, out amountEnergyToAdd))
+            {
+                Console.WriteLine(
+@"Input format error please input a number");
+                userInput = Console.ReadLine();
+            }
+
+            return amountEnergyToAdd;
+        }
+
+        private float getAmountEnergyToAddFromUser()
+        {
+            string userInput;
+            float amountEnergyToAdd;
+
+            Console.Write(
+@"Please enter amount energy to add: ");
+            userInput = Console.ReadLine();
+            while (float.TryParse(userInput, out amountEnergyToAdd))
+            {
+                Console.WriteLine(
+@"Input format error please input a number");
+                userInput = Console.ReadLine();
+            }
+
+            return amountEnergyToAdd;
+        }
     }
 }
