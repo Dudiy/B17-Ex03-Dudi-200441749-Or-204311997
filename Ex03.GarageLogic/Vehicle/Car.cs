@@ -10,25 +10,17 @@ namespace Ex03.GarageLogic
         private eColor m_CarColor;
         private byte m_NumDoors;
         private static readonly byte[] sr_PossibleNumDoors = { 2, 3, 4, 5 };
-        private static readonly List<KeyValuePair<PropertyInfo, string>> userInputProperties = 
-            new List<KeyValuePair<PropertyInfo, string>>();
+        private static readonly List<KeyValuePair<string, PropertyInfo>> sr_UserInputProperties = 
+            new List<KeyValuePair<string, PropertyInfo>>();
 
         static Car()
         {
-            Car car = new Car("123", "Model1", eColor.Blue, 3, "WheelManufaucturer", typeof(MotorEngine));
-            typeof(Car).GetProperties();
-            userInputProperties.Add(new KeyValuePair<PropertyInfo, string>(car.GetType().GetProperty("CarColor"), "Car Color"));
-            userInputProperties.Add(new KeyValuePair<PropertyInfo, string>(car.GetType().GetProperty("NumDoors"), "Number of doors"));
-            userInputProperties.Add(new KeyValuePair<PropertyInfo, string>(car.GetType().GetProperty("WheelManufacturer"), "Wheel Manufacturer"));
-        }
-        public static List<KeyValuePair<string, PropertyInfo>> GetParamertersList()
-        {
-            List<KeyValuePair<string, PropertyInfo>> l = new List<KeyValuePair<string, PropertyInfo>>();
-
-
-            l.Add(new KeyValuePair<string, PropertyInfo>("Car Color", typeof(Car).GetProperty("CarColor")));
-
-            return l;
+            sr_UserInputProperties.Add(new KeyValuePair<string, PropertyInfo>(
+                "Car Color", typeof(Car).GetProperty("CarColor")));
+            sr_UserInputProperties.Add(new KeyValuePair<string, PropertyInfo>(
+                "Number of doors", typeof(Car).GetProperty("NumDoors")));
+            sr_UserInputProperties.Add(new KeyValuePair<string, PropertyInfo>(
+                "Wheel Manufacturer", typeof(Car).GetProperty("WheelManufacturer")));
         }
 
         // assumption, input parameters are validated before calling the ctor  
@@ -123,14 +115,32 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override List<KeyValuePair<string, PropertyInfo>> GetUserInputPropertiesForNewVehicle()
-        {
-            List<KeyValuePair<string, PropertyInfo>> userInputProperties = new List<KeyValuePair<string, PropertyInfo>>();
-            userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Car Color", this.GetType().GetProperty("CarColor")));
-            userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Number of doors", this.GetType().GetProperty("NumDoors")));
-            userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Wheel Manufacturer", this.GetType().GetProperty("WheelManufacturer")));
 
-            return userInputProperties;
+        public static List<KeyValuePair<string, PropertyInfo>> GetUserInputProperties()
+        {
+            List<KeyValuePair<string, PropertyInfo>> l = new List<KeyValuePair<string, PropertyInfo>>();
+
+            l.Add(new KeyValuePair<string, PropertyInfo>("Car Color", typeof(Car).GetProperty("CarColor")));
+
+            return l;
+        }
+
+
+        public new static List<KeyValuePair<string, PropertyInfo>> GetUserInputPropertiesForNewVehicle()
+        {
+
+            List<KeyValuePair<string, PropertyInfo>> l = new List<KeyValuePair<string, PropertyInfo>>();
+
+            l.Add(new KeyValuePair<string, PropertyInfo>("Car Color", typeof(Car).GetProperty("CarColor")));
+
+            return l;
+
+            //List<KeyValuePair<string, PropertyInfo>> userInputProperties = new List<KeyValuePair<string, PropertyInfo>>();
+            //userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Car Color", this.GetType().GetProperty("CarColor")));
+            //userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Number of doors", this.GetType().GetProperty("NumDoors")));
+            //userInputProperties.Add(new KeyValuePair<string, PropertyInfo>("Wheel Manufacturer", this.GetType().GetProperty("WheelManufacturer")));
+
+            //return userInputProperties;
         }
     }
 }
