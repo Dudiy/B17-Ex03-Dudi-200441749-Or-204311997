@@ -90,6 +90,12 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public static void f()
+        {
+
+            GetUserInputPropertiesForNewVehicle();
+        }
+
         public abstract Dictionary<string, PropertyInfo> GetUserInputPropertiesForNewVehicle();
 
         public override string ToString()
