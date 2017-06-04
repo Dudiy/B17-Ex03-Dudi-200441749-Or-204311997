@@ -12,7 +12,8 @@ namespace Ex03.GarageLogic
         public Engine(float i_MaxEnergy)
         {
             m_MaxEnergy = i_MaxEnergy;
-            m_EnergyRemaining = m_MaxEnergy;
+            // TODO
+            m_EnergyRemaining = 0;
         }
 
         public float PercentOfEnergyRemaining
@@ -25,11 +26,11 @@ namespace Ex03.GarageLogic
             get { return m_MaxEnergy; }
         }
 
-        protected void AddEnergy(float i_EnergyToAdd)
+        protected void FillEnergy(float i_EnergyToFill)
         {
-            if (m_EnergyRemaining + i_EnergyToAdd <= m_MaxEnergy)
+            if (m_EnergyRemaining + i_EnergyToFill <= m_MaxEnergy)
             {
-                m_EnergyRemaining += i_EnergyToAdd;
+                m_EnergyRemaining += i_EnergyToFill;
             }
             else
             {
@@ -39,5 +40,6 @@ namespace Ex03.GarageLogic
         }
 
         public abstract override string ToString();
+
     }
 }

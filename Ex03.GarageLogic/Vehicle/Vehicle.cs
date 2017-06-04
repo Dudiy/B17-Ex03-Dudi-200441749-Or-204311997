@@ -10,7 +10,7 @@ namespace Ex03.GarageLogic
     {
         private readonly string m_LicensePlate;
         private readonly string m_ModelName;
-        protected float m_EnergyRemaining;
+        //protected float m_EnergyRemaining;
         protected float k_MaxWheelAirPress;        
         protected List<Wheel> m_Wheels = new List<Wheel>();
         protected Engine m_Engine;
@@ -111,6 +111,25 @@ m_Wheels[0].Manufacturer,
 m_Wheels[0].MaxAirPressure,
 m_Engine.ToString()
 );
+        }
+
+        public void FillEnergy(eFuelType i_FuelType, float i_AmountEnergyToFill)
+        {
+            if(m_Engine.GetType() == typeof(MotorEngine))
+            {
+                ((MotorEngine)m_Engine).FillFuel(i_FuelType, i_AmountEnergyToFill);
+            }
+            else if(m_Engine.GetType() == typeof(ElectricEngine))
+            {
+                ((MotorEngine)m_Engine).FillFuel(i_FuelType, i_AmountEnergyToFill);
+            }
+            else
+            {
+                // maybe there is engine like that but we haven't
+                string exceptionMessage = string.Format("Fill energy methon not implemented for {0} type", 
+                    m_Engine.GetType());
+                throw new NotImplementedException(exceptionMessage);
+            }
         }
     }
 }

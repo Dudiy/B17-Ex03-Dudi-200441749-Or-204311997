@@ -64,5 +64,10 @@ m_OwnerPhone,
 m_Status,
 m_Vehicle.ToString());
         }
+
+        public void FillEnergy(eFuelType i_FuelType, float i_AmountEnergyToFill)
+        {
+            m_Vehicle.FillEnergy(i_FuelType, i_AmountEnergyToFill);
+        }
     }
 }

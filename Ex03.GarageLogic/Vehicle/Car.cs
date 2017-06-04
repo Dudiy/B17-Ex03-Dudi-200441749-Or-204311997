@@ -62,7 +62,7 @@ namespace Ex03.GarageLogic
                 throw new Exception("Invalid engine type entered");
             }
 
-            m_EnergyRemaining = m_Engine.MaxEnergy;
+            //m_EnergyRemaining = m_Engine.MaxEnergy;
             k_MaxWheelAirPress = 30;
             InitAllWheels(new Wheel(i_WheelManufacturer, k_MaxWheelAirPress), 4);
         }

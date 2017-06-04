@@ -11,7 +11,7 @@ namespace Ex03.GarageLogic
         public void ChargeBattery(float i_AmountToCharge)
         {
             // TODO if there is more in amount to charge then max, should we charge to max or throw error?
-            AddEnergy(i_AmountToCharge);
+            FillEnergy(i_AmountToCharge);
         }
 
 
