@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public abstract class Engine : ICloneable
+    public abstract class Engine
     {
         protected float m_EnergyRemaining;
         protected float m_MaxEnergy;
@@ -25,8 +25,6 @@ namespace Ex03.GarageLogic
             get { return m_MaxEnergy; }
         }
 
-        public abstract object Clone();
-
         protected void AddEnergy(float i_EnergyToAdd)
         {
             if (m_EnergyRemaining + i_EnergyToAdd <= m_MaxEnergy)
@@ -39,5 +37,7 @@ namespace Ex03.GarageLogic
                 throw new ValueOutOfRangeException(0, m_MaxEnergy - m_EnergyRemaining);
             }
         }
+
+        public abstract override string ToString();
     }
 }

@@ -21,6 +21,11 @@ namespace Ex03.GarageLogic
             m_ModelName = i_ModelName;
         }
 
+        public string LicensePlate
+        {
+            get { return m_LicensePlate; }
+        }
+
         public Type EngineType
         {
             get { return m_Engine.GetType(); }
@@ -84,7 +89,27 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public abstract List<KeyValuePair<string, PropertyInfo>> GetUserInputPropertiesForNewVehicle();
+        public abstract Dictionary<string, PropertyInfo> GetUserInputPropertiesForNewVehicle();
+
+        public override string ToString()
+        {
+            return String.Format(
+@"  License plate: {0}
+    Model Name: {1}
+    Vehicle type: {2}
+    Wheels Information:
+        Manufacturer: {3}
+        Max air pressure: {4}
+    Engine Information:
+    {5}
+",
+LicensePlate,
+ModelName,
+this.GetType().Name,
+m_Wheels[0].Manufacturer,
+m_Wheels[0].MaxAirPressure,
+m_Engine.ToString()
+);
+        }
     }
 }
-        // public abstract Vehicle CreateNewFromModel(string i_LicensePlate, params object[] i_params);

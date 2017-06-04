@@ -25,9 +25,44 @@ namespace Ex03.GarageLogic
             set { m_Status = value; }
         }
 
-        public Vehicle Vehicle
+        //public Vehicle Vehicle
+        //{
+        //    get { return m_Vehicle; }
+        //}
+
+        public string LicensePlate
         {
-            get { return m_Vehicle; }
+            get { return m_Vehicle.LicensePlate; }
+        }
+
+        public override int GetHashCode()
+        {
+            return m_Vehicle.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            VehicleInGarage compareTo = obj as VehicleInGarage;
+
+            return m_Vehicle.Equals(compareTo.m_Vehicle);
+        }
+
+        // TODO implement "==" and "!=" opertors
+
+        public override string ToString()
+        {
+            return String.Format(
+@"Owner information:
+    Name: {0}
+    Phone number: {1} 
+    Vehicle status: {2}
+
+Vehicle information:
+{3}",
+m_OwnerName,
+m_OwnerPhone,
+m_Status,
+m_Vehicle.ToString());
         }
     }
 }

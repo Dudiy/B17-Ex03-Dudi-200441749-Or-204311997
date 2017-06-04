@@ -6,11 +6,26 @@ using System.Reflection;
 
 namespace Ex03.ConsoleUI
 {
-    public class ConsoleUI
+    public class ConsoleUI : UserInterface
     {
-        private GarageLogic.Garage garageLogic = new GarageLogic.Garage();
+        public ConsoleUI(Garage i_Garage) : base(i_Garage) { }
 
-        public void AddNewVehicleToGarage()
+        public override void run()
+        {
+            byte userSelection;
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine(@"Hello and welcome to the new and improved garage managing application :)");
+                userSelection = getActionRequestFromUser();
+                string str = sr_AvailableActionsForUser[userSelection].Value;
+                Console.Clear();
+                this.GetType().GetMethod(sr_AvailableActionsForUser[userSelection].Value).Invoke(this, new object[] { });
+            } while (userSelection != k_ExitProgram);
+        }
+
+        public override void AddNewVehicleToGarage()
         {
             string licensePlate = string.Empty;
             Type engineType = null;
@@ -22,32 +37,152 @@ namespace Ex03.ConsoleUI
             licensePlate = Console.ReadLine();
 
             // TODO check validation 
-            if (garageLogic.LicensePlateExists(licensePlate))
+            if (m_Garage.LicensePlateExists(licensePlate))
             {
                 Console.WriteLine(
 @"The given license plate already exists");
-                garageLogic.SetVehicleInGarageStatus(licensePlate,eVehicleStatus.InProgress);
+                m_Garage.SetVehicleInGarageStatus(licensePlate, eVehicleStatus.InProgress);
 
-                
+
             }
             else
             {
                 Type vehicleType;
-                object[] commondPropertiesOfAllVehicle;
-                Vehicle vehicleToAdd; 
+                Vehicle vehicleToAdd;
 
                 Console.WriteLine(
 @"The given license plate does not exist, please add it to the garage");
                 vehicleType = selectVehicleType();
                 getCommondPropertiesForAllVehicle(ref modelName, ref wheelManufacturer, ref engineType);
                 vehicleToAdd = createNewVehicle(vehicleType, licensePlate, modelName, wheelManufacturer, engineType);
-                garageLogic.AddVehicleToGarage("Customer", "123", vehicleToAdd);
+                m_Garage.AddVehicleToGarage("Customer", "123", vehicleToAdd);
             }
 
         }
 
+        public override void PrintLicensePlatesInGarage()
+        {
+            eVehicleStatus? filter = null;
+            byte i = 1;
+            string userSelection = "";
+            bool isValidSelection = false;
+
+            Console.WriteLine("Select filter for list of license plates:");
+            foreach (eVehicleStatus status in Enum.GetValues(typeof(eVehicleStatus)))
+            {
+                Console.WriteLine("- {1}", i, status.ToString());
+                i++;
+            }
+            Console.WriteLine("- No filter", i);
+
+            while (!isValidSelection)
+            {
+                userSelection = Console.ReadLine();
+
+                if (userSelection.ToUpper() == "NO FILTER")
+                {
+                    isValidSelection = true;
+                }
+                else
+                {
+                    try
+                    {
+                        filter = (eVehicleStatus)Enum.Parse(typeof(eVehicleStatus), userSelection); // TODO not sure if this works
+                        isValidSelection = true;
+                    }
+                    catch
+                    {
+                        filter = null;
+                        Console.WriteLine("invalid filter entered, try again (case sensitive)");
+                    }
+                }
+            }
+
+            if (userSelection.ToUpper() == "NO FILTER")
+            {
+                PrintLicensePlatesInGarageWithParameter(filter);
+            }
+            else
+            {
+                PrintLicensePlatesInGarageWithParameter(null);
+            }
+        }
+
+        public override void ChangeVehicleStatus()
+        {
+            // TODO get parameters (string licensePlate, eVehicleStatus status) from user and call the relevant function
+            throw new NotImplementedException();
+        }
+
+        public override void FillAirInWheels()
+        {
+            // TODO get parameters (string licensePlate) from user and call the relevant function
+            throw new NotImplementedException();
+        }
+
+        public override void FillFuelInVehicle()
+        {
+            // TODO get parameters (string i_LicensePlate, eFuelType i_FuelType, float i_AmountToAdd) from user and call the relevant function
+            throw new NotImplementedException();
+        }
+
+        public override void ChargeBatteryInVehicle()
+        {
+            // TODO get parameters (string i_LicensePlate, float i_AmountToAdd) from user and call the relevant function
+            throw new NotImplementedException();
+        }
+
+        public override void PrintVehicleInfo()
+        {
+            // TODO get parameters (string i_LicensePlate, float i_AmountToAdd) from user and call the relevant function          
+
+            //Console.WriteLine(m_Garage.GetVehicleInformation(i_LicensePlate));
+            throw new NotImplementedException();
+        }
+
+        public override void ExitProgram()
+        {
+            // TODO implement
+            throw new NotImplementedException();
+        }
+
+        private byte getActionRequestFromUser()
+        {
+            byte numOptions = (byte)sr_AvailableActionsForUser.Count;
+            byte userSelection;
+
+            Console.WriteLine(
+@"What would you like to do next?
+");
+            foreach (var action in sr_AvailableActionsForUser)
+            {
+                Console.WriteLine("{0}. {1}", action.Key, action.Value.Key);
+            }
+
+            userSelection = getNumberInputFromUser(0, numOptions);
+
+            return userSelection;
+        }
+
+        private void PrintLicensePlatesInGarageWithParameter(eVehicleStatus? i_Status)
+        {
+            List<string> licensePlateArr = m_Garage.GetLicensePlates(i_Status);
+
+            if (licensePlateArr.Count == 0)
+            {
+                Console.WriteLine("No matching license plates found.");
+            }
+            else
+            {
+                foreach (string licensePlate in licensePlateArr)
+                {
+                    Console.WriteLine(licensePlate);
+                }
+            }
+        }
+
         private void getCommondPropertiesForAllVehicle(ref string io_ModelName, ref string io_WheelManufacturer, ref Type io_EngineType)
-        {            
+        {
             Console.WriteLine(
 @"Please enter the model name:");
             io_ModelName = Console.ReadLine();
@@ -61,21 +196,10 @@ namespace Ex03.ConsoleUI
 
         private Vehicle createNewVehicle(Type i_VehicleType, string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
         {
-            //Type[] ctorParamTypes = new Type[] {
-            //        typeof(string),
-            //        typeof(string),
-            //        typeof(string),
-            //        typeof(Type)
-            //    };
-
-            VehicleFactory vf = new VehicleFactory();
-            Vehicle vehicleToAdd = vf.NewVehicle(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer, i_EngineType);
-
-            // ConstructorInfo vehicleConstructorInfo = i_VehicleType.GetConstructor(ctorParamTypes);
-            // Vehicle vehicleToAdd = (Vehicle)vehicleConstructorInfo.Invoke(i_CommondPropertiesOfAllVehicle);
+            Vehicle vehicleToAdd = Garage.GetNewVehicleFromFactory(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer, i_EngineType);
             MethodInfo userPropertiesMethod = vehicleToAdd.GetType().GetMethod("GetUserInputPropertiesForNewVehicle");
-            List<KeyValuePair<string, PropertyInfo>> uninitializeProperties =
-                (List<KeyValuePair<string, PropertyInfo>>)userPropertiesMethod.Invoke(vehicleToAdd, new object[] { });
+            Dictionary<string, PropertyInfo> uninitializeProperties =
+                (Dictionary<string, PropertyInfo>)userPropertiesMethod.Invoke(vehicleToAdd, new object[] { });
             string inputFromUser;
 
             foreach (KeyValuePair<string, PropertyInfo> propertyAndDescriptionPair in uninitializeProperties)
@@ -141,6 +265,31 @@ VehicleFactory.GetVehicleTypeAtI(i).Name);
             }
 
             return VehicleFactory.GetVehicleTypeAtI(input - 1);
+        }
+
+        private byte getNumberInputFromUser(byte i_MinValidSelection, byte i_MaxValidSelection)
+        {
+            bool isValidInput = false;
+            byte userSelection = 0; // TODO change to nullable?
+
+            while (!isValidInput)
+            {
+                while (!Byte.TryParse(Console.ReadLine(), out userSelection))
+                {
+                    Console.WriteLine("Input format error please input a number");
+                }
+
+                if (userSelection >= i_MinValidSelection && userSelection <= i_MaxValidSelection)
+                {
+                    isValidInput = true;
+                }
+                else
+                {
+                    Console.WriteLine("Please input a number between {0} and {1}", i_MinValidSelection, i_MaxValidSelection);
+                }
+            }
+
+            return userSelection;
         }
     }
 }

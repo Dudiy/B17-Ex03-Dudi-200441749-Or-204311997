@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="ConsoleUI.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="UserInterface.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

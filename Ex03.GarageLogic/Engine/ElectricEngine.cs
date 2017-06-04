@@ -14,9 +14,18 @@ namespace Ex03.GarageLogic
             AddEnergy(i_AmountToCharge);
         }
 
-        public override object Clone()
+
+        public override string ToString()
         {
-            return new ElectricEngine(m_MaxEnergy);
+            return String.Format(
+@"      Engine type: Electric engine
+        Remaining battery percent: {0}
+        Remaining battery time (hours): {1}
+        Max battery capacity: {2}",
+PercentOfEnergyRemaining,
+m_EnergyRemaining,
+m_MaxEnergy
+);
         }
     }
 }
