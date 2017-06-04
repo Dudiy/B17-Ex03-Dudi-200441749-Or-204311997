@@ -298,27 +298,64 @@ licensePlate);
             }
         }
 
+        // TODO merge 2X next
         // TODO get parameters (string i_LicensePlate, eFuelType i_FuelType, float i_AmountToAdd) from user and call the relevant function
         protected override void FillFuelInVehicle()
         {
-            // also check format validation to: ...
+            // also check format validation to: licensePlate, fuelType, amountEnergyToAdd
             string licensePlate = getLicensePlateFromUser();
+            eFuelType fuelType = (eFuelType)getEnumSelectionFromUser(typeof(eFuelType));
             float amountEnergyToAdd = getAmountEnergyToAddFromUser();
 
             try
             {
-
+                m_Garage.FillEnergyInVehicle(licensePlate, fuelType, amountEnergyToAdd);
             }
-            catch
+            catch (NotImplementedException notImplementedException)
             {
-
+                Console.WriteLine(notImplementedException.Message);
+            }
+            catch (ArgumentException argumentException)
+            {
+                Console.WriteLine(argumentException.Message);
+            }
+            catch (ValueOutOfRangeException valueOutOfRangeException)
+            {
+                Console.WriteLine(valueOutOfRangeException.Message);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
             }
         }
 
+        // TODO get parameters (string i_LicensePlate, float i_AmountToAdd) from user and call the relevant function
         protected override void ChargeBatteryInVehicle()
         {
-            // TODO get parameters (string i_LicensePlate, float i_AmountToAdd) from user and call the relevant function
-            throw new NotImplementedException();
+            //// also check format validation to: licensePlate, fuelType, amountEnergyToAdd
+            //string licensePlate = getLicensePlateFromUser();
+            //float amountEnergyToAdd = getAmountEnergyToAddFromUser();
+
+            //try
+            //{
+            //    m_Garage.FillEnergyInVehicle(licensePlate, amountEnergyToAdd);
+            //}
+            //catch (NotImplementedException notImplementedException)
+            //{
+            //    Console.WriteLine(notImplementedException.Message);
+            //}
+            //catch (ArgumentException argumentException)
+            //{
+            //    Console.WriteLine(argumentException.Message);
+            //}
+            //catch (ValueOutOfRangeException valueOutOfRangeException)
+            //{
+            //    Console.WriteLine(valueOutOfRangeException.Message);
+            //}
+            //catch (Exception exception)
+            //{
+            //    Console.WriteLine(exception.Message);
+            //}
         }
 
         protected override void PrintVehicleInfo()
@@ -427,7 +464,7 @@ Have a nice day.");
             Console.Write(
 @"Please enter amount energy to add: ");
             userInput = Console.ReadLine();
-            while (float.TryParse(userInput, out amountEnergyToAdd))
+            while (!float.TryParse(userInput, out amountEnergyToAdd))
             {
                 Console.WriteLine(
 @"Input format error please input a number");

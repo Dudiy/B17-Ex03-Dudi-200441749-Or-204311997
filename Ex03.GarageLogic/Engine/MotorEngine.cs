@@ -14,16 +14,16 @@ namespace Ex03.GarageLogic
             m_FuelType = i_FuelType;
         }
 
-        public void AddFuel(float i_FuelToAdd, eFuelType i_FuelType)
+        public void FillFuel(eFuelType i_FuelType, float i_FuelToAdd)
         {
             if (i_FuelType.Equals(m_FuelType))
             {
                 // if i_FuelToAdd is out of range an exception will be thrown from AddEnergy
-                AddEnergy(i_FuelToAdd);
+                FillEnergy(i_FuelToAdd);
             }
             else
             {
-                throw new Exception(String.Format("Fuel type mismatch, valid fuel type is {0}", m_FuelType));
+                throw new ArgumentException(String.Format("Fuel type mismatch, valid fuel type is {0}", m_FuelType));
             }
         }
 
