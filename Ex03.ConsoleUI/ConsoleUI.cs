@@ -302,5 +302,19 @@ Have a nice day.
 ");
             m_EndOfProgram = true;
         }
+
+        private string getLicensePlateFromUser()
+        {
+            string userInput = string.Empty;
+
+            Console.Write("License plate:");
+
+            do
+            {
+                userInput = Console.ReadLine();
+            } while (userInput != string.Empty);
+
+            return userInput;
+        }
     }
 }
