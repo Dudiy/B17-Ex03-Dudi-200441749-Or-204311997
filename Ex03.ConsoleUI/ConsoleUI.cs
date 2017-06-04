@@ -167,6 +167,7 @@ ex.InnerException.Message);
             return vehicleToAdd;
         }
 
+        //
         private byte getNumberInputFromUser(byte i_MinValidSelection, byte i_MaxValidSelection)
         {
             bool isValidInput = false;
@@ -197,39 +198,19 @@ ex.InnerException.Message);
         {
             eVehicleStatus? filter = null;
             byte i = 1;
-            string userSelection = "";
-            bool isValidSelection = false;
+            //string userSelection = "";
+            //bool isValidSelection = false;
 
-            Console.WriteLine("Select filter for list of license plates:");
-            foreach (eVehicleStatus status in Enum.GetValues(typeof(eVehicleStatus)))
+            Console.WriteLine(
+@"Would you like to add a filter to the list of license plates? (Y/N):");
+            if (Console.ReadLine().ToUpper() == "Y")
             {
-                Console.WriteLine("- {1}", i, status.ToString());
-                i++;
+                Console.WriteLine("Select filter for list of license plates:");
+                filter = (eVehicleStatus)getEnumSelectionFromUser(typeof(eVehicleStatus));
             }
-            Console.WriteLine("- No filter", i);
-
-            while (!isValidSelection)
+            else
             {
-                userSelection = Console.ReadLine();
-
-                if (userSelection.ToUpper() == "NO FILTER")
-                {
-                    filter = null;
-                    isValidSelection = true;
-                }
-                else
-                {
-                    try
-                    {
-                        filter = (eVehicleStatus)Enum.Parse(typeof(eVehicleStatus), userSelection); // TODO not sure if this works
-                        isValidSelection = true;
-                    }
-                    catch
-                    {
-                        filter = null;
-                        Console.WriteLine("invalid filter entered, try again (case sensitive)");
-                    }
-                }
+                filter = null;
             }
 
             printLicensePlatesInGarageWithParameter(filter);
@@ -258,8 +239,28 @@ ex.InnerException.Message);
 
         protected override void ChangeVehicleStatus()
         {
-            // TODO get parameters (string licensePlate, eVehicleStatus status) from user and call the relevant function
-            throw new NotImplementedException();
+            string licensePlate;
+
+            Console.WriteLine(
+@"Change status of vehicle in garage.
+");
+            licensePlate = getLicensePlateFromUser();
+            if (m_Garage.LicensePlateExists(licensePlate))
+            {
+                eVehicleStatus status;
+
+                Console.WriteLine("Please select the new status:");
+                status = (eVehicleStatus)getEnumSelectionFromUser(typeof(eVehicleStatus));
+                m_Garage.SetVehicleInGarageStatus(licensePlate, status);
+            }
+            else
+            {
+                Console.WriteLine(
+@"The license plate {0}, is not in the garage.
+(press any key to continue)",
+licensePlate);
+                Console.ReadKey();
+            }
         }
 
         protected override void FillAirInWheels()
@@ -302,14 +303,50 @@ Have a nice day.
         {
             string userInput = string.Empty;
 
-            Console.Write("License plate:");
+            Console.Write("License plate: ");
 
             do
             {
                 userInput = Console.ReadLine();
-            } while (userInput != string.Empty);
+            } while (userInput == string.Empty);
 
             return userInput;
         }
+
+        public Enum getEnumSelectionFromUser(Type i_EnumType)
+        {
+            Dictionary<byte, Enum> enumDictinary = new Dictionary<byte, Enum>();
+            byte i = 1;
+            byte userSelection;
+
+            foreach (Enum item in Enum.GetValues(i_EnumType))
+            {
+                enumDictinary.Add(i, item);
+                i++;
+            }
+
+            foreach (KeyValuePair<byte, Enum> item in enumDictinary)
+            {
+                Console.WriteLine("{0}. {1}", item.Key, item.Value);
+            }
+
+            userSelection = getNumberInputFromUser(1, (byte)(i - 1));
+
+            return enumDictinary[userSelection];
+        }
+
+        //public void test()
+        //{
+        //    double d;
+        //    bool valid = false;
+
+        //    do
+        //    {
+        //        Console.WriteLine("Please input");
+        //        valid = Double.TryParse("input", out d)
+        //    } while (!valid);
+
+
+        //}
     }
 }
