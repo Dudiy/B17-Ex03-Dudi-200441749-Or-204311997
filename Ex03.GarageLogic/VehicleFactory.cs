@@ -38,7 +38,8 @@ namespace Ex03.GarageLogic
             get { return sr_VehicleTypes.Count; }
         }
 
-        public Vehicle NewVehicle(Type i_VehicleType, string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
+        public Vehicle NewVehicle(Type i_VehicleType, string i_LicensePlate, string i_ModelName, 
+            string i_WheelManufacturer, Type i_EngineType)
         {
             Vehicle newVehicle = null;
 

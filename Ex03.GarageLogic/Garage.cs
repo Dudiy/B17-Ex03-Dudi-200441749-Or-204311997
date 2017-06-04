@@ -7,7 +7,7 @@ namespace Ex03.GarageLogic
     public class Garage
     {
         private Dictionary<int, VehicleInGarage> m_VehiclesInGarage = new Dictionary<int, VehicleInGarage>();
-        private static VehicleFactory vehicleFactory = new VehicleFactory();
+        private static readonly VehicleFactory sr_VehicleFactory = new VehicleFactory();
 
         public void AddVehicleToGarage(string i_OwnerName, string i_OwnerPhone, Vehicle i_Vehicle)
         {
@@ -47,7 +47,7 @@ namespace Ex03.GarageLogic
 
         public static Vehicle GetNewVehicleFromFactory(Type i_VehicleType, string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
         {
-            return vehicleFactory.NewVehicle(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer, i_EngineType);
+            return sr_VehicleFactory.NewVehicle(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer, i_EngineType);
         }
 
         public string GetVehicleInformation(string i_LicensePlate)

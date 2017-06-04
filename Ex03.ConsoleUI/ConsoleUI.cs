@@ -8,6 +8,8 @@ namespace Ex03.ConsoleUI
 {
     internal class ConsoleUI : UserInterface
     {
+        bool m_EndOfProgram = false;
+
         internal ConsoleUI(Garage i_Garage) : base(i_Garage) { }
 
         internal override void run()
@@ -20,10 +22,14 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine(
 @"Hello and welcome to the new and improved garage managing application :)");
                 userSelection = getActionRequestFromUser();
-                string str = sr_AvailableActionsForUser[userSelection].Value;
+                //string str = sr_AvailableActionsForUser[userSelection].Value;
                 Console.Clear();
-                this.GetType().GetMethod(sr_AvailableActionsForUser[userSelection].Value).Invoke(this, new object[] { });
-            } while (userSelection != k_ExitProgram);
+                string methodStr = sr_AvailableActionsForUser[userSelection].Value;
+                //TODO delete cooment, must specify either BindingFlags.Instance or BindingFlags.Static in order to get a return
+                MethodInfo requiredMethod = base.GetType().GetMethod(methodStr, BindingFlags.NonPublic | BindingFlags.Instance);//, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Default);
+                requiredMethod.Invoke(this, new object[] { });
+                //this.GetType().GetMethod(sr_AvailableActionsForUser[userSelection].Value).Invoke(this, new object[] { });
+            } while (!m_EndOfProgram);
         }
 
         private byte getActionRequestFromUser()
@@ -290,8 +296,11 @@ ex.InnerException.Message);
 
         protected override void ExitProgram()
         {
-            // TODO implement
-            throw new NotImplementedException();
+            Console.WriteLine(
+@"End of program.
+Have a nice day.
+");
+            m_EndOfProgram = true;
         }
     }
 }
