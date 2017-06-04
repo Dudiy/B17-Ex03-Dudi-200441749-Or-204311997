@@ -76,7 +76,7 @@ namespace Ex03.GarageLogic
         {
             for (byte i = 0; i < i_NumWheels; i++)
             {
-                m_Wheels.Add(i_Wheel.Clone());
+                m_Wheels.Add((Wheel)(i_Wheel.Clone()));
             }
         }
 
@@ -88,12 +88,6 @@ namespace Ex03.GarageLogic
 
                 wheel.FillAir(airToFill);
             }
-        }
-
-        public static void f()
-        {
-
-            GetUserInputPropertiesForNewVehicle();
         }
 
         public abstract Dictionary<string, PropertyInfo> GetUserInputPropertiesForNewVehicle();

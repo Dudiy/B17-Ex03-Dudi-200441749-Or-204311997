@@ -11,38 +11,38 @@ namespace Ex03.GarageLogic
         private byte m_NumDoors;
         private static readonly byte[] sr_PossibleNumDoors = { 2, 3, 4, 5 };
 
-        // assumption, input parameters are validated before calling the ctor  
-        internal Car(string i_LicensePlate, string i_ModelName, eColor i_CarColor, byte i_NumDoors,
-            string i_WheelManufacturer, Type i_EngineType)
-            : base(i_LicensePlate, i_ModelName)
-        {
+        //// assumption, input parameters are validated before calling the ctor  
+        //internal Car(string i_LicensePlate, string i_ModelName, eColor i_CarColor, byte i_NumDoors,
+        //    string i_WheelManufacturer, Type i_EngineType)
+        //    : base(i_LicensePlate, i_ModelName)
+        //{
 
-            // TODO maintainability issue - what if there is a new engine someday?
-            if (i_EngineType.Equals(typeof(ElectricEngine)))
-            {
-                m_Engine = new ElectricEngine(2.5f);
-            }
-            else if (i_EngineType.Equals(typeof(MotorEngine)))
-            {
-                m_Engine = new MotorEngine(42f, eFuelType.Octan98);
-            }
-            else
-            {
-                throw new Exception("Invalid engine type entered");
-            }
+        //    // TODO maintainability issue - what if there is a new engine someday?
+        //    if (i_EngineType.Equals(typeof(ElectricEngine)))
+        //    {
+        //        m_Engine = new ElectricEngine(2.5f);
+        //    }
+        //    else if (i_EngineType.Equals(typeof(MotorEngine)))
+        //    {
+        //        m_Engine = new MotorEngine(42f, eFuelType.Octan98);
+        //    }
+        //    else
+        //    {
+        //        throw new Exception("Invalid engine type entered");
+        //    }
 
-            m_EnergyRemaining = m_Engine.MaxEnergy;
-            k_MaxWheelAirPress = 30;
-            InitAllWheels(new Wheel(i_WheelManufacturer, k_MaxWheelAirPress), 4);
-            m_CarColor = i_CarColor;
-            m_NumDoors = i_NumDoors;
-        }
+        //    m_EnergyRemaining = m_Engine.MaxEnergy;
+        //    k_MaxWheelAirPress = 30;
+        //    InitAllWheels(new Wheel(i_WheelManufacturer, k_MaxWheelAirPress), 4);
+        //    m_CarColor = i_CarColor;
+        //    m_NumDoors = i_NumDoors;
+        //}
 
-        // ctor to create a new car with a new license plate based on a given car model
-        internal Car(string i_LicensePlate, Car i_Model)
-            : this(i_LicensePlate, i_Model.ModelName, i_Model.m_CarColor, i_Model.m_NumDoors,
-                  i_Model.m_Wheels[0].Manufacturer, i_Model.EngineType)
-        { }
+        //// ctor to create a new car with a new license plate based on a given car model
+        //internal Car(string i_LicensePlate, Car i_Model)
+        //    : this(i_LicensePlate, i_Model.ModelName, i_Model.m_CarColor, i_Model.m_NumDoors,
+        //          i_Model.m_Wheels[0].Manufacturer, i_Model.EngineType)
+        //{ }
 
         // ctor to create a new car with no user parameters
         internal Car(string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
