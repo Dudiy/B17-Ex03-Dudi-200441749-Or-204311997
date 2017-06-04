@@ -10,9 +10,6 @@ namespace Ex03.ConsoleUI
         protected Garage m_Garage;
         protected static readonly Dictionary<byte, KeyValuePair<string, string>> sr_AvailableActionsForUser = 
             new Dictionary<byte, KeyValuePair<string, string>>();
-        protected const byte k_ExitProgram = 0;
-
-        // protected static readonly Dictionary<string, string> sr_DescriptionAndActions = new Dictionary<string, string>();
 
         static UserInterface()
         {

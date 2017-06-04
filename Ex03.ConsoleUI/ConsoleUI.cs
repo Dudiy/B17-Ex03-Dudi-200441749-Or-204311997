@@ -25,10 +25,8 @@ namespace Ex03.ConsoleUI
                 //string str = sr_AvailableActionsForUser[userSelection].Value;
                 Console.Clear();
                 string methodStr = sr_AvailableActionsForUser[userSelection].Value;
-                //TODO delete cooment, must specify either BindingFlags.Instance or BindingFlags.Static in order to get a return
                 MethodInfo requiredMethod = base.GetType().GetMethod(methodStr, BindingFlags.NonPublic | BindingFlags.Instance);//, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Default);
                 requiredMethod.Invoke(this, new object[] { });
-                //this.GetType().GetMethod(sr_AvailableActionsForUser[userSelection].Value).Invoke(this, new object[] { });
             } while (!m_EndOfProgram);
         }
 
@@ -235,14 +233,6 @@ ex.InnerException.Message);
             }
 
             printLicensePlatesInGarageWithParameter(filter);
-            //if (userSelection.ToUpper() == "NO FILTER")
-            //{
-            //    printLicensePlatesInGarageWithParameter(filter);
-            //}
-            ////else
-            ////{
-            ////    PrintLicensePlatesInGarageWithParameter(null);
-            ////}
         }
 
         private void printLicensePlatesInGarageWithParameter(eVehicleStatus? i_Status)
@@ -260,6 +250,10 @@ ex.InnerException.Message);
                     Console.WriteLine(licensePlate);
                 }
             }
+            Console.Write(
+@"
+(Press any key to continue)");
+            Console.ReadKey();
         }
 
         protected override void ChangeVehicleStatus()
@@ -299,7 +293,8 @@ ex.InnerException.Message);
             Console.WriteLine(
 @"End of program.
 Have a nice day.
-");
+(Press any key to exit)");
+            Console.ReadKey();
             m_EndOfProgram = true;
         }
     }

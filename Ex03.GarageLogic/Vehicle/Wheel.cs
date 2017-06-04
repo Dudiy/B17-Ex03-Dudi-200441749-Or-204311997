@@ -46,16 +46,17 @@ namespace Ex03.GarageLogic
             }
         }
 
-        //public Wheel Clone()
-        //{
-        //    return MemberwiseClone() as Wheel;
-        //}
+        public Wheel Clone()
+        {
+            return MemberwiseClone() as Wheel;
+        }
 
         // TODO according to the book Clone() should be implemented this way     
         // TODO check
         object ICloneable.Clone()
         {
-            return MemberwiseClone() as Wheel;
+            //return MemberwiseClone() as Wheel;
+            return null;
         }
     }
 }
