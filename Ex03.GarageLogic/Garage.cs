@@ -44,6 +44,11 @@ namespace Ex03.GarageLogic
             return sr_VehicleFactory.NewVehicle(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer, i_EngineType);
         }
 
+        public Type GetEngineType(string i_LicensePlate)
+        {
+            return m_VehiclesInGarage[i_LicensePlate].EngineType;
+        }
+
         public eVehicleStatus GetVehicleStatus(string i_LicensePlate)
         {
             try
@@ -71,9 +76,14 @@ namespace Ex03.GarageLogic
             m_VehiclesInGarage[i_LicensePlate].FillEnergy(i_AmountEnergyToFill);
         }
 
-        public void FillEnergyInVehicle(string i_LicensePlate, eFuelType i_FuelType, float i_AmountEnergyToFill)
+        public void FillEnergyInVehicle(string i_LicensePlate, float i_AmountEnergyToFill, eFuelType i_FuelType)
         {
-            m_VehiclesInGarage[i_LicensePlate].FillEnergy(i_FuelType, i_AmountEnergyToFill);
+            m_VehiclesInGarage[i_LicensePlate].FillEnergy(i_AmountEnergyToFill, i_FuelType);
+        }
+
+        public float GetPercentOfEnergyRemaining(string i_LicensePlate)
+        {
+            return m_VehiclesInGarage[i_LicensePlate].PercentOfEnergyRemaining ;
         }
     }
 }

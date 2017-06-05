@@ -240,30 +240,27 @@ i_MaxValidSelection);
             bool endOfInput;
             string inputFromUser = string.Empty;
             eVehicleStatus? filter = null;
+            char userSelection;
+
 
             Console.Write(
 @"Would you like to add a filter to the list of license plates? (Y/N): ");
-            do
+            userSelection = getYesOrNoFromUser();
+            if (userSelection == 'Y')
             {
-                inputFromUser = Console.ReadLine();
-                endOfInput = true;
-                if (inputFromUser.ToUpper() == "Y")
-                {
-                    Console.WriteLine(
+                Console.WriteLine(
 @"Select filter for list of license plates:");
-                    filter = (eVehicleStatus)getEnumSelectionFromUser(typeof(eVehicleStatus));
-                }
-                else if (inputFromUser.ToUpper() == "N")
-                {
-                    filter = null;
-                }
-                else
-                {
-                    Console.Write(
-@"mismatch answer, please enter (Y/N): ");
-                    endOfInput = false;
-                }
-            } while (!endOfInput);
+                filter = (eVehicleStatus)getEnumSelectionFromUser(typeof(eVehicleStatus));
+
+            }
+            else if (userSelection == 'N')
+            {
+                filter = null;
+            }
+            else
+            {
+                throw new Exception("Invalid char returned from \"getYesOrNoFromUser\"");
+            }
 
             printLicensePlatesInGarageWithParameter(filter);
         }
@@ -274,11 +271,13 @@ i_MaxValidSelection);
 
             if (licensePlateArr.Count == 0)
             {
-                Console.WriteLine("No matching license plates found.");
+                Console.WriteLine(
+@"No matching license plates found.");
             }
             else
             {
-                Console.WriteLine("All matching license plates:");
+                Console.WriteLine(
+@"All matching license plates:");
                 foreach (string licensePlate in licensePlateArr)
                 {
                     Console.WriteLine(licensePlate);
@@ -303,7 +302,8 @@ i_MaxValidSelection);
                 newStatus = (eVehicleStatus)getEnumSelectionFromUser(typeof(eVehicleStatus));
                 m_Garage.SetVehicleInGarageStatus(licensePlate, newStatus);
                 Console.WriteLine(
-@"The status of {0} was changed from {1} to {2}.",
+@"The status of {0} was changed from {1} to {2}.
+",
 licensePlate,
 prevStatus.ToString(),
 newStatus.ToString());
@@ -311,7 +311,8 @@ newStatus.ToString());
             else
             {
                 Console.WriteLine(
-@"The license plate {0}, is not in the garage.",
+@"The license plate {0}, is not in the garage.
+",
 licensePlate);
             }
         }
@@ -320,90 +321,157 @@ licensePlate);
         {
             string licensePlate;
             Console.WriteLine(
-@"Filling air in all wheels to max.");
+@"Choose vehicle too fill air in all wheels to max");
 
             licensePlate = getLicensePlateFromUser();
             try
             {
                 m_Garage.FillAirInWheels(licensePlate);
-                Console.WriteLine("All wheels in {0} were filled to max", licensePlate);
+                Console.WriteLine(
+@"All wheels in {0} were filled to max
+"
+, licensePlate);
             }
             catch (ArgumentException keyEx)
             {
-                Console.WriteLine("The given licence plate is not in the garage.");
+                Console.WriteLine(
+@"The given licence plate is not in the garage.
+");
             }
             catch (ValueOutOfRangeException valueRangeEx)
             {
-                Console.WriteLine(valueRangeEx.Message);
+                Console.WriteLine(
+@"{0}
+", valueRangeEx.Message);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error - {0}", ex.Message);
+                Console.WriteLine(
+@"Error - {0}
+", ex.Message);
             }
         }
 
         protected override void FillFuelInVehicle()
         {
             // also check format validation to: licensePlate, fuelType, amountEnergyToAdd
-            string licensePlate = getLicensePlateFromUser();
-            eFuelType fuelType = (eFuelType)getEnumSelectionFromUser(typeof(eFuelType));
-            float amountEnergyToAdd = getAmountEnergyToAddFromUser();
+            string licensePlate;
+            eFuelType fuelType;
+            float amountEnergyToAdd;
 
+            Console.WriteLine(
+@"Choose vehicle to fuel");
+            licensePlate = getLicensePlateFromUser();
+            bool fuelingSuccessfull = false;
 
-            try
+            if (m_Garage.GetEngineType(licensePlate) == typeof(MotorEngine))
             {
-                MethodInfo fillEnergyInVehicleMethod = typeof(Garage).GetMethod(
-                    "FillEnergyInVehicle", new Type[] { typeof(string), typeof(eFuelType), typeof(float) });
-                fillEnergyInVehicleMethod.Invoke(m_Garage, new object[] {
-                    licensePlate, fuelType, amountEnergyToAdd });
-                //m_Garage.FillEnergyInVehicle(licensePlate, fuelType, amountEnergyToAdd);
+                while (!fuelingSuccessfull)
+                {
+                    fuelType = (eFuelType)getEnumSelectionFromUser(typeof(eFuelType));
+                    amountEnergyToAdd = getAmountEnergyToAddFromUser();
+                    try
+                    {
+                        //MethodInfo fillEnergyInVehicleMethod = typeof(Garage).GetMethod(
+                        //"FillEnergyInVehicle", new Type[] { typeof(string), typeof(eFuelType), typeof(float) });
+                        //fillEnergyInVehicleMethod.Invoke(m_Garage, new object[] {
+                        //licensePlate, fuelType, amountEnergyToAdd });
+                        m_Garage.FillEnergyInVehicle(licensePlate, amountEnergyToAdd, fuelType);
+                        Console.WriteLine(
+@"Fueled vehicle {0} with {1} liters of fuel.
+the tank is currently {2} full.
+", licensePlate,
+amountEnergyToAdd,
+m_Garage.GetPercentOfEnergyRemaining(licensePlate).ToString("P"));
+                        // will only reach the next lin eif no exception was thrown
+                        fuelingSuccessfull = true;
+                    }
+                    catch (NotImplementedException notImplementedException)
+                    {
+                        Console.WriteLine(notImplementedException.Message);
+                    }
+                    catch (ArgumentException argumentException)
+                    {
+                        Console.WriteLine(argumentException.Message);
+                    }
+                    catch (ValueOutOfRangeException valueOutOfRangeException)
+                    {
+                        Console.WriteLine(
+@"Fuel amount is invalid, valid range is: {0}-{1}"
+, valueOutOfRangeException.MinValue,
+valueOutOfRangeException.MaxValue);
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine(exception.Message);
+                    }
+                }
             }
-            catch (NotImplementedException notImplementedException)
+            else
             {
-                Console.WriteLine(notImplementedException.Message);
-            }
-            catch (ArgumentException argumentException)
-            {
-                Console.WriteLine(argumentException.Message);
-            }
-            catch (ValueOutOfRangeException valueOutOfRangeException)
-            {
-                Console.WriteLine(valueOutOfRangeException.Message);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.Message);
+                Console.WriteLine(
+@"Can't fuel a non fuelable vehicle.
+");
             }
         }
 
         protected override void ChargeBatteryInVehicle()
         {
             // also check format validation to: licensePlate, amountEnergyToAdd
-            string licensePlate = getLicensePlateFromUser();
-            float amountEnergyToAdd = getAmountEnergyToAddFromUser();
+            string licensePlate;
+            float amountEnergyToAdd;
+            bool chargingSuccessfull = false;
 
-            try
+            Console.WriteLine(
+@"Choose vehicle to charge");
+            licensePlate = getLicensePlateFromUser();
+            if (m_Garage.GetEngineType(licensePlate) == typeof(ElectricEngine))
             {
-                MethodInfo fillEnergyInVehicleMethod = typeof(Garage).GetMethod(
-                    "FillEnergyInVehicle", new Type[] { typeof(string), typeof(float) });
-                fillEnergyInVehicleMethod.Invoke(m_Garage, new object[] {
-                    licensePlate, amountEnergyToAdd });
+                while (!chargingSuccessfull)
+                {
+                    amountEnergyToAdd = getAmountEnergyToAddFromUser();
+                    try
+                    {
+                        //MethodInfo fillEnergyInVehicleMethod = typeof(Garage).GetMethod(
+                        //    "FillEnergyInVehicle", new Type[] { typeof(string), typeof(float) });
+                        //fillEnergyInVehicleMethod.Invoke(m_Garage, new object[] {
+                        //    licensePlate, amountEnergyToAdd });
+                        m_Garage.FillEnergyInVehicle(licensePlate, amountEnergyToAdd);
+                        Console.WriteLine(
+@"Added {0} hours to battery of {1}.
+the tank is currently {2} full.
+", amountEnergyToAdd,
+licensePlate,
+m_Garage.GetPercentOfEnergyRemaining(licensePlate).ToString("P"));
+                        // will only reach the next line if no exception was thrown
+                        chargingSuccessfull = true;
+                    }
+                    catch (NotImplementedException notImplementedException)
+                    {
+                        Console.WriteLine(notImplementedException.Message);
+                    }
+                    catch (ArgumentException argumentException)
+                    {
+                        Console.WriteLine(argumentException.Message);
+                    }
+                    catch (ValueOutOfRangeException valueOutOfRangeException)
+                    {
+                        Console.WriteLine(
+@"Fuel amount is invalid, valid range is: {0}-{1}"
+, valueOutOfRangeException.MinValue,
+valueOutOfRangeException.MaxValue);
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine(exception.Message);
+                    }
+                }
             }
-            catch (NotImplementedException notImplementedException)
+            else
             {
-                Console.WriteLine(notImplementedException.Message);
-            }
-            catch (ArgumentException argumentException)
-            {
-                Console.WriteLine(argumentException.Message);
-            }
-            catch (ValueOutOfRangeException valueOutOfRangeException)
-            {
-                Console.WriteLine(valueOutOfRangeException.Message);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.Message);
+                Console.WriteLine(
+@"Can't charge a non electric vehicle.
+");
             }
         }
 
@@ -523,12 +591,57 @@ Have a nice day.");
 
         private void getCustomerInfo(out string o_Name, out string o_Number)
         {
-            Console.Write(
-@"Customer name: ");
-            o_Name = Console.ReadLine();
-            Console.Write(
-@"Phone number: ");
-            o_Number = Console.ReadLine();
+            o_Name = getNonEmptyStrFromUser(@"Customer name: ");
+            o_Number = getNonEmptyStrFromUser(@"Phone number: ");
+        }
+
+        private char getYesOrNoFromUser()
+        {
+            string inputFromUser;
+            char? selection = null;
+
+            while (selection == null)
+            {
+                inputFromUser = Console.ReadLine();
+                if (inputFromUser.ToUpper() == "Y")
+                {
+                    selection = 'Y';
+                }
+                else if (inputFromUser.ToUpper() == "N")
+                {
+                    selection = 'N';
+                }
+                else
+                {
+                    Console.Write(
+@"invalid answer, please enter (Y/N): ");
+                }
+            }
+
+            return (char)selection;
+        }
+
+        private string getNonEmptyStrFromUser(string i_Prompt)
+        {
+            string inputStr = string.Empty;
+            bool isValidInput = false;
+
+            while (!isValidInput)
+            {
+                Console.Write(i_Prompt);
+                inputStr = Console.ReadLine();
+                if (inputStr.Equals(string.Empty))
+                {
+                    Console.WriteLine(
+@"empty string is invalid");
+                }
+                else
+                {
+                    isValidInput = true;
+                }
+            }
+
+            return inputStr;
         }
     }
 }

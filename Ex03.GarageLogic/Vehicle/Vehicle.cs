@@ -30,6 +30,11 @@ namespace Ex03.GarageLogic
             get { return m_UserInputFunctions; }
         }
 
+        public float PercentOfEnergyRemaining
+        {
+            get { return m_Engine.PercentOfEnergyRemaining; }
+        }
+
         public override bool Equals(object obj)
         {
             bool equals = false;
@@ -149,23 +154,23 @@ m_Engine.ToString()
             }
             else
             {
-                // maybe there is engine like that but we haven't
+                // Possible that there will be a new engine that isn't implemented here
                 string exceptionMessage = string.Format("Fill energy method not implemented for {0} type",
                     m_Engine.GetType());
                 throw new NotImplementedException(exceptionMessage);
             }
         }
 
-        public void FillEnergy(eFuelType i_FuelType, float i_AmountEnergyToFill)
+        public void FillEnergy(float i_AmountEnergyToFill, eFuelType i_FuelType)
         {
             if (m_Engine.GetType() == typeof(MotorEngine))
             {
-                ((MotorEngine)m_Engine).FillFuel(i_FuelType, i_AmountEnergyToFill);
+                ((MotorEngine)m_Engine).FillFuel(i_AmountEnergyToFill, i_FuelType);
             }
             else
             {
-                // maybe there is engine like that but we haven't
-                string exceptionMessage = string.Format("Fill energy methon not implemented for {0} type",
+                // Possible that there will be a new engine that isn't implemented here
+                string exceptionMessage = string.Format("Fill energy method not implemented for {0} type",
                     m_Engine.GetType());
                 throw new NotImplementedException(exceptionMessage);
             }

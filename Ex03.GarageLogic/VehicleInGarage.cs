@@ -89,9 +89,19 @@ m_Vehicle.ToString());
             m_Vehicle.FillEnergy(i_AmountEnergyToFill);
         }
 
-        public void FillEnergy(eFuelType i_FuelType, float i_AmountEnergyToFill)
+        public void FillEnergy(float i_AmountEnergyToFill, eFuelType i_FuelType)
         {
-            m_Vehicle.FillEnergy(i_FuelType, i_AmountEnergyToFill);
+            m_Vehicle.FillEnergy(i_AmountEnergyToFill, i_FuelType);
+        }
+
+        public float PercentOfEnergyRemaining
+        {
+            get { return m_Vehicle.PercentOfEnergyRemaining; }
+        }
+
+        public Type EngineType
+        {
+            get { return m_Vehicle.EngineType; }
         }
     }
 }

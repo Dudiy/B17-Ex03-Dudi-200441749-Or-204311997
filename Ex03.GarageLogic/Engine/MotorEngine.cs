@@ -16,7 +16,7 @@ namespace Ex03.GarageLogic
         }
 
 
-        public void FillFuel(eFuelType i_FuelType, float i_FuelToAdd)
+        public void FillFuel(float i_FuelToAdd, eFuelType i_FuelType)
         {
             if (i_FuelType.Equals(m_FuelType))
             {
@@ -37,7 +37,7 @@ namespace Ex03.GarageLogic
         Remaining fuel liters: {1}
         Fuel tank size: {2}
         Fuel type: {3}",
-PercentOfEnergyRemaining,
+PercentOfEnergyRemaining.ToString("P"),
 m_EnergyRemaining,
 m_MaxEnergy,
 m_FuelType

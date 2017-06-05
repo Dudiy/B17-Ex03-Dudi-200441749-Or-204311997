@@ -26,7 +26,7 @@ namespace Ex03.GarageLogic
         Remaining battery percent: {0}
         Remaining battery time (hours): {1}
         Max battery capacity: {2}",
-PercentOfEnergyRemaining,
+PercentOfEnergyRemaining.ToString("P"),
 m_EnergyRemaining,
 m_MaxEnergy
 );
