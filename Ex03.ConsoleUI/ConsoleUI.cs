@@ -3,6 +3,7 @@ using Ex03.GarageLogic;
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
+using System.Collections;
 
 namespace Ex03.ConsoleUI
 {
@@ -15,7 +16,7 @@ namespace Ex03.ConsoleUI
 
         internal override void run()
         {
-            byte userSelection;
+            ushort userSelection;
 
             do
             {
@@ -26,22 +27,22 @@ namespace Ex03.ConsoleUI
                 //string str = sr_AvailableActionsForUser[userSelection].Value;
                 Console.Clear();
                 string methodStr = sr_AvailableActionsForUser[userSelection].Value;
-                MethodInfo requiredMethod = base.GetType().GetMethod(methodStr, BindingFlags.NonPublic | BindingFlags.Instance);//, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Default);
+                MethodInfo requiredMethod = GetType().GetMethod(methodStr, BindingFlags.NonPublic | BindingFlags.Instance);//, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Default);
                 requiredMethod.Invoke(this, new object[] { });
                 Console.WriteLine("(press any key to continue)");
                 Console.ReadKey();
             } while (!m_EndOfProgram);
         }
 
-        private byte getActionRequestFromUser()
+        private ushort getActionRequestFromUser()
         {
-            byte numOptions = (byte)sr_AvailableActionsForUser.Count;
-            byte userSelection;
+            ushort numOptions = (ushort)sr_AvailableActionsForUser.Count;
+            ushort userSelection;
 
             Console.WriteLine(
 @"What would you like to do next?
 ");
-            foreach (var action in sr_AvailableActionsForUser)
+            foreach (KeyValuePair<ushort, KeyValuePair<string, string>> action in sr_AvailableActionsForUser)
             {
                 Console.WriteLine(
 "{0}. {1}",
@@ -61,11 +62,8 @@ action.Value.Key);
             string modelName = string.Empty;
             string wheelManufacturer = string.Empty;
 
-            Console.WriteLine(
-@"Please input vehicle License Plate");
-            licensePlate = Console.ReadLine();
+            licensePlate = getLicensePlateFromUser();
 
-            // TODO check validation 
             if (m_Garage.LicensePlateExists(licensePlate))
             {
                 Console.WriteLine(
@@ -76,21 +74,27 @@ action.Value.Key);
             {
                 Type vehicleType;
                 Vehicle vehicleToAdd;
+                string customerName, customerNumber;
 
                 Console.WriteLine(
-@"The given license plate does not exist, please add it to the garage");
+@"The given license plate does not exist, please add it to the garage
+");
                 vehicleType = selectVehicleType();
-                getCommonPropertiesForAllVehicle(ref modelName, ref wheelManufacturer, ref engineType);
+                getCommonPropertiesForAllVehicle(out modelName, out wheelManufacturer, out engineType);
                 vehicleToAdd = createNewVehicle(vehicleType, licensePlate, modelName, wheelManufacturer, engineType);
-                m_Garage.AddVehicleToGarage("Customer", "123", vehicleToAdd);
+                getCustomerInfo(out customerName, out customerNumber);
+                m_Garage.AddVehicleToGarage(customerName, customerNumber, vehicleToAdd);
+                Console.WriteLine(
+@"
+Successfully added the vehicle to the garage!
+");
             }
 
         }
 
         private Type selectVehicleType()
         {
-            byte input = 0;
-            bool isValidInput = false;
+            ushort input = 0;
 
             Console.WriteLine(
 @"Please select the vehicle type:");
@@ -100,42 +104,45 @@ action.Value.Key);
                 Console.WriteLine(
 @"{0}. {1}",
 i + 1,
-VehicleFactory.GetVehicleTypeAtI(i).Name);
+VehicleFactory.GetVehicleTypeAtI(i).Key);
             }
 
-            while (!isValidInput)
-            {
-                while (!Byte.TryParse(Console.ReadLine(), out input))
-                {
-                    Console.WriteLine(
-@"Format error - please input a number");
-                }
+            input = getNumberInputFromUser(1, (ushort)VehicleFactory.NumOfVehicleTypes);
 
-                if (input > 0 && input <= VehicleFactory.NumOfVehicleTypes)
-                {
-                    isValidInput = true;
-                }
-                else
-                {
-                    Console.WriteLine(
-@"Logic error - given number is not in the list");
-                }
-            }
-
-            return VehicleFactory.GetVehicleTypeAtI(input - 1);
+            return VehicleFactory.GetVehicleTypeAtI(input - 1).Value;
         }
 
-        private void getCommonPropertiesForAllVehicle(ref string io_ModelName, ref string io_WheelManufacturer, ref Type io_EngineType)
+        private Type selectEngineType()
         {
+            ushort input = 0;
+
             Console.WriteLine(
-@"Please enter the model name:");
-            io_ModelName = Console.ReadLine();
-            Console.WriteLine(
-@"Please enter the wheel manufacturer:");
-            io_WheelManufacturer = Console.ReadLine();
-            Console.WriteLine(
-@"Please select engine type:");
-            io_EngineType = typeof(ElectricEngine);       // TODO change to be like "selectVehicleType()|
+@"Please select the engine type:");
+            // print all vehicle types available in VehicleFactory
+            for (int i = 0; i < VehicleFactory.NumOfEngineTypes; i++)
+            {
+                Console.WriteLine(
+@"{0}. {1}",
+i + 1,
+VehicleFactory.GetEngineTypeAtI(i).Key);
+            }
+
+            input = getNumberInputFromUser(1, (ushort)VehicleFactory.NumOfEngineTypes);
+
+            return VehicleFactory.GetEngineTypeAtI(input - 1).Value;
+
+        }
+
+        // TODO change to out
+        private void getCommonPropertiesForAllVehicle(out string o_ModelName, out string o_WheelManufacturer, out Type o_EngineType)
+        {
+            o_EngineType = selectEngineType();
+            Console.Write(
+@"Please enter the model name: ");
+            o_ModelName = Console.ReadLine();
+            Console.Write(
+@"Please enter the wheel manufacturer: ");
+            o_WheelManufacturer = Console.ReadLine();
         }
 
         private Vehicle createNewVehicle(Type i_VehicleType, string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
@@ -143,16 +150,16 @@ VehicleFactory.GetVehicleTypeAtI(i).Name);
             Vehicle vehicleToAdd = Garage.GetNewVehicleFromFactory(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer, i_EngineType);
 
             // ==========================================================================================
-            foreach (KeyValuePair<string, string> fun in vehicleToAdd.UserInputFunctionsList)
+            foreach (KeyValuePair<string, string> setValueMethod in vehicleToAdd.UserInputFunctionsList)
             {
                 bool setSucceded = false;
                 while (!setSucceded)
                 {
                     try
                     {
-                        Console.Write("Enter {0} :", fun.Key);
+                        Console.Write("Enter {0}: ", setValueMethod.Key);
                         string input = Console.ReadLine();
-                        vehicleToAdd.GetType().GetMethod(fun.Value).Invoke(vehicleToAdd, new object[] { input });
+                        vehicleToAdd.GetType().GetMethod(setValueMethod.Value).Invoke(vehicleToAdd, new object[] { input });
                         setSucceded = true;
                     }
                     catch (Exception ex)
@@ -198,14 +205,14 @@ VehicleFactory.GetVehicleTypeAtI(i).Name);
         }
 
         // TODO name
-        private byte getNumberInputFromUser(byte i_MinValidSelection, byte i_MaxValidSelection)
+        private ushort getNumberInputFromUser(ushort i_MinValidSelection, ushort i_MaxValidSelection)
         {
             bool isValidInput = false;
-            byte userSelection = 0; // TODO change to nullable?
+            ushort userSelection = 0; // TODO change to nullable?
 
             while (!isValidInput)
             {
-                while (!Byte.TryParse(Console.ReadLine(), out userSelection))
+                while (!ushort.TryParse(Console.ReadLine(), out userSelection))
                 {
                     Console.WriteLine(
 @"Input format error please input a number");
@@ -335,7 +342,7 @@ licensePlate);
             try
             {
                 MethodInfo fillEnergyInVehicleMethod = typeof(Garage).GetMethod(
-                    "FillEnergyInVehicle",new Type[] { typeof(string), typeof(eFuelType), typeof(float) });
+                    "FillEnergyInVehicle", new Type[] { typeof(string), typeof(eFuelType), typeof(float) });
                 fillEnergyInVehicleMethod.Invoke(m_Garage, new object[] {
                     licensePlate, fuelType, amountEnergyToAdd });
                 //m_Garage.FillEnergyInVehicle(licensePlate, fuelType, amountEnergyToAdd);
@@ -423,22 +430,28 @@ Have a nice day.");
         {
             string userInput = string.Empty;
 
-            Console.Write(
-@"License plate: ");
 
             do
             {
+                Console.Write(
+@"License plate: ");
                 userInput = Console.ReadLine();
-            } while (userInput == string.Empty);
+                if (userInput.Equals(string.Empty))
+                {
+                    Console.WriteLine(
+@"License plate cannot be empty.
+");
+                }
+            } while (userInput.Equals(string.Empty));
 
             return userInput;
         }
 
         public Enum getEnumSelectionFromUser(Type i_EnumType)
         {
-            Dictionary<byte, Enum> enumDictinary = new Dictionary<byte, Enum>();
-            byte enumCounter = 1;
-            byte userSelection;
+            Dictionary<ushort, Enum> enumDictinary = new Dictionary<ushort, Enum>();
+            ushort enumCounter = 1;
+            ushort userSelection;
 
             foreach (Enum item in Enum.GetValues(i_EnumType))
             {
@@ -446,12 +459,12 @@ Have a nice day.");
                 enumCounter++;
             }
 
-            foreach (KeyValuePair<byte, Enum> item in enumDictinary)
+            foreach (KeyValuePair<ushort, Enum> item in enumDictinary)
             {
                 Console.WriteLine("{0}. {1}", item.Key, item.Value);
             }
 
-            userSelection = getNumberInputFromUser(1, (byte)(enumCounter - 1));
+            userSelection = getNumberInputFromUser(1, (ushort)(enumCounter - 1));
 
             return enumDictinary[userSelection];
         }
@@ -497,5 +510,38 @@ Have a nice day.");
             Console.WriteLine("(press any key to continue)");
             Console.ReadKey();
         }
+
+        private void getCustomerInfo(out string o_Name, out string o_Number)
+        {
+            Console.Write(
+@"Customer name: ");
+            o_Name = Console.ReadLine();
+            Console.Write(
+@"Phone number: ");
+            o_Number = Console.ReadLine();
+        }
     }
 }
+
+//        private Type selectFromTypeList(TypeList i_TypeList, string i_TypeOfList)
+//        {
+//            ushort input = 0;
+//            ushort counter = 1;
+//            IEnumerable enumerator = VehicleFactory.GetVehicleTypeEnumerator(i_TypeList);
+
+//            Console.WriteLine(
+//@"Please select the {0}:",
+//i_TypeOfList);
+//            foreach (KeyValuePair<string, Type> type in enumerator)
+//            {
+//                Console.WriteLine(
+//@"{0}. {1}",
+//counter + 1,
+//i_TypeList[counter-1].Key);
+//                counter++;
+//            }
+
+//            input = getNumberInputFromUser(1, (ushort)i_TypeList.Count);
+
+//            return i_TypeList[input - 1].Value;
+//        }

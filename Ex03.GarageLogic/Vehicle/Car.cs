@@ -61,7 +61,7 @@ namespace Ex03.GarageLogic
         {
             return String.Format(
 @"{0}
-Car Color: {1},
+Car Color: {1}
 Number of doors: {2}",
 base.ToString(),
 m_CarColor,
@@ -72,8 +72,12 @@ m_NumDoors);
         // ============================================================================================================================================================
         protected override void initUserInputFunctions()
         {
-            m_UserInputFunctions.Add("number of doors", "SetNumDoors");
-            m_UserInputFunctions.Add("color of car", "SetColor");
+            // TODO try to improve
+            if (m_UserInputFunctions.Count == 0)
+            {
+                m_UserInputFunctions.Add("number of doors", "SetNumDoors");
+                m_UserInputFunctions.Add("color of car", "SetColor");
+            }
         }
 
         public void SetNumDoors(string i_NumDoors)
@@ -100,10 +104,12 @@ m_NumDoors);
 
         public void SetColor(string i_Color)
         {
-            m_CarColor = (eColor)Enum.Parse(typeof(eColor), i_Color);
+            m_CarColor = (eColor)EnumUtils.ConvertStringToEnumValue(typeof(eColor), i_Color);
         }
+        
     }
 }
+
 
 //public eColor CarColor
 //{                           

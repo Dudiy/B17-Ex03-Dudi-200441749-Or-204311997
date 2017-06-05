@@ -10,10 +10,10 @@ namespace Ex03.GarageLogic
     {
         private readonly string m_LicensePlate;
         private readonly string m_ModelName;
-        protected float k_MaxWheelAirPress;        
+        protected float k_MaxWheelAirPress;
         protected List<Wheel> m_Wheels = new List<Wheel>();
         protected Engine m_Engine;
-        protected UserInputFunctions m_UserInputFunctions = new UserInputFunctions();
+        protected static UserInputFunctions m_UserInputFunctions = new UserInputFunctions();
 
         // assumption, input parameters are validated before calling the ctor        
         internal Vehicle(string i_LicensePlate, string i_ModelName)

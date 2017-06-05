@@ -15,6 +15,11 @@ namespace Ex03.GarageLogic
             sr_UserInputFunctions.Add(i_Description, i_MethodName);
         }
 
+        public int Count
+        {
+            get { return sr_UserInputFunctions.Count; }
+        }
+
         public IEnumerator GetEnumerator()
         {
             return sr_UserInputFunctions.GetEnumerator();

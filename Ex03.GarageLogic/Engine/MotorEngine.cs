@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
+    // TODO change to FuelEngine
     public class MotorEngine : Engine
     {
         private eFuelType m_FuelType;
