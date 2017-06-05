@@ -65,6 +65,11 @@ m_Status,
 m_Vehicle.ToString());
         }
 
+        public void FillEnergy(float i_AmountEnergyToFill)
+        {
+            m_Vehicle.FillEnergy(i_AmountEnergyToFill);
+        }
+
         public void FillEnergy(eFuelType i_FuelType, float i_AmountEnergyToFill)
         {
             m_Vehicle.FillEnergy(i_FuelType, i_AmountEnergyToFill);

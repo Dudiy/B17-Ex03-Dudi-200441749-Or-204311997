@@ -14,6 +14,10 @@ namespace Ex03.GarageLogic
             FillEnergy(i_AmountToCharge);
         }
 
+        public void Charge(float i_FuelToAdd)
+        {
+            FillEnergy(i_FuelToAdd);
+        }
 
         public override string ToString()
         {
