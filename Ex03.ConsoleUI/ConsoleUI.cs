@@ -82,7 +82,7 @@ action.Value.Key);
                 vehicleType = selectVehicleType();
                 getCommonPropertiesForAllVehicle(out modelName, out wheelManufacturer, out engineType);
                 vehicleToAdd = createNewVehicle(vehicleType, licensePlate, modelName, wheelManufacturer, engineType);
-                getCustomerInfo(out customerName, out customerNumber);
+                getOwnerInformation(out customerName, out customerNumber);
                 m_Garage.AddVehicleToGarage(customerName, customerNumber, vehicleToAdd);
                 Console.WriteLine(
 @"
@@ -589,10 +589,13 @@ Have a nice day.");
             Console.ReadKey();
         }
 
-        private void getCustomerInfo(out string o_Name, out string o_Number)
+        private void getOwnerInformation(out string o_Name, out string o_Number)
         {
+            // all name is valid 
             o_Name = getNonEmptyStrFromUser(@"Customer name: ");
             o_Number = getNonEmptyStrFromUser(@"Phone number: ");
+            // TODO check validation
+            // o_Number = getPhoneNumber();
         }
 
         private char getYesOrNoFromUser()
