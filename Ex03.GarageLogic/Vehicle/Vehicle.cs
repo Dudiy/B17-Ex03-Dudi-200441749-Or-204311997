@@ -140,20 +140,32 @@ m_Engine.ToString()
 );
         }
 
+        public void FillEnergy(float i_AmountEnergyToFill)
+        {
+            // TODO generic
+            if (m_Engine.GetType() == typeof(ElectricEngine))
+            {
+                ((ElectricEngine)m_Engine).Charge(i_AmountEnergyToFill);
+            }
+            else
+            {
+                // maybe there is engine like that but we haven't
+                string exceptionMessage = string.Format("Fill energy method not implemented for {0} type",
+                    m_Engine.GetType());
+                throw new NotImplementedException(exceptionMessage);
+            }
+        }
+
         public void FillEnergy(eFuelType i_FuelType, float i_AmountEnergyToFill)
         {
-            if(m_Engine.GetType() == typeof(MotorEngine))
-            {
-                ((MotorEngine)m_Engine).FillFuel(i_FuelType, i_AmountEnergyToFill);
-            }
-            else if(m_Engine.GetType() == typeof(ElectricEngine))
+            if (m_Engine.GetType() == typeof(MotorEngine))
             {
                 ((MotorEngine)m_Engine).FillFuel(i_FuelType, i_AmountEnergyToFill);
             }
             else
             {
                 // maybe there is engine like that but we haven't
-                string exceptionMessage = string.Format("Fill energy methon not implemented for {0} type", 
+                string exceptionMessage = string.Format("Fill energy methon not implemented for {0} type",
                     m_Engine.GetType());
                 throw new NotImplementedException(exceptionMessage);
             }

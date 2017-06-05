@@ -135,7 +135,7 @@ VehicleFactory.GetVehicleTypeAtI(i).Name);
             io_WheelManufacturer = Console.ReadLine();
             Console.WriteLine(
 @"Please select engine type:");
-            io_EngineType = typeof(MotorEngine);       // TODO change to be like "selectVehicleType()|
+            io_EngineType = typeof(ElectricEngine);       // TODO change to be like "selectVehicleType()|
         }
 
         private Vehicle createNewVehicle(Type i_VehicleType, string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
@@ -331,9 +331,14 @@ licensePlate);
             eFuelType fuelType = (eFuelType)getEnumSelectionFromUser(typeof(eFuelType));
             float amountEnergyToAdd = getAmountEnergyToAddFromUser();
 
+
             try
             {
-                m_Garage.FillEnergyInVehicle(licensePlate, fuelType, amountEnergyToAdd);
+                MethodInfo fillEnergyInVehicleMethod = typeof(Garage).GetMethod(
+                    "FillEnergyInVehicle",new Type[] { typeof(string), typeof(eFuelType), typeof(float) });
+                fillEnergyInVehicleMethod.Invoke(m_Garage, new object[] {
+                    licensePlate, fuelType, amountEnergyToAdd });
+                //m_Garage.FillEnergyInVehicle(licensePlate, fuelType, amountEnergyToAdd);
             }
             catch (NotImplementedException notImplementedException)
             {
@@ -356,30 +361,33 @@ licensePlate);
         // TODO get parameters (string i_LicensePlate, float i_AmountToAdd) from user and call the relevant function
         protected override void ChargeBatteryInVehicle()
         {
-            //// also check format validation to: licensePlate, fuelType, amountEnergyToAdd
-            //string licensePlate = getLicensePlateFromUser();
-            //float amountEnergyToAdd = getAmountEnergyToAddFromUser();
+            // also check format validation to: licensePlate, amountEnergyToAdd
+            string licensePlate = getLicensePlateFromUser();
+            float amountEnergyToAdd = getAmountEnergyToAddFromUser();
 
-            //try
-            //{
-            //    m_Garage.FillEnergyInVehicle(licensePlate, amountEnergyToAdd);
-            //}
-            //catch (NotImplementedException notImplementedException)
-            //{
-            //    Console.WriteLine(notImplementedException.Message);
-            //}
-            //catch (ArgumentException argumentException)
-            //{
-            //    Console.WriteLine(argumentException.Message);
-            //}
-            //catch (ValueOutOfRangeException valueOutOfRangeException)
-            //{
-            //    Console.WriteLine(valueOutOfRangeException.Message);
-            //}
-            //catch (Exception exception)
-            //{
-            //    Console.WriteLine(exception.Message);
-            //}
+            try
+            {
+                MethodInfo fillEnergyInVehicleMethod = typeof(Garage).GetMethod(
+                    "FillEnergyInVehicle", new Type[] { typeof(string), typeof(float) });
+                fillEnergyInVehicleMethod.Invoke(m_Garage, new object[] {
+                    licensePlate, amountEnergyToAdd });
+            }
+            catch (NotImplementedException notImplementedException)
+            {
+                Console.WriteLine(notImplementedException.Message);
+            }
+            catch (ArgumentException argumentException)
+            {
+                Console.WriteLine(argumentException.Message);
+            }
+            catch (ValueOutOfRangeException valueOutOfRangeException)
+            {
+                Console.WriteLine(valueOutOfRangeException.Message);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
 
         protected override void PrintVehicleInfo()

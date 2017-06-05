@@ -66,6 +66,11 @@ namespace Ex03.GarageLogic
             return m_VehiclesInGarage[i_LicensePlate].ToString();
         }
 
+        public void FillEnergyInVehicle(string i_LicensePlate, float i_AmountEnergyToFill)
+        {
+            m_VehiclesInGarage[i_LicensePlate.GetHashCode()].FillEnergy(i_AmountEnergyToFill);
+        }
+
         public void FillEnergyInVehicle(string i_LicensePlate, eFuelType i_FuelType, float i_AmountEnergyToFill)
         {
             m_VehiclesInGarage[i_LicensePlate].FillEnergy(i_FuelType, i_AmountEnergyToFill);
