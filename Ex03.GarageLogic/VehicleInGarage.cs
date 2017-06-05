@@ -16,7 +16,7 @@ namespace Ex03.GarageLogic
         {
             m_OwnerName = i_OwnerName;
             m_OwnerPhone = i_OwnerPhone;
-            m_Vehicle = i_Vehicle;  
+            m_Vehicle = i_Vehicle;
         }
 
         public eVehicleStatus Status
@@ -47,7 +47,26 @@ namespace Ex03.GarageLogic
             return m_Vehicle.Equals(compareTo.m_Vehicle);
         }
 
-        // TODO implement "==" and "!=" opertors
+        public static bool operator ==(VehicleInGarage i_Vehicle1, VehicleInGarage i_Vehicle2)
+        {
+            bool equals = false;
+
+            if (i_Vehicle1 == null || i_Vehicle2 == null)
+            {
+                equals = false;
+            }
+            else if (i_Vehicle1.m_Vehicle.Equals(i_Vehicle2.m_Vehicle))
+            {
+                equals = true;
+            }
+
+            return equals;
+        }
+
+        public static bool operator !=(VehicleInGarage i_Vehicle1, VehicleInGarage i_Vehicle2)
+        {
+            return !(i_Vehicle1 == i_Vehicle2);
+        }
 
         public override string ToString()
         {

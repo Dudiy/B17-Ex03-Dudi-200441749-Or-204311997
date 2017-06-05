@@ -12,8 +12,7 @@ namespace Ex03.GarageLogic
         public Engine(float i_MaxEnergy)
         {
             m_MaxEnergy = i_MaxEnergy;
-            // TODO
-            m_EnergyRemaining = 0;
+            m_EnergyRemaining = m_MaxEnergy;
         }
 
         public float PercentOfEnergyRemaining

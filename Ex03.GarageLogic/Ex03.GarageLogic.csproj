@@ -48,6 +48,7 @@
     <Compile Include="enums\eLicenseType.cs" />
     <Compile Include="Exceptions\ValueOutOfRangeException.cs" />
     <Compile Include="Vehicle\Truck.cs" />
+    <Compile Include="Vehicle\UserInputFunctions.cs" />
     <Compile Include="Vehicle\Vehicle.cs" />
     <Compile Include="Vehicle\Wheel.cs" />
   </ItemGroup>
