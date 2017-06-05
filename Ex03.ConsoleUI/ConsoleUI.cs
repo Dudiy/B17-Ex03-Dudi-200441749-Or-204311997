@@ -237,20 +237,33 @@ i_MaxValidSelection);
 
         protected override void PrintLicensePlatesInGarage()
         {
+            bool endOfInput;
+            string inputFromUser = string.Empty;
             eVehicleStatus? filter = null;
 
-            Console.WriteLine(
-@"Would you like to add a filter to the list of license plates? (Y/N):");
-            if (Console.ReadLine().ToUpper() == "Y")
+            Console.Write(
+@"Would you like to add a filter to the list of license plates? (Y/N): ");
+            do
             {
-                Console.WriteLine(
+                inputFromUser = Console.ReadLine();
+                endOfInput = true;
+                if (inputFromUser.ToUpper() == "Y")
+                {
+                    Console.WriteLine(
 @"Select filter for list of license plates:");
-                filter = (eVehicleStatus)getEnumSelectionFromUser(typeof(eVehicleStatus));
-            }
-            else
-            {
-                filter = null;
-            }
+                    filter = (eVehicleStatus)getEnumSelectionFromUser(typeof(eVehicleStatus));
+                }
+                else if (inputFromUser.ToUpper() == "N")
+                {
+                    filter = null;
+                }
+                else
+                {
+                    Console.Write(
+@"mismatch answer, please enter (Y/N): ");
+                    endOfInput = false;
+                }
+            } while (!endOfInput);
 
             printLicensePlatesInGarageWithParameter(filter);
         }
@@ -329,8 +342,6 @@ licensePlate);
             }
         }
 
-        // TODO merge 2X next
-        // TODO get parameters (string i_LicensePlate, eFuelType i_FuelType, float i_AmountToAdd) from user and call the relevant function
         protected override void FillFuelInVehicle()
         {
             // also check format validation to: licensePlate, fuelType, amountEnergyToAdd
@@ -365,7 +376,6 @@ licensePlate);
             }
         }
 
-        // TODO get parameters (string i_LicensePlate, float i_AmountToAdd) from user and call the relevant function
         protected override void ChargeBatteryInVehicle()
         {
             // also check format validation to: licensePlate, amountEnergyToAdd
