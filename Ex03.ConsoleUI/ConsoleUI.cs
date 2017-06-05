@@ -141,34 +141,58 @@ VehicleFactory.GetVehicleTypeAtI(i).Name);
         private Vehicle createNewVehicle(Type i_VehicleType, string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
         {
             Vehicle vehicleToAdd = Garage.GetNewVehicleFromFactory(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer, i_EngineType);
-            MethodInfo userPropertiesMethod = vehicleToAdd.GetType().GetMethod("GetUserInputPropertiesForNewVehicle");
-            Dictionary<string, PropertyInfo> uninitializeProperties =
-                (Dictionary<string, PropertyInfo>)userPropertiesMethod.Invoke(vehicleToAdd, new object[] { });
-            string inputFromUser;
 
-            foreach (KeyValuePair<string, PropertyInfo> propertyAndDescriptionPair in uninitializeProperties)
+            // ==========================================================================================
+            foreach (KeyValuePair<string, string> fun in vehicleToAdd.UserInputFunctionsList)
             {
-                bool validPropertyInput = false;
-
-                while (!validPropertyInput)
+                bool setSucceded = false;
+                while (!setSucceded)
                 {
-                    Console.WriteLine(
-@"please input {0}:",
-propertyAndDescriptionPair.Key);
-                    inputFromUser = Console.ReadLine();
                     try
                     {
-                        propertyAndDescriptionPair.Value.GetSetMethod().Invoke(vehicleToAdd, new object[] { inputFromUser });
-                        validPropertyInput = true;
+                        Console.Write("Enter {0} :", fun.Key);
+                        string input = Console.ReadLine();
+                        vehicleToAdd.GetType().GetMethod(fun.Value).Invoke(vehicleToAdd, new object[] { input });
+                        setSucceded = true;
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(
-@"error - {0}. please try again",
-ex.InnerException.Message);
+                        Console.WriteLine(ex.InnerException.Message);
                     }
+
                 }
             }
+
+
+            // ==========================================================================================
+            //            MethodInfo userPropertiesMethod = vehicleToAdd.GetType().GetMethod("GetUserInputPropertiesForNewVehicle");
+            //            Dictionary<string, PropertyInfo> uninitializedProperties =
+            //                (Dictionary<string, PropertyInfo>)userPropertiesMethod.Invoke(vehicleToAdd, new object[] { });
+            //            string inputFromUser;
+
+            //            foreach (KeyValuePair<string, PropertyInfo> propertyAndDescriptionPair in uninitializedProperties)
+            //            {
+            //                bool validPropertyInput = false;
+
+            //                while (!validPropertyInput)
+            //                {
+            //                    Console.WriteLine(
+            //@"please input {0}:",
+            //propertyAndDescriptionPair.Key);
+            //                    inputFromUser = Console.ReadLine();
+            //                    try
+            //                    {
+            //                        propertyAndDescriptionPair.Value.GetSetMethod().Invoke(vehicleToAdd, new object[] { inputFromUser });
+            //                        validPropertyInput = true;
+            //                    }
+            //                    catch (Exception ex)
+            //                    {
+            //                        Console.WriteLine(
+            //@"error - {0}. please try again",
+            //ex.InnerException.Message);
+            //                    }
+            //                }
+            //            }
 
             return vehicleToAdd;
         }
@@ -374,7 +398,7 @@ licensePlate);
             catch (Exception ex)
             {
                 Console.WriteLine(
-@"Error - {0}", 
+@"Error - {0}",
 ex.Message);
             }
         }
@@ -424,37 +448,23 @@ Have a nice day.");
             return enumDictinary[userSelection];
         }
 
-        //public void test()
-        //{
-        //    double d;
-        //    bool valid = false;
+        //        private float getFuelTypeFromUser()
+        //        {
+        //            string userInput;
+        //            float amountEnergyToAdd;
 
-        //    do
-        //    {
-        //        Console.WriteLine("Please input");
-        //        valid = Double.TryParse("input", out d)
-        //    } while (!valid);
+        //            Console.Write(
+        //@"Please enter amount of fuel to add: ");
+        //            userInput = Console.ReadLine();
+        //            while (float.TryParse(userInput, out amountEnergyToAdd))
+        //            {
+        //                Console.WriteLine(
+        //@"Input format error please input a number");
+        //                userInput = Console.ReadLine();
+        //            }
 
-
-        //}
-
-        private float getFuelTypeFromUser()
-        {
-            string userInput;
-            float amountEnergyToAdd;
-
-            Console.Write(
-@"Please enter amount energy to add: ");
-            userInput = Console.ReadLine();
-            while (float.TryParse(userInput, out amountEnergyToAdd))
-            {
-                Console.WriteLine(
-@"Input format error please input a number");
-                userInput = Console.ReadLine();
-            }
-
-            return amountEnergyToAdd;
-        }
+        //            return amountEnergyToAdd;
+        //        }
 
         private float getAmountEnergyToAddFromUser()
         {

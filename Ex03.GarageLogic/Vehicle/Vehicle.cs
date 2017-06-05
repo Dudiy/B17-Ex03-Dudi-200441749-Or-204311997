@@ -10,16 +10,24 @@ namespace Ex03.GarageLogic
     {
         private readonly string m_LicensePlate;
         private readonly string m_ModelName;
-        //protected float m_EnergyRemaining;
         protected float k_MaxWheelAirPress;        
         protected List<Wheel> m_Wheels = new List<Wheel>();
         protected Engine m_Engine;
+        protected UserInputFunctions m_UserInputFunctions = new UserInputFunctions();
 
         // assumption, input parameters are validated before calling the ctor        
         internal Vehicle(string i_LicensePlate, string i_ModelName)
         {
             m_LicensePlate = i_LicensePlate;
             m_ModelName = i_ModelName;
+            initUserInputFunctions();
+        }
+
+        protected abstract void initUserInputFunctions();
+
+        public UserInputFunctions UserInputFunctionsList
+        {
+            get { return m_UserInputFunctions; }
         }
 
         public override bool Equals(object obj)
@@ -29,13 +37,32 @@ namespace Ex03.GarageLogic
 
             if (compareTo != null)
             {
-                equals = m_LicensePlate.GetHashCode() == compareTo.GetHashCode();
+                equals = m_LicensePlate.Equals(compareTo.m_LicensePlate);
             }
 
             return equals;
         }
 
-        // TODO implement "==" and "!=" operators
+        public static bool operator ==(Vehicle i_Vehicle1, Vehicle i_Vehicle2)
+        {
+            bool equals = false;
+
+            if (i_Vehicle1 == null || i_Vehicle2 == null)
+            {
+                equals = false;
+            }
+            else if (i_Vehicle1.Equals(i_Vehicle2))
+            {
+                equals = true;
+            }
+
+            return equals;
+        }
+
+        public static bool operator !=(Vehicle i_Vehicle1, Vehicle i_Vehicle2)
+        {
+            return !(i_Vehicle1 == i_Vehicle2);
+        }
 
         public override int GetHashCode()
         {

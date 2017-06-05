@@ -11,39 +11,8 @@ namespace Ex03.GarageLogic
         private byte m_NumDoors;
         private static readonly byte[] sr_PossibleNumDoors = { 2, 3, 4, 5 };
 
+
         //// assumption, input parameters are validated before calling the ctor  
-        //internal Car(string i_LicensePlate, string i_ModelName, eColor i_CarColor, byte i_NumDoors,
-        //    string i_WheelManufacturer, Type i_EngineType)
-        //    : base(i_LicensePlate, i_ModelName)
-        //{
-
-        //    // TODO maintainability issue - what if there is a new engine someday?
-        //    if (i_EngineType.Equals(typeof(ElectricEngine)))
-        //    {
-        //        m_Engine = new ElectricEngine(2.5f);
-        //    }
-        //    else if (i_EngineType.Equals(typeof(MotorEngine)))
-        //    {
-        //        m_Engine = new MotorEngine(42f, eFuelType.Octan98);
-        //    }
-        //    else
-        //    {
-        //        throw new Exception("Invalid engine type entered");
-        //    }
-
-        //    m_EnergyRemaining = m_Engine.MaxEnergy;
-        //    k_MaxWheelAirPress = 30;
-        //    InitAllWheels(new Wheel(i_WheelManufacturer, k_MaxWheelAirPress), 4);
-        //    m_CarColor = i_CarColor;
-        //    m_NumDoors = i_NumDoors;
-        //}
-
-        //// ctor to create a new car with a new license plate based on a given car model
-        //internal Car(string i_LicensePlate, Car i_Model)
-        //    : this(i_LicensePlate, i_Model.ModelName, i_Model.m_CarColor, i_Model.m_NumDoors,
-        //          i_Model.m_Wheels[0].Manufacturer, i_Model.EngineType)
-        //{ }
-
         // ctor to create a new car with no user parameters
         internal Car(string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
             : base(i_LicensePlate, i_ModelName)
@@ -62,45 +31,20 @@ namespace Ex03.GarageLogic
                 throw new Exception("Invalid engine type entered");
             }
 
-            //m_EnergyRemaining = m_Engine.MaxEnergy;
             k_MaxWheelAirPress = 30;
             InitAllWheels(new Wheel(i_WheelManufacturer, k_MaxWheelAirPress), 4);
         }
 
         // ======================================== Properties ========================================
-
+        // string property for 
         public string CarColor
         {
             get { return m_CarColor.ToString(); }
-            set
-            {
-                m_CarColor = (eColor)Enum.Parse(typeof(eColor), value);
-            }
         }
 
         public string NumDoors
         {
             get { return m_NumDoors.ToString(); }
-            set
-            {
-                bool isValidOption = false;
-                byte byteValue = Byte.Parse(value);
-
-                foreach (byte numDoorsOption in sr_PossibleNumDoors)
-                {
-                    if (numDoorsOption == byteValue)
-                    {
-                        m_NumDoors = byteValue;
-                        isValidOption = true;
-                        break;
-                    }
-                }
-
-                if (!isValidOption) // TODO is it ok to write like this or do we need "isValidOption == true"
-                {
-                    throw new Exception("Invalid value for number of doors");   // not ValueOutOfRangeException because num doors doesnt have to be a range
-                }
-            }
         }
 
         public override Dictionary<string, PropertyInfo> GetUserInputPropertiesForNewVehicle()
@@ -122,6 +66,41 @@ Number of doors: {2}",
 base.ToString(),
 m_CarColor,
 m_NumDoors);
+        }
+
+
+        // ============================================================================================================================================================
+        protected override void initUserInputFunctions()
+        {
+            m_UserInputFunctions.Add("number of doors", "SetNumDoors");
+            m_UserInputFunctions.Add("color of car", "SetColor");
+        }
+
+        public void SetNumDoors(string i_NumDoors)
+        {
+            bool isValidOption = false;
+            byte byteValue = Byte.Parse(i_NumDoors);
+
+            foreach (byte numDoorsOption in sr_PossibleNumDoors)
+            {
+                if (numDoorsOption == byteValue)
+                {
+                    m_NumDoors = byteValue;
+                    isValidOption = true;
+                    break;
+                }
+            }
+
+            if (!isValidOption)
+            {
+                // not ValueOutOfRangeException because num doors doesnt have to be a range
+                throw new ArgumentException("Invalid value for number of doors");
+            }
+        }
+
+        public void SetColor(string i_Color)
+        {
+            m_CarColor = (eColor)Enum.Parse(typeof(eColor), i_Color);
         }
     }
 }
