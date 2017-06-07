@@ -32,11 +32,11 @@ namespace Ex03.GarageLogic
         public override string ToString()
         {
             return String.Format(
-@"      Engine type: Fuel running engine
-        Remaining fuel percent: {0}
-        Remaining fuel liters: {1}
-        Fuel tank size: {2}
-        Fuel type: {3}",
+@"Engine type: Fuel running engine
+Remaining fuel percent: {0}
+Remaining fuel liters: {1}
+Fuel tank size: {2}
+Fuel type: {3}",
 PercentOfEnergyRemaining.ToString("P"),
 m_EnergyRemaining,
 m_MaxEnergy,

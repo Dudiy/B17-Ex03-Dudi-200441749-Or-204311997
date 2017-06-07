@@ -22,10 +22,10 @@ namespace Ex03.GarageLogic
         public override string ToString()
         {
             return String.Format(
-@"      Engine type: Electric engine
-        Remaining battery percent: {0}
-        Remaining battery time (hours): {1}
-        Max battery capacity: {2}",
+@"Engine type: Electric engine
+Remaining battery percent: {0}
+Remaining battery time (hours): {1}
+Max battery capacity: {2}",
 PercentOfEnergyRemaining.ToString("P"),
 m_EnergyRemaining,
 m_MaxEnergy

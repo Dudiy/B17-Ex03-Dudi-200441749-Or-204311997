@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public class Wheel : ICloneable
+    public class Wheel // TODO delete : ICloneable
     {
         private string m_Manufacturer;
         private float m_CurrentAirPressure;
@@ -17,6 +17,7 @@ namespace Ex03.GarageLogic
             m_CurrentAirPressure = m_MaxAirPressure;
         }
 
+        // ==================================================== Properties ====================================================
         public string Manufacturer
         {
             get { return m_Manufacturer; }
@@ -33,6 +34,8 @@ namespace Ex03.GarageLogic
             get { return m_CurrentAirPressure; }
         }
 
+        // ==================================================== Methods ====================================================
+
         public void FillAir(float i_AmountOfAirToFill)
         {
             if (m_CurrentAirPressure + i_AmountOfAirToFill <= m_MaxAirPressure)
@@ -46,22 +49,18 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Wheel Clone()
-        {
-            return MemberwiseClone() as Wheel;
-        }
+        // TODO delete
+        //public Wheel Clone()
+        //{
+        //    return MemberwiseClone() as Wheel;
+        //}
 
-        // TODO according to the book Clone() should be implemented this way     
-        // TODO check
-        object ICloneable.Clone()
-        {
-            //return MemberwiseClone() as Wheel;
-            return null;
-        }
+        //// TODO according to the book Clone() should be implemented this way     
+        //// TODO check
+        //object ICloneable.Clone()
+        //{
+        //    //return MemberwiseClone() as Wheel;
+        //    return null;
+        //}
     }
 }
-
-        //public void FillAirToMax()
-        //{
-        //    m_CurrentAirPressure = m_MaxAirPressure;
-        //}

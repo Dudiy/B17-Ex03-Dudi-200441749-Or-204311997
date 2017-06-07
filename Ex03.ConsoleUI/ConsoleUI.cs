@@ -27,7 +27,7 @@ namespace Ex03.ConsoleUI
                 userSelection = getActionRequestFromUser();
                 Console.Clear();
                 selectedMethodStr = sr_AvailableActionsForUser[userSelection].Value;
-                selectedMethod = GetType().GetMethod(selectedMethodStr, BindingFlags.NonPublic | BindingFlags.Instance);// TODO delete , BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Default);
+                selectedMethod = base.GetType().GetMethod(selectedMethodStr, BindingFlags.NonPublic | BindingFlags.Instance);// TODO delete , BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Default);
                 selectedMethod.Invoke(this, new object[] { });
                 Console.WriteLine("(press any key to continue)");
                 Console.ReadKey();
@@ -160,7 +160,7 @@ VehicleFactory.GetEngineTypeAtI(i).Key);
 
             // ==========================================================================================
             // after the type is know (in runtime) get the remaining parameters needed
-            foreach (KeyValuePair<string, string> setValueMethod in vehicleToAdd.UserInputFunctionsList)
+            foreach (KeyValuePair<string, string> setValueMethod in vehicleToAdd.SetFunctionsForAddedParams)
             {
                 bool setSucceded = false;
 
@@ -195,7 +195,7 @@ VehicleFactory.GetEngineTypeAtI(i).Key);
 
             Console.Write(
 @"Would you like to add a filter to the list of license plates? (Y/N): ");            
-            userSelection = getYesOrNoFromUser();
+            userSelection = ConsoleUtils.GetYesOrNoFromUser();
             // the above fuction is guaranteed to return Y or N and no other char
             if (userSelection == 'Y')
             {
@@ -323,7 +323,7 @@ licensePlate);
                         //"FillEnergyInVehicle", new Type[] { typeof(string), typeof(eFuelType), typeof(float) });
                         //fillEnergyInVehicleMethod.Invoke(m_Garage, new object[] {
                         //licensePlate, fuelType, amountEnergyToAdd });
-                        m_Garage.FillEnergyInVehicle(licensePlate, amountEnergyToAdd, fuelType);
+                        m_Garage.FuelVehicle(licensePlate, amountEnergyToAdd, fuelType);
                         Console.WriteLine(
 @"Fueled vehicle {0} with {1} liters of fuel.
 the tank is currently {2} full.
@@ -383,7 +383,7 @@ valueOutOfRangeException.MaxValue);
                         //    "FillEnergyInVehicle", new Type[] { typeof(string), typeof(float) });
                         //fillEnergyInVehicleMethod.Invoke(m_Garage, new object[] {
                         //    licensePlate, amountEnergyToAdd });
-                        m_Garage.FillEnergyInVehicle(licensePlate, amountEnergyToAdd);
+                        m_Garage.ChargeVehicle(licensePlate, amountEnergyToAdd);
                         Console.WriteLine(
 @"Added {0} hours to battery of {1}.
 the tank is currently {2} full.

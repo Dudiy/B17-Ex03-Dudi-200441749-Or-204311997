@@ -72,9 +72,9 @@ namespace Ex03.GarageLogic
         {
             return String.Format(
 @"Owner information:
-    Name: {0}
-    Phone number: {1} 
-    Vehicle status: {2}
+Name: {0}
+Phone number: {1} 
+Vehicle status: {2}
 
 Vehicle information:
 {3}",
@@ -84,14 +84,14 @@ m_Status,
 m_Vehicle.ToString());
         }
 
-        public void FillEnergy(float i_AmountEnergyToFill)
+        public void Charge(float i_AmountEnergyToFill)
         {
-            m_Vehicle.FillEnergy(i_AmountEnergyToFill);
+            m_Vehicle.Charge(i_AmountEnergyToFill);
         }
 
-        public void FillEnergy(float i_AmountEnergyToFill, eFuelType i_FuelType)
+        public void FillFuel(float i_AmountEnergyToFill, eFuelType i_FuelType)
         {
-            m_Vehicle.FillEnergy(i_AmountEnergyToFill, i_FuelType);
+            m_Vehicle.FillFuel(i_AmountEnergyToFill, i_FuelType);
         }
 
         public float PercentOfEnergyRemaining

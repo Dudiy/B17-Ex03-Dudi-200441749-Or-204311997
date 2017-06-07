@@ -9,14 +9,15 @@ namespace Ex03.GarageLogic
     public abstract class Vehicle
     {
         private readonly string m_LicensePlate;
-        private readonly string m_ModelName;
-        protected float k_MaxWheelAirPress;
+        private readonly string m_ModelName = "No model name entered";
+        protected float k_MaxWheelAirPress = 0;
         protected List<Wheel> m_Wheels = new List<Wheel>();
-        protected Engine m_Engine;
-        protected static UserInputFunctions m_UserInputFunctions = new UserInputFunctions();
-        public UserInputFunctions UserInputFunctionsList
+        protected Engine m_Engine = null;
+        // a dictionary of <description, function name> of all functions used to set additional parameters
+        protected static Dictionary<string, string> s_SetFunctionsForAddedParams = null;
+        public Dictionary<string, string> SetFunctionsForAddedParams
         {
-            get { return m_UserInputFunctions; }
+            get { return s_SetFunctionsForAddedParams; }
         }
 
         // assumption, input parameters are validated before calling the ctor        
@@ -27,6 +28,7 @@ namespace Ex03.GarageLogic
             initUserInputFunctions();
         }
 
+        // all inheritants must provide a function to initialize a list of all user input functions
         protected abstract void initUserInputFunctions();
 
 
@@ -74,7 +76,7 @@ namespace Ex03.GarageLogic
             return m_LicensePlate.GetHashCode();
         }
 
-        // ========================================= Setters and Getters ====================================
+        // ==================================================== Propeties ====================================================
         public string LicensePlate
         {
             get { return m_LicensePlate; }
@@ -102,16 +104,28 @@ namespace Ex03.GarageLogic
             get { return m_Engine.GetType(); }
         }
 
-        // ========================================= Methods ================================================
+        // ==================================================== Methods ====================================================
+        // TODO delete
+        //protected void InitAllWheels(Wheel i_Wheel, byte i_NumWheels)
+        //{
+        //    for (byte i = 0; i < i_NumWheels; i++)
+        //    {
+        //        m_Wheels.Add((Wheel)(i_Wheel.Clone()));
+        //    }
+        //}
+        // all inheritants must provide a function to initialize and return 
+        //public abstract Dictionary<string, PropertyInfo> GetUserInputPropertiesForNewVehicle();
 
-        protected void InitAllWheels(Wheel i_Wheel, byte i_NumWheels)
+        // initialize all wheels of a car, this is done from the ctor of the inheritant once we know the actual numWheels in runtime
+        protected void InitAllWheels(string i_WheelManufacturer, float i_MaxAirPress, byte i_NumWheels)
         {
             for (byte i = 0; i < i_NumWheels; i++)
             {
-                m_Wheels.Add((Wheel)(i_Wheel.Clone()));
+                m_Wheels.Add(new Wheel(i_WheelManufacturer, i_MaxAirPress));
             }
         }
 
+        // fill all wheels in the vehicle to maximum air pressure
         public void FillAllWheelsToMaxAirPress()
         {
             foreach (Wheel wheel in m_Wheels)
@@ -122,19 +136,19 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public abstract Dictionary<string, PropertyInfo> GetUserInputPropertiesForNewVehicle();
-
         public override string ToString()
         {
             return String.Format(
-@"  License plate: {0}
-    Model Name: {1}
-    Vehicle type: {2}
-    Wheels Information:
-        Manufacturer: {3}
-        Max air pressure: {4}
-    Engine Information:
-    {5}
+@"License plate: {0}
+Model Name: {1}
+Vehicle type: {2}
+
+Wheels Information:
+Manufacturer: {3}
+Max air pressure: {4}
+
+Engine Information:
+{5}
 ",
 LicensePlate,
 ModelName,
@@ -145,23 +159,21 @@ m_Engine.ToString()
 );
         }
 
-        public void FillEnergy(float i_AmountEnergyToFill)
+        // charge an electric engine (if the caller does not have an electric engine an exception is thrown)
+        public void Charge(float i_AmountEnergyToFill)
         {
-            // TODO generic
             if (m_Engine.GetType() == typeof(ElectricEngine))
             {
                 ((ElectricEngine)m_Engine).Charge(i_AmountEnergyToFill);
             }
             else
             {
-                // Possible that there will be a new engine that isn't implemented here
-                string exceptionMessage = string.Format("Fill energy method not implemented for {0} type",
-                    m_Engine.GetType());
-                throw new NotImplementedException(exceptionMessage);
+                string exceptionMessage = string.Format("Can't charge an engine of type : {0} ", m_Engine.GetType());
+                throw new ArgumentException(exceptionMessage);
             }
         }
 
-        public void FillEnergy(float i_AmountEnergyToFill, eFuelType i_FuelType)
+        public void FillFuel(float i_AmountEnergyToFill, eFuelType i_FuelType)
         {
             if (m_Engine.GetType() == typeof(MotorEngine))
             {
@@ -169,10 +181,8 @@ m_Engine.ToString()
             }
             else
             {
-                // Possible that there will be a new engine that isn't implemented here
-                string exceptionMessage = string.Format("Fill energy method not implemented for {0} type",
-                    m_Engine.GetType());
-                throw new NotImplementedException(exceptionMessage);
+                string exceptionMessage = string.Format("Can't fuel an engine of type : {0} ", m_Engine.GetType());
+                throw new ArgumentException(exceptionMessage);
             }
         }
     }

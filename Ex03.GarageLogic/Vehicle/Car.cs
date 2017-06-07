@@ -22,47 +22,49 @@ namespace Ex03.GarageLogic
             {
                 m_Engine = new ElectricEngine(2.5f);
             }
-            else if (i_EngineType.Equals(typeof(MotorEngine)))
+            else // if not electric then is must be fueled (i_EngineType.Equals(typeof(MotorEngine)))
             {
                 m_Engine = new MotorEngine(42f, eFuelType.Octan98);
             }
-            else
-            {
-                throw new Exception("Invalid engine type entered");
-            }
 
             k_MaxWheelAirPress = 30;
-            InitAllWheels(new Wheel(i_WheelManufacturer, k_MaxWheelAirPress), 4);
+            // TODO delete
+            //InitAllWheels(new Wheel(i_WheelManufacturer, k_MaxWheelAirPress), 4);
+            InitAllWheels(i_WheelManufacturer, k_MaxWheelAirPress, 4);
         }
 
         // ======================================== Properties ========================================
         // string property for 
-        public string CarColor
-        {
-            get { return m_CarColor.ToString(); }
-        }
+        // TODO delete
+        //public string CarColor
+        //{
+        //    get { return m_CarColor.ToString(); }
+        //}
 
-        public string NumDoors
-        {
-            get { return m_NumDoors.ToString(); }
-        }
+        //public string NumDoors
+        //{
+        //    get { return m_NumDoors.ToString(); }
+        //}
 
-        public override Dictionary<string, PropertyInfo> GetUserInputPropertiesForNewVehicle()
-        {
-            Dictionary<string, PropertyInfo> userInputProperties = new Dictionary<string, PropertyInfo>();
+        // TODO delete
+        //public override Dictionary<string, PropertyInfo> GetUserInputPropertiesForNewVehicle()
+        //{
+        //    Dictionary<string, PropertyInfo> userInputProperties = new Dictionary<string, PropertyInfo>();
 
-            userInputProperties.Add("Car Color", this.GetType().GetProperty("CarColor"));
-            userInputProperties.Add("Number of doors", this.GetType().GetProperty("NumDoors"));
+        //    userInputProperties.Add("Car Color", this.GetType().GetProperty("CarColor"));
+        //    userInputProperties.Add("Number of doors", this.GetType().GetProperty("NumDoors"));
 
-            return userInputProperties;
-        }
+        //    return userInputProperties;
+        //}
 
         public override string ToString()
         {
             return String.Format(
 @"{0}
+
 Car Color: {1}
-Number of doors: {2}",
+Number of doors: {2}
+",
 base.ToString(),
 m_CarColor,
 m_NumDoors);
@@ -73,10 +75,11 @@ m_NumDoors);
         protected override void initUserInputFunctions()
         {
             // TODO try to improve
-            if (m_UserInputFunctions.Count == 0)
+            if (s_SetFunctionsForAddedParams == null)
             {
-                m_UserInputFunctions.Add("number of doors", "SetNumDoors");
-                m_UserInputFunctions.Add("color of car", "SetColor");
+                s_SetFunctionsForAddedParams = new Dictionary<string, string>();
+                s_SetFunctionsForAddedParams.Add("number of doors", "SetNumDoors");
+                s_SetFunctionsForAddedParams.Add("color of car", "SetColor");
             }
         }
 

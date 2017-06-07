@@ -41,10 +41,6 @@ namespace Ex03.GarageLogic
             {
                 m_VehiclesInGarage[i_LicensePlate].Status = i_VehicleStatus;
             }
-            //else
-            //{
-            //    throw new ArgumentException("license plate {0} is not in the garage", i_LicensePlate);
-            //}
         }
 
         // returns a list of all license plates in the garage according to a given status filter (all if null)
@@ -78,10 +74,6 @@ namespace Ex03.GarageLogic
             {
                 engineType = m_VehiclesInGarage[i_LicensePlate].EngineType;
             }
-            //else
-            //{
-            //    throw new ArgumentException("license plate {0} is not in the garage", i_LicensePlate);
-            //}
 
             return engineType;
         }
@@ -95,14 +87,11 @@ namespace Ex03.GarageLogic
             {
                 status = m_VehiclesInGarage[i_LicensePlate].Status;
             }
-            //else
-            //{
-            //    throw new ArgumentException("The given licence plate is not in the garage.");
-            //}
 
             return status;
         }
 
+        // fill air in all wheels to max for a given license plate
         public void FillAirInWheels(string i_LicensePlate)
         {
             if (LicensePlateExists(i_LicensePlate))
@@ -111,6 +100,7 @@ namespace Ex03.GarageLogic
             }
         }
 
+        // get vehicle information of a given license plate
         public string GetVehicleInformation(string i_LicensePlate)
         {
             string infoStr = String.Empty;
@@ -123,19 +113,20 @@ namespace Ex03.GarageLogic
             return infoStr;
         }
 
-        public void FillEnergyInVehicle(string i_LicensePlate, float i_AmountEnergyToFill)
+
+        public void ChargeVehicle(string i_LicensePlate, float i_AmountEnergyToFill)
         {
             if (LicensePlateExists(i_LicensePlate))
             {
-                m_VehiclesInGarage[i_LicensePlate].FillEnergy(i_AmountEnergyToFill);
+                m_VehiclesInGarage[i_LicensePlate].Charge(i_AmountEnergyToFill);
             }
         }
 
-        public void FillEnergyInVehicle(string i_LicensePlate, float i_AmountEnergyToFill, eFuelType i_FuelType)
+        public void FuelVehicle(string i_LicensePlate, float i_AmountEnergyToFill, eFuelType i_FuelType)
         {
             if (LicensePlateExists(i_LicensePlate))
             {
-                m_VehiclesInGarage[i_LicensePlate].FillEnergy(i_AmountEnergyToFill, i_FuelType);
+                m_VehiclesInGarage[i_LicensePlate].FillFuel(i_AmountEnergyToFill, i_FuelType);
             }
         }
 
