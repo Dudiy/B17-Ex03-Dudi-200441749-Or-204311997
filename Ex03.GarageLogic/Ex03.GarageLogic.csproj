@@ -36,9 +36,8 @@
   <ItemGroup>
     <Compile Include="Engine\ElectricEngine.cs" />
     <Compile Include="Engine\Engine.cs" />
-    <Compile Include="Engine\MotorEngine.cs" />
+    <Compile Include="Engine\FuelEngine.cs" />
     <Compile Include="enums\EnumUtils.cs" />
-    <Compile Include="TypeList.cs" />
     <Compile Include="VehicleFactory.cs" />
     <Compile Include="enums\eVehicleStatus.cs" />
     <Compile Include="Garage.cs" />
@@ -50,7 +49,6 @@
     <Compile Include="enums\eLicenseType.cs" />
     <Compile Include="Exceptions\ValueOutOfRangeException.cs" />
     <Compile Include="Vehicle\Truck.cs" />
-    <Compile Include="Vehicle\UserInputFunctions.cs" />
     <Compile Include="Vehicle\Vehicle.cs" />
     <Compile Include="Vehicle\Wheel.cs" />
   </ItemGroup>

@@ -5,13 +5,15 @@ namespace Ex03.GarageLogic
 {
     public static class EnumUtils
     {
+        /* search for an enum value in a given enum type, 
+           returns null if the value isn't found and prints all possibilities. (case insensitive) */
         public static Enum ConvertStringToEnumValue(Type i_TypeOfEnum, string i_LookForStringValue)
         {
             bool isValidInput = false;
-            Enum findEnumValue = null;
+            Enum enumValueFound = null;
             StringBuilder optionsListStr = new StringBuilder();
 
-            // check if i_LookForStringValue exist in enum
+            // check if i_LookForStringValue exist in enum and build enum possibilities string
             foreach (Enum valueInEnum in Enum.GetValues(i_TypeOfEnum))
             {
                 optionsListStr.AppendFormat(
@@ -19,25 +21,27 @@ namespace Ex03.GarageLogic
 ", valueInEnum.ToString());
                 if (i_LookForStringValue.ToString().ToLower().Equals(valueInEnum.ToString().ToLower()))
                 {
-                    findEnumValue = valueInEnum;
+                    enumValueFound = valueInEnum;
                     isValidInput = true;
                     break;
                 }
             }
 
+            // if i_TypeOfEnum was not found
             if (!isValidInput)
             {
                 string exceptionMessage = String.Format(
 @"{0} does not exist in the enum. 
 Valid options:
-{1}",
+{1}
+",
 i_LookForStringValue,
 optionsListStr.ToString());
 
                 throw new ArgumentException(exceptionMessage);
             }
 
-            return findEnumValue;
+            return enumValueFound;
         }
     }
 }

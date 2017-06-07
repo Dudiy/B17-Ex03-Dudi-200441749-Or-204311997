@@ -2,23 +2,21 @@
 
 namespace Ex03.GarageLogic
 {
-    // TODO change to FuelEngine
-    public class MotorEngine : Engine
+    public class FuelEngine : Engine
     {
         private eFuelType m_FuelType;
 
-        public MotorEngine(float i_MaxEnergy, eFuelType i_FuelType)
+        public FuelEngine(float i_MaxEnergy, eFuelType i_FuelType)
             : base(i_MaxEnergy)
         {
             m_FuelType = i_FuelType;
         }
 
-
         public void FillFuel(float i_FuelToAdd, eFuelType i_FuelType)
         {
             if (i_FuelType.Equals(m_FuelType))
             {
-                // if i_FuelToAdd is out of range an exception will be thrown from AddEnergy
+                // if i_FuelToAdd is out of range an exception will be thrown from FillEnergy
                 FillEnergy(i_FuelToAdd);
             }
             else
@@ -29,7 +27,7 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return String.Format(
+            string output = String.Format(
 @"Engine type: Fuel running engine
 Remaining fuel percent: {0}
 Remaining fuel liters: {1}
@@ -40,6 +38,8 @@ m_EnergyRemaining,
 m_MaxEnergy,
 m_FuelType
 );
+
+            return output;
         }
     }
 }

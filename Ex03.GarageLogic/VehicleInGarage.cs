@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public class VehicleInGarage
+    internal class VehicleInGarage
     {
-        private string m_OwnerName = string.Empty;
-        private string m_OwnerPhone = string.Empty;
+        private string m_OwnerName;
+        private string m_OwnerPhone;
         private Vehicle m_Vehicle;
         private eVehicleStatus m_Status = eVehicleStatus.InProgress;
 
-        //assumption: input vehicle is not in the garage yet (must be checked by the callee)
+        //assumption: input vehicle is not in the garage yet (must be checked by the caller)
         internal VehicleInGarage(string i_OwnerName, string i_OwnerPhone, Vehicle i_Vehicle)
         {
             m_OwnerName = i_OwnerName;
@@ -19,55 +17,29 @@ namespace Ex03.GarageLogic
             m_Vehicle = i_Vehicle;
         }
 
-        public eVehicleStatus Status
+        // ==================================================== Properties ====================================================
+        internal eVehicleStatus Status
         {
             get { return m_Status; }
             set { m_Status = value; }
         }
 
-        internal void FillAirToMax()
-        {
-            m_Vehicle.FillAllWheelsToMaxAirPress();
-        }
-
-        public string LicensePlate
+        internal string LicensePlate
         {
             get { return m_Vehicle.LicensePlate; }
         }
 
-        public override int GetHashCode()
+        internal float PercentOfEnergyRemaining
         {
-            return m_Vehicle.GetHashCode();
+            get { return m_Vehicle.PercentOfEnergyRemaining; }
         }
 
-        public override bool Equals(object obj)
+        internal Type EngineType
         {
-            VehicleInGarage compareTo = obj as VehicleInGarage;
-
-            return m_Vehicle.Equals(compareTo.m_Vehicle);
+            get { return m_Vehicle != null ? m_Vehicle.EngineType : null; }
         }
 
-        public static bool operator ==(VehicleInGarage i_Vehicle1, VehicleInGarage i_Vehicle2)
-        {
-            bool equals = false;
-
-            if (i_Vehicle1 == null || i_Vehicle2 == null)
-            {
-                equals = false;
-            }
-            else if (i_Vehicle1.m_Vehicle.Equals(i_Vehicle2.m_Vehicle))
-            {
-                equals = true;
-            }
-
-            return equals;
-        }
-
-        public static bool operator !=(VehicleInGarage i_Vehicle1, VehicleInGarage i_Vehicle2)
-        {
-            return !(i_Vehicle1 == i_Vehicle2);
-        }
-
+        // ==================================================== overrides ====================================================
         public override string ToString()
         {
             return String.Format(
@@ -84,24 +56,20 @@ m_Status,
 m_Vehicle.ToString());
         }
 
-        public void Charge(float i_AmountEnergyToFill)
+        // ==================================================== Methods ====================================================
+        internal void FillAirToMax()
+        {
+            m_Vehicle.FillAllWheelsToMaxAirPress();
+        }
+
+        internal void Charge(float i_AmountEnergyToFill)
         {
             m_Vehicle.Charge(i_AmountEnergyToFill);
         }
 
-        public void FillFuel(float i_AmountEnergyToFill, eFuelType i_FuelType)
+        internal void FillFuel(float i_AmountEnergyToFill, eFuelType i_FuelType)
         {
             m_Vehicle.FillFuel(i_AmountEnergyToFill, i_FuelType);
-        }
-
-        public float PercentOfEnergyRemaining
-        {
-            get { return m_Vehicle.PercentOfEnergyRemaining; }
-        }
-
-        public Type EngineType
-        {
-            get { return m_Vehicle.EngineType; }
         }
     }
 }

@@ -9,13 +9,13 @@ namespace Ex03.GarageLogic
         protected float m_EnergyRemaining;
         protected float m_MaxEnergy;
 
-        // ==================================================== Properties ====================================================
         public Engine(float i_MaxEnergy)
         {
             m_MaxEnergy = i_MaxEnergy;
             m_EnergyRemaining = 0;
         }
 
+        // ==================================================== Properties ====================================================
         public float PercentOfEnergyRemaining
         {
             get { return m_EnergyRemaining / m_MaxEnergy; }

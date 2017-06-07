@@ -12,6 +12,7 @@ namespace Ex03.GarageLogic
 {
     public class Garage
     {
+        // each pair in the dictionary is <license plate, VehicleInGarage>
         private Dictionary<string, VehicleInGarage> m_VehiclesInGarage = new Dictionary<string, VehicleInGarage>();
         private static readonly VehicleFactory sr_VehicleFactory = new VehicleFactory();
 
@@ -48,11 +49,12 @@ namespace Ex03.GarageLogic
         {
             List<string> licensePlatesList = new List<string>();
 
-            foreach (KeyValuePair<string, VehicleInGarage> vehicle in m_VehiclesInGarage)
+            // the values of eache pair in m_VehiclesInGarage pair is the VehicleInGarage object
+            foreach (VehicleInGarage vehicleInGarage in m_VehiclesInGarage.Values)
             {
-                if (vehicle.Value.Status == i_StatusFilter || i_StatusFilter == null)
+                if (vehicleInGarage.Status == i_StatusFilter || i_StatusFilter == null)
                 {
-                    licensePlatesList.Add(vehicle.Value.LicensePlate);
+                    licensePlatesList.Add(vehicleInGarage.LicensePlate);
                 }
             }
 
@@ -68,27 +70,13 @@ namespace Ex03.GarageLogic
         // return the engine type of a given license plate
         public Type GetEngineType(string i_LicensePlate)
         {
-            Type engineType = null;
-
-            if (LicensePlateExists(i_LicensePlate))
-            {
-                engineType = m_VehiclesInGarage[i_LicensePlate].EngineType;
-            }
-
-            return engineType;
+            return LicensePlateExists(i_LicensePlate) ? m_VehiclesInGarage[i_LicensePlate].EngineType : null;
         }
 
         // return the status of a given license plate
         public eVehicleStatus GetVehicleStatus(string i_LicensePlate)
         {
-            eVehicleStatus status = 0;
-
-            if (LicensePlateExists(i_LicensePlate))
-            {
-                status = m_VehiclesInGarage[i_LicensePlate].Status;
-            }
-
-            return status;
+            return LicensePlateExists(i_LicensePlate) ? m_VehiclesInGarage[i_LicensePlate].Status : 0;
         }
 
         // fill air in all wheels to max for a given license plate
@@ -103,17 +91,10 @@ namespace Ex03.GarageLogic
         // get vehicle information of a given license plate
         public string GetVehicleInformation(string i_LicensePlate)
         {
-            string infoStr = String.Empty;
-
-            if (LicensePlateExists(i_LicensePlate))
-            {
-                infoStr = m_VehiclesInGarage[i_LicensePlate].ToString();
-            }
-
-            return infoStr;
+            return LicensePlateExists(i_LicensePlate) ? m_VehiclesInGarage[i_LicensePlate].ToString() : String.Empty;
         }
 
-
+        // add "i_AmountEnergyToFill" hours to vehicle according to license plate
         public void ChargeVehicle(string i_LicensePlate, float i_AmountEnergyToFill)
         {
             if (LicensePlateExists(i_LicensePlate))
@@ -122,6 +103,7 @@ namespace Ex03.GarageLogic
             }
         }
 
+        // add "i_AmountEnergyToFill" hours to vehicle according to license plate
         public void FuelVehicle(string i_LicensePlate, float i_AmountEnergyToFill, eFuelType i_FuelType)
         {
             if (LicensePlateExists(i_LicensePlate))
@@ -130,16 +112,10 @@ namespace Ex03.GarageLogic
             }
         }
 
+        // returns the amount of energy remaining in a 
         public float GetPercentOfEnergyRemaining(string i_LicensePlate)
         {
-            float percentRemaining = 0f;
-
-            if (LicensePlateExists(i_LicensePlate))
-            {
-                percentRemaining = m_VehiclesInGarage[i_LicensePlate].PercentOfEnergyRemaining;
-            }
-
-            return percentRemaining;
+            return LicensePlateExists(i_LicensePlate) ? m_VehiclesInGarage[i_LicensePlate].PercentOfEnergyRemaining : 0f;
         }
     }
 }

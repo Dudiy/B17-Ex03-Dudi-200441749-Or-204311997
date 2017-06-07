@@ -4,17 +4,21 @@ namespace Ex03.GarageLogic
 {
     public class ElectricEngine : Engine
     {
-        public ElectricEngine(float i_MaxEnergy) : base(i_MaxEnergy) { }
-
-        public void ChargeBattery(float i_AmountToCharge)
+        public ElectricEngine(float i_MaxEnergy) : base(i_MaxEnergy)
         {
-            // TODO if there is more in amount to charge then max, should we charge to max or throw error?
-            FillEnergy(i_AmountToCharge);
         }
 
-        public void Charge(float i_FuelToAdd)
+        // charge the battery to i_AmountToCharge hours, or until battery is full
+        public void Charge(float i_AmountToCharge)
         {
-            FillEnergy(i_FuelToAdd);
+            float amountToCharge = i_AmountToCharge;
+
+            if (i_AmountToCharge > m_MaxEnergy - m_EnergyRemaining)
+            {
+                amountToCharge = m_MaxEnergy - m_EnergyRemaining;
+            }
+
+            FillEnergy(amountToCharge);
         }
 
         public override string ToString()

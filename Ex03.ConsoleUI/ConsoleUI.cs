@@ -267,7 +267,7 @@ newStatus.ToString());
             licensePlate = getLicensePlateFromUser();
             if (isInGarage(licensePlate))
             {
-                if (m_Garage.GetEngineType(licensePlate) == typeof(MotorEngine))
+                if (m_Garage.GetEngineType(licensePlate) == typeof(FuelEngine))
                 {
                     while (!fuelingSuccessfull)
                     {

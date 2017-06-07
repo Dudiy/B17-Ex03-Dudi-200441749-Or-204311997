@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ex03.GarageLogic
+﻿namespace Ex03.GarageLogic
 {
-    public class Wheel // TODO delete : ICloneable
+    public class Wheel
     {
         private string m_Manufacturer;
-        private float m_CurrentAirPressure;
         private float m_MaxAirPressure;
+        private float m_CurrentAirPressure;
 
         public Wheel(string i_Manufacturer, float i_MaxAirPessure)
         {
             m_Manufacturer = i_Manufacturer;
             m_MaxAirPressure = i_MaxAirPessure;
-            m_CurrentAirPressure = m_MaxAirPressure;
+            m_CurrentAirPressure = 0;
         }
 
         // ==================================================== Properties ====================================================
         public string Manufacturer
         {
             get { return m_Manufacturer; }
-            set { m_Manufacturer = value; }
+            internal set { m_Manufacturer = value; }
         }
 
         public float MaxAirPressure
@@ -35,7 +31,6 @@ namespace Ex03.GarageLogic
         }
 
         // ==================================================== Methods ====================================================
-
         public void FillAir(float i_AmountOfAirToFill)
         {
             if (m_CurrentAirPressure + i_AmountOfAirToFill <= m_MaxAirPressure)
@@ -48,19 +43,5 @@ namespace Ex03.GarageLogic
                 throw new ValueOutOfRangeException(0, m_MaxAirPressure - m_CurrentAirPressure);
             }
         }
-
-        // TODO delete
-        //public Wheel Clone()
-        //{
-        //    return MemberwiseClone() as Wheel;
-        //}
-
-        //// TODO according to the book Clone() should be implemented this way     
-        //// TODO check
-        //object ICloneable.Clone()
-        //{
-        //    //return MemberwiseClone() as Wheel;
-        //    return null;
-        //}
     }
 }

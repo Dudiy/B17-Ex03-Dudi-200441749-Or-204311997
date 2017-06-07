@@ -11,6 +11,7 @@
  *      -   updates m_Engine to the correct engine      
  * 
  */
+
 using System;
 using System.Collections.Generic;
 
@@ -20,21 +21,18 @@ namespace Ex03.GarageLogic
     {
         private readonly string m_LicensePlate;
         private readonly string m_ModelName = "No model name entered";
-        protected float k_MaxWheelAirPress = 0;
+        protected float m_MaxWheelAirPress = 0;
         protected List<Wheel> m_Wheels = new List<Wheel>();
-        protected Engine m_Engine = new MotorEngine(0, eFuelType.Octan95);
-        protected static Dictionary<string, string> s_SetFunctionsForAddedParams = new Dictionary<string, string>();
+        protected Engine m_Engine = new FuelEngine(0, eFuelType.Octan95);
+        protected static readonly Dictionary<string, string> sr_SetFunctionsForAddedParams = new Dictionary<string, string>();
 
         // assumption, input parameters are validated before calling the ctor        
         internal Vehicle(string i_LicensePlate, string i_ModelName)
         {
             m_LicensePlate = i_LicensePlate;
             m_ModelName = i_ModelName;
-            initUserInputFunctions();
+            InitValuesInSetFunctionsForAddedParams();
         }
-
-        // all inheritants must provide a function to initialize a list of all user input functions
-        protected abstract void initUserInputFunctions();
 
         // ==================================================== Propeties ====================================================
         public string LicensePlate
@@ -50,13 +48,6 @@ namespace Ex03.GarageLogic
         public string WheelManufacturer
         {
             get { return m_Wheels[0].Manufacturer; }
-            set
-            {
-                foreach (Wheel wheel in m_Wheels)
-                {
-                    wheel.Manufacturer = value;
-                }
-            }
         }
 
         public Type EngineType
@@ -67,7 +58,7 @@ namespace Ex03.GarageLogic
         // a dictionary of <description, function name> of all functions used to set additional parameters
         public Dictionary<string, string> SetFunctionsForAddedParams
         {
-            get { return s_SetFunctionsForAddedParams; }
+            get { return sr_SetFunctionsForAddedParams; }
         }
 
         public float PercentOfEnergyRemaining
@@ -76,48 +67,9 @@ namespace Ex03.GarageLogic
         }
 
         // ==================================================== overrides and operators ====================================================
-        public override bool Equals(object obj)
-        {
-            bool equals = false;
-            Vehicle compareTo = obj as Vehicle;
-
-            if (compareTo != null)
-            {
-                equals = m_LicensePlate.Equals(compareTo.m_LicensePlate);
-            }
-
-            return equals;
-        }
-
-        public static bool operator ==(Vehicle i_Vehicle1, Vehicle i_Vehicle2)
-        {
-            bool equals = false;
-
-            if (i_Vehicle1 == null || i_Vehicle2 == null)
-            {
-                equals = false;
-            }
-            else if (i_Vehicle1.Equals(i_Vehicle2))
-            {
-                equals = true;
-            }
-
-            return equals;
-        }
-
-        public static bool operator !=(Vehicle i_Vehicle1, Vehicle i_Vehicle2)
-        {
-            return !(i_Vehicle1 == i_Vehicle2);
-        }
-
-        public override int GetHashCode()
-        {
-            return m_LicensePlate.GetHashCode();
-        }
-
         public override string ToString()
         {
-            return String.Format(
+            string output = String.Format(
 @"License plate: {0}
 Model Name: {1}
 Vehicle type: {2}
@@ -136,9 +88,14 @@ m_Wheels[0].Manufacturer,
 m_Wheels[0].MaxAirPressure,
 m_Engine.ToString()
 );
+
+            return output;
         }
 
         // ==================================================== Methods ====================================================
+        // all inheritants must provide a function to initialize a list of all user input functions
+        protected abstract void InitValuesInSetFunctionsForAddedParams();
+
         // initialize all wheels of a car, this is done from the ctor of the inheritant once we know the actual numWheels in runtime
         protected void InitAllWheels(string i_WheelManufacturer, float i_MaxAirPress, byte i_NumWheels)
         {
@@ -149,18 +106,32 @@ m_Engine.ToString()
         }
 
         // fill all wheels in the vehicle to maximum air pressure
-        public void FillAllWheelsToMaxAirPress()
+        internal void FillAllWheelsToMaxAirPress()
         {
             foreach (Wheel wheel in m_Wheels)
             {
-                float airToFill = wheel.MaxAirPressure - wheel.CurrentAirPressure;
+                // air needed to be filled = wheel.MaxAirPressure - wheel.CurrentAirPressure
+                wheel.FillAir(wheel.MaxAirPressure - wheel.CurrentAirPressure);
+            }
+        }
 
-                wheel.FillAir(airToFill);
+        // fuel a fuelable engine (if the caller does not have an electric engine an exception is thrown)
+        internal void FillFuel(float i_AmountEnergyToFill, eFuelType i_FuelType)
+        {
+            if (m_Engine.GetType() == typeof(FuelEngine))
+            {
+                ((FuelEngine)m_Engine).FillFuel(i_AmountEnergyToFill, i_FuelType);
+            }
+            else
+            {
+                string exceptionMessage = string.Format("Can't fuel an engine of type : {0} ", m_Engine.GetType());
+
+                throw new ArgumentException(exceptionMessage);
             }
         }
 
         // charge an electric engine (if the caller does not have an electric engine an exception is thrown)
-        public void Charge(float i_AmountEnergyToFill)
+        internal void Charge(float i_AmountEnergyToFill)
         {
             if (m_Engine.GetType() == typeof(ElectricEngine))
             {
@@ -169,20 +140,7 @@ m_Engine.ToString()
             else
             {
                 string exceptionMessage = string.Format("Can't charge an engine of type : {0} ", m_Engine.GetType());
-                throw new ArgumentException(exceptionMessage);
-            }
-        }
 
-        // fuel a fuelable engine (if the caller does not have an electric engine an exception is thrown)
-        public void FillFuel(float i_AmountEnergyToFill, eFuelType i_FuelType)
-        {
-            if (m_Engine.GetType() == typeof(MotorEngine))
-            {
-                ((MotorEngine)m_Engine).FillFuel(i_AmountEnergyToFill, i_FuelType);
-            }
-            else
-            {
-                string exceptionMessage = string.Format("Can't fuel an engine of type : {0} ", m_Engine.GetType());
                 throw new ArgumentException(exceptionMessage);
             }
         }
