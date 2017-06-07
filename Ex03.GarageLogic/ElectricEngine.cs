@@ -1,6 +1,8 @@
 ﻿/*
  * B17_Ex03: ElectricEngine.cs
  * 
+ * A type of an engine that is a member in Vehicle.
+ * 
  * Written by:
  * 204311997 - Or Mantzur
  * 200441749 - Dudi Yecheskel 
@@ -30,15 +32,14 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return String.Format(
+            return string.Format(
 @"Engine type: Electric engine
 Remaining battery percent: {0}
 Remaining battery time (hours): {1}
 Max battery capacity: {2}",
 PercentOfEnergyRemaining.ToString("P"),
 m_EnergyRemaining,
-m_MaxEnergy
-);
+m_MaxEnergy);
         }
     }
 }

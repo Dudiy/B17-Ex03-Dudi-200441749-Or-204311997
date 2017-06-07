@@ -27,7 +27,8 @@ namespace Ex03.GarageLogic
             {
                 optionsListStr.AppendFormat(
 @"{0}
-", valueInEnum.ToString());
+",
+valueInEnum.ToString());
                 if (i_LookForStringValue.ToString().ToLower().Equals(valueInEnum.ToString().ToLower()))
                 {
                     enumValueFound = valueInEnum;
@@ -39,7 +40,7 @@ namespace Ex03.GarageLogic
             // if i_TypeOfEnum was not found
             if (!isValidInput)
             {
-                string exceptionMessage = String.Format(
+                string exceptionMessage = string.Format(
 @"{0} is not a valid option. 
 Valid options:
 {1}",

@@ -16,9 +16,10 @@ namespace Ex03.ConsoleUI
 {
     internal abstract class UserInterface
     {
-        protected Garage m_Garage;
-        protected static readonly Dictionary<ushort, KeyValuePair<string, string>> sr_AvailableActionsForUser = 
+        protected static readonly Dictionary<ushort, KeyValuePair<string, string>> sr_AvailableActionsForUser =
             new Dictionary<ushort, KeyValuePair<string, string>>();
+        // (according to stylecop we need a blank line here ?!)
+        protected Garage m_Garage;
 
         // initialize Dictionary of <id, <function description, function name>>
         static UserInterface()

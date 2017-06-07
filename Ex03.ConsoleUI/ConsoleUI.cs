@@ -42,10 +42,11 @@ namespace Ex03.ConsoleUI
                 selectedMethod = GetType().GetMethod(selectedMethodStr, BindingFlags.NonPublic | BindingFlags.Instance);
                 selectedMethod.Invoke(this, new object[] { });
                 ConsoleUtils.PressAnyKeyToContinue();
-            } while (!m_EndOfProgram);
+            }
+            while (!m_EndOfProgram);
         }
 
-        //display all available actions to the user and return the user's selection
+        // display all available actions to the user and return the user's selection
         private string getActionRequestFromUser()
         {
             ushort userSelection;
@@ -66,7 +67,7 @@ action.Value.Key);
             // get the user's selection
             userSelection = ConsoleUtils.GetNumberInputFromUserInRange(0, numOptions);
 
-            //return the name of the method that matches the user's selection
+            // return the name of the method that matches the user's selection
             return sr_AvailableActionsForUser[userSelection].Value;
         }
 
@@ -100,7 +101,7 @@ action.Value.Key);
             Vehicle vehicleToAdd;
             string customerName, customerNumber, modelName, wheelManufacturer;
 
-            //vehicleType = getVehicleTypeFromUser();
+            // vehicleType = getVehicleTypeFromUser();
             vehicleType = ConsoleUtils.SelectTypeFromListOfDescriptionAndTypePair(VehicleFactory.VehicleTypes, "vehicle");
             getCommonPropertiesForAllVehicles(out modelName, out wheelManufacturer);
             vehicleToAdd = createNewVehicle(vehicleType, i_LicensePlate, modelName, wheelManufacturer);
@@ -109,7 +110,8 @@ action.Value.Key);
             Console.WriteLine(
 @"
 Vehicle with license plate {0}, was successfully added to the garage!
-", i_LicensePlate);
+",
+i_LicensePlate);
         }
 
         // get all properties that are relevant to all vehicle types
@@ -172,7 +174,6 @@ setValueMethod.Key);
             if (userSelection == 'Y')
             {
                 filter = (eVehicleStatus)ConsoleUtils.GetEnumSelectionFromUser(typeof(eVehicleStatus), "Select filter for list of license plates: ");
-
             }
             else if (userSelection == 'N')
             {
@@ -243,26 +244,29 @@ newStatus.ToString());
                     m_Garage.FillAirInWheels(licensePlate);
                     Console.WriteLine(
 @"All wheels in {0} were filled to max
-"
-, licensePlate);
+", 
+licensePlate);
                 }
                 catch (ArgumentException argumentEx)
                 {
                     Console.WriteLine(
 @"{0}
-", argumentEx.Message);
+", 
+argumentEx.Message);
                 }
                 catch (ValueOutOfRangeException valueRangeEx)
                 {
                     Console.WriteLine(
 @"{0}
-", valueRangeEx.Message);
+", 
+valueRangeEx.Message);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(
 @"Error - {0}
-", ex.Message);
+", 
+ex.Message);
                 }
             }
         }
@@ -328,8 +332,8 @@ m_Garage.GetPercentOfEnergyRemaining(i_LicensePlate).ToString("P"));
             {
                 Console.WriteLine(
 @"Fuel amount is invalid, valid range is: {0}-{1}
-"
-, valueOutOfRangeException.MinValue,
+", 
+valueOutOfRangeException.MinValue,
 valueOutOfRangeException.MaxValue);
             }
             catch (Exception exception)
@@ -355,7 +359,6 @@ valueOutOfRangeException.MaxValue);
                 {
                     while (!chargingSuccessfull)
                     {
-
                         chargingSuccessfull = tryChargeBatteryInVehicle(licensePlate);
                     }
                 }
@@ -385,7 +388,7 @@ The battery is currently {2} full.
 amountEnergyToAdd,
 i_LicensePlate,
 m_Garage.GetPercentOfEnergyRemaining(i_LicensePlate).ToString("P"));
-                // will only reach the next line if no exception was thrown
+                // we will only reach the next line if no exception was thrown
                 chargingSuccessfull = true;
             }
             catch (NotImplementedException notImplementedException)
@@ -400,8 +403,8 @@ m_Garage.GetPercentOfEnergyRemaining(i_LicensePlate).ToString("P"));
             {
                 Console.WriteLine(
 @"Fuel amount is invalid, valid range is: {0}-{1}
-"
-, valueOutOfRangeException.MinValue,
+", 
+valueOutOfRangeException.MinValue,
 valueOutOfRangeException.MaxValue);
             }
             catch (Exception exception)

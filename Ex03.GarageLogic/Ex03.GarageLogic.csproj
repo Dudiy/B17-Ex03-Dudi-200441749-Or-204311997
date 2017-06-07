@@ -34,26 +34,24 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Engine\ElectricEngine.cs" />
-    <Compile Include="Engine\Engine.cs" />
-    <Compile Include="Engine\FuelEngine.cs" />
-    <Compile Include="enums\EnumUtils.cs" />
+    <Compile Include="ElectricEngine.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="FuelEngine.cs" />
+    <Compile Include="EnumUtils.cs" />
     <Compile Include="VehicleFactory.cs" />
-    <Compile Include="enums\eVehicleStatus.cs" />
+    <Compile Include="eVehicleStatus.cs" />
     <Compile Include="Garage.cs" />
     <Compile Include="VehicleInGarage.cs" />
-    <Compile Include="Vehicle\Bike.cs" />
-    <Compile Include="Vehicle\Car.cs" />
-    <Compile Include="enums\eColor.cs" />
-    <Compile Include="enums\eFuelType.cs" />
-    <Compile Include="enums\eLicenseType.cs" />
-    <Compile Include="Exceptions\ValueOutOfRangeException.cs" />
-    <Compile Include="Vehicle\Truck.cs" />
-    <Compile Include="Vehicle\Vehicle.cs" />
-    <Compile Include="Vehicle\Wheel.cs" />
+    <Compile Include="Bike.cs" />
+    <Compile Include="Car.cs" />
+    <Compile Include="eColor.cs" />
+    <Compile Include="eFuelType.cs" />
+    <Compile Include="eLicenseType.cs" />
+    <Compile Include="ValueOutOfRangeException.cs" />
+    <Compile Include="Truck.cs" />
+    <Compile Include="Vehicle.cs" />
+    <Compile Include="Wheel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

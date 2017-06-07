@@ -19,7 +19,7 @@ namespace Ex03.GarageLogic
         private Vehicle m_Vehicle;
         private eVehicleStatus m_Status = eVehicleStatus.InProgress;
 
-        //assumption: input vehicle is not in the garage yet (must be checked by the caller)
+        // assumption: input vehicle is not in the garage yet (must be checked by the caller)
         internal VehicleInGarage(string i_OwnerName, string i_OwnerPhone, Vehicle i_Vehicle)
         {
             m_OwnerName = i_OwnerName;
@@ -52,7 +52,7 @@ namespace Ex03.GarageLogic
         // ==================================================== overrides ====================================================
         public override string ToString()
         {
-            return String.Format(
+            return string.Format(
 @"Owner information:
 Name: {0}
 Phone number: {1} 

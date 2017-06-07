@@ -14,12 +14,12 @@ namespace Ex03.GarageLogic
 {
     public class Truck : Vehicle
     {
-        private bool m_CarriesHazardousMaterials = false;
-        private float m_MaxCarryingWeight = 0;
         private const byte k_NumWheels = 12;
         private const byte k_MaxWheelAirPressForTruck = 32;
         private const float k_MaxEnergyForTruck = 135;
         private const eFuelType k_FuelTypeForTruck = eFuelType.Octan96;
+        private bool m_CarriesHazardousMaterials = false;
+        private float m_MaxCarryingWeight = 0;
 
         public Truck(string i_LicensePlate, string i_ModelName, string i_WheelManufacturer)
             : base(i_LicensePlate, i_ModelName)
@@ -82,7 +82,7 @@ namespace Ex03.GarageLogic
         // ======================================== Override ========================================        
         public override string ToString()
         {
-            string output = String.Format(
+            string output = string.Format(
 @"{0}
 
 Carries hazardous materials: {1}
@@ -94,6 +94,5 @@ m_MaxCarryingWeight);
 
             return output;
         }
-
     }
 }

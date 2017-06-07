@@ -42,10 +42,5 @@
     <Compile Include="Program.cs" />
     <Compile Include="UserInterface.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="C:\Users\dudiy\Desktop\ClassDiagram1.cd">
-      <Link>ClassDiagram1.cd</Link>
-    </None>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

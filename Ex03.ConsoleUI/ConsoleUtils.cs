@@ -145,7 +145,7 @@ i_TypleList[i].Key);
 
             ushort input = GetNumberInputFromUserInRange(1, (ushort)i_TypleList.Count);
 
-            //return the matching type selected bt the user
+            // return the matching type selected bt the user
             return i_TypleList[input - 1].Value;
         }
     }

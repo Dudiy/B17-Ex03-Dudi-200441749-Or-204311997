@@ -1,6 +1,7 @@
 ﻿/*
  * B17_Ex03: FuelEngine.cs
- * 
+ *  
+ * A type of an engine that is a member in Vehicle.
  * 
  * Written by:
  * 204311997 - Or Mantzur
@@ -29,13 +30,13 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new ArgumentException(String.Format("Fuel type mismatch, valid fuel type is {0}", m_FuelType));
+                throw new ArgumentException(string.Format("Fuel type mismatch, valid fuel type is {0}", m_FuelType));
             }
         }
 
         public override string ToString()
         {
-            string output = String.Format(
+            string output = string.Format(
 @"Engine type: Fuel running engine
 Remaining fuel percent: {0}
 Remaining fuel liters: {1}
@@ -44,8 +45,7 @@ Fuel type: {3}",
 PercentOfEnergyRemaining.ToString("P"),
 m_EnergyRemaining,
 m_MaxEnergy,
-m_FuelType
-);
+m_FuelType);
 
             return output;
         }

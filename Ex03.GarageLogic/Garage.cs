@@ -19,9 +19,15 @@ namespace Ex03.GarageLogic
 {
     public class Garage
     {
+        private static readonly VehicleFactory sr_VehicleFactory = new VehicleFactory();
         // each pair in the dictionary is <license plate, VehicleInGarage>
         private Dictionary<string, VehicleInGarage> m_VehiclesInGarage = new Dictionary<string, VehicleInGarage>();
-        private static readonly VehicleFactory sr_VehicleFactory = new VehicleFactory();
+
+        // calls the ctor of vehicle in vehicle factory and returns the new object created
+        public static Vehicle GetNewVehicleFromFactory(Type i_VehicleType, string i_LicensePlate, string i_ModelName, string i_WheelManufacturer)
+        {
+            return sr_VehicleFactory.NewVehicle(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer);
+        }
 
         // add a new initialized vehicle to the garage, if the license plate exists the vehicle isn't added
         // assumption: the given key is not in the garage yet, but it is checked to avoid bugs
@@ -68,12 +74,6 @@ namespace Ex03.GarageLogic
             return licensePlatesList;
         }
 
-        // calls the ctor of vehicle in vehicle factory and returns the new object created
-        public static Vehicle GetNewVehicleFromFactory(Type i_VehicleType, string i_LicensePlate, string i_ModelName, string i_WheelManufacturer)
-        {
-            return sr_VehicleFactory.NewVehicle(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer);
-        }
-
         // return the engine type of a given license plate
         public Type GetEngineType(string i_LicensePlate)
         {
@@ -98,7 +98,7 @@ namespace Ex03.GarageLogic
         // get vehicle information of a given license plate
         public string GetVehicleInformation(string i_LicensePlate)
         {
-            return LicensePlateExists(i_LicensePlate) ? m_VehiclesInGarage[i_LicensePlate].ToString() : String.Empty;
+            return LicensePlateExists(i_LicensePlate) ? m_VehiclesInGarage[i_LicensePlate].ToString() : string.Empty;
         }
 
         // add "i_AmountEnergyToFill" hours to vehicle according to license plate
