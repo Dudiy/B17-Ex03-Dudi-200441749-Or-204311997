@@ -24,14 +24,14 @@ namespace Ex03.GarageLogic
         protected float m_MaxWheelAirPress = 0;
         protected List<Wheel> m_Wheels = new List<Wheel>();
         protected Engine m_Engine = new FuelEngine(0, eFuelType.Octan95);
-        protected static readonly Dictionary<string, string> sr_SetFunctionsForAddedParams = new Dictionary<string, string>();
+        protected readonly Dictionary<string, string> r_SetFunctionsForAddedProperties = new Dictionary<string, string>();
 
         // assumption, input parameters are validated before calling the ctor        
         internal Vehicle(string i_LicensePlate, string i_ModelName)
         {
             m_LicensePlate = i_LicensePlate;
             m_ModelName = i_ModelName;
-            InitValuesInSetFunctionsForAddedParams();
+            InitValuesInSetFunctionsForAddedProperties();
         }
 
         // ==================================================== Propeties ====================================================
@@ -58,7 +58,7 @@ namespace Ex03.GarageLogic
         // a dictionary of <description, function name> of all functions used to set additional parameters
         public Dictionary<string, string> SetFunctionsForAddedParams
         {
-            get { return sr_SetFunctionsForAddedParams; }
+            get { return r_SetFunctionsForAddedProperties; }
         }
 
         public float PercentOfEnergyRemaining
@@ -79,8 +79,7 @@ Manufacturer: {3}
 Max air pressure: {4}
 
 Engine Information:
-{5}
-",
+{5}",
 LicensePlate,
 ModelName,
 this.GetType().Name,
@@ -94,7 +93,7 @@ m_Engine.ToString()
 
         // ==================================================== Methods ====================================================
         // all inheritants must provide a function to initialize a list of all user input functions
-        protected abstract void InitValuesInSetFunctionsForAddedParams();
+        protected abstract void InitValuesInSetFunctionsForAddedProperties();
 
         // initialize all wheels of a car, this is done from the ctor of the inheritant once we know the actual numWheels in runtime
         protected void InitAllWheels(string i_WheelManufacturer, float i_MaxAirPress, byte i_NumWheels)
@@ -142,7 +141,7 @@ m_Engine.ToString()
                 string exceptionMessage = string.Format("Can't charge an engine of type : {0} ", m_Engine.GetType());
 
                 throw new ArgumentException(exceptionMessage);
-            }
+            }            
         }
     }
 }

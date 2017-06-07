@@ -31,10 +31,9 @@ namespace Ex03.GarageLogic
             if (!isValidInput)
             {
                 string exceptionMessage = String.Format(
-@"{0} does not exist in the enum. 
+@"{0} is not a valid option. 
 Valid options:
-{1}
-",
+{1}",
 i_LookForStringValue,
 optionsListStr.ToString());
 

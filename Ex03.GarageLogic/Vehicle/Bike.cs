@@ -1,46 +1,95 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Text;
+﻿using System;
 
-//namespace Ex03.GarageLogic
-//{
-//    public class Bike : Vehicle
-//    {
-//        //    private const int k_MaxEngineCapacity = 1000000;    // TODO update to a relevant max value
-//        //    protected const float k_MaxWheelAirPress = 33f;        
-//        //    private readonly int m_EngineCapacity;              // TODO can this value ever change?
-//        //    private eLicenseType m_LicenseType;
+namespace Ex03.GarageLogic
+{
+    public class Bike : Vehicle
+    {
+        private eLicenseType m_LicenseType = eLicenseType.A;
+        private int m_EngineCapacity = 0;
+        private const byte k_NumWheels = 2;
+        private const byte k_MaxWheelAirPressForBike = 33;
+        private const float k_MaxEnergyForElectricBike = 2.7f;
+        private const float k_MaxEnergyForFueledBike = 5.5f;
+        private const eFuelType k_FuelTypeForBike = eFuelType.Octan95;
 
-//        //    public Bike(string i_LicensePlate, string i_ModelName, eLicenseType i_LicenseType, int i_EngineCapacity)
-//        //        : base(i_LicensePlate, i_ModelName)
-//        //    {
-//        //        m_NumWheels = 2;                                // TODO not sur about this member
-//        //        for (int i = 0; i < m_NumWheels; i++)
-//        //        {
-//        //            Wheels.Add(new Wheel("A Wheels", k_MaxWheelAirPress));
-//        //        }
+        public Bike(string i_LicensePlate, string i_ModelName, string i_WheelManufacturer)
+            : base(i_LicensePlate, i_ModelName)
+        {
+            //setEngine(i_EngineType);
+            m_MaxWheelAirPress = k_MaxWheelAirPressForBike;
+            InitAllWheels(i_WheelManufacturer, k_MaxWheelAirPressForBike, k_NumWheels);
+        }
 
-//        //        m_LicenseType = i_LicenseType;
-//        //        m_EngineCapacity = i_EngineCapacity;
-//        //    }
+        // ======================================== Additional Properties ========================================        
+        protected override void InitValuesInSetFunctionsForAddedProperties()
+        {
+            if (r_SetFunctionsForAddedProperties.Count == 0)
+            {
+                r_SetFunctionsForAddedProperties.Add("engine type (\"Electric Engine\" or \"Fueled Engine\")", "SetEngineType");
+                r_SetFunctionsForAddedProperties.Add("license type", "SetLicenseType");
+                r_SetFunctionsForAddedProperties.Add("engine capacity", "SetEngineCapacity");
+            }
+        }
 
-//        //    public eLicenseType LicenseType
-//        //    {
-//        //        get { return m_LicenseType; }
-//        //        set { m_LicenseType = value; }
-//        //    }
+        public void SetEngineType(string i_EngineType)
+        {
+            string engineType = i_EngineType.ToUpper();
 
-//        //    public int EngineCapacity
-//        //    {
-//        //        get { return m_EngineCapacity; }
-//        //    }
-//        public Bike(string i_LicensePlate, string i_ModelName) : base(i_LicensePlate, i_ModelName)
-//        {
-//        }
+            if (engineType.Equals("FUELED ENGINE") || engineType.Equals("FUELED"))
+            {
+                m_Engine = new FuelEngine(k_MaxEnergyForFueledBike, k_FuelTypeForBike);
+            }
+            else if (engineType.Equals("ELECTRIC ENGINE") || engineType.Equals("ELECTRIC"))
+            {
+                m_Engine = new ElectricEngine(k_MaxEnergyForElectricBike);
+            }
+            else
+            {
+                throw new FormatException("Please enter \"Electric Engine\" or \"Fueled Engine\"");
+            }
+        }
 
-//        public override List<KeyValuePair<string, object>> GetUserInputPropertiesForNewVehicle()
-//        {
-//            throw new NotImplementedException();
-//        }
-//    }
-//}
+        public void SetLicenseType(string i_LicenseType)
+        {
+            m_LicenseType = (eLicenseType)EnumUtils.ConvertStringToEnumValue(typeof(eLicenseType), i_LicenseType);
+        }
+
+        public void SetEngineCapacity(string i_EngineCapacity)
+        {
+            int engineCapacity;
+
+            if (int.TryParse(i_EngineCapacity, out engineCapacity))
+            {
+                if (engineCapacity > 0)
+                {
+                    m_EngineCapacity = engineCapacity;
+                }
+                else
+                {
+                    // not a ValueOutOfRangeException because the is no max value
+                    throw new ArgumentException("Input value must be a positive integer");
+                }
+            }
+            else
+            {
+                throw new FormatException("Input value must be of type int");
+            }
+        }
+
+        // ======================================== Override ========================================        
+        public override string ToString()
+        {
+            string output = String.Format(
+@"{0}
+
+License type: {1}
+Engine capacity: {2}
+",
+base.ToString(),
+m_LicenseType,
+m_EngineCapacity);
+
+            return output;
+        }
+    }
+}

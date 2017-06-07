@@ -14,58 +14,71 @@ namespace Ex03.GarageLogic
         private const eFuelType k_FuelTypeForCar = eFuelType.Octan98;
 
         // assumption, input parameters are validated before calling the ctor  
-        internal Car(string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
+        internal Car(string i_LicensePlate, string i_ModelName, string i_WheelManufacturer)
             : base(i_LicensePlate, i_ModelName)
         {
-            setEngine(i_EngineType);
+            //setEngine(i_EngineType);
             m_MaxWheelAirPress = k_MaxWheelAirPressForCar;
-            InitAllWheels(i_WheelManufacturer, m_MaxWheelAirPress, k_NumWheels);
-        }
-
-        // ======================================== Methods ========================================
-
-        private void setEngine(Type i_EngineType)
-        {
-            if (i_EngineType.Equals(typeof(ElectricEngine)))
-            {
-                m_Engine = new ElectricEngine(k_MaxEnergyForElectricCar);
-            }
-            else // if not electric then is must be fueled
-            {
-                m_Engine = new FuelEngine(k_MaxEnergyForFueledCar, k_FuelTypeForCar);
-            }
+            InitAllWheels(i_WheelManufacturer, k_MaxWheelAirPressForCar, k_NumWheels);
         }
 
         // ======================================== Additional Properties ========================================        
-        protected override void InitValuesInSetFunctionsForAddedParams()
+        protected override void InitValuesInSetFunctionsForAddedProperties()
         {
-            if (sr_SetFunctionsForAddedParams.Count == 0)
+            if (r_SetFunctionsForAddedProperties.Count == 0)
             {
-                sr_SetFunctionsForAddedParams.Add("number of doors", "SetNumDoors");
-                sr_SetFunctionsForAddedParams.Add("color of car", "SetColor");
+                r_SetFunctionsForAddedProperties.Add("engine type (\"Electric Engine\" or \"Fueled Engine\")", "SetEngineType");
+                r_SetFunctionsForAddedProperties.Add("number of doors", "SetNumDoors");
+                r_SetFunctionsForAddedProperties.Add("color of car", "SetColor");
+            }
+        }
+
+        public void SetEngineType(string i_EngineType)
+        {
+            string engineType = i_EngineType.ToUpper();
+
+            if (engineType.Equals("FUELED ENGINE") || engineType.Equals("FUELED"))
+            {
+                m_Engine = new FuelEngine(k_MaxEnergyForFueledCar,k_FuelTypeForCar);
+            }
+            else if (engineType.Equals("ELECTRIC ENGINE") || engineType.Equals("ELECTRIC"))
+            {
+                m_Engine = new ElectricEngine(k_MaxEnergyForElectricCar);
+            }
+            else
+            {
+                throw new FormatException("Please enter \"Electric Engine\" or \"Fueled Engine\"");
             }
         }
 
         // get a string value and set m_NumDoors, throws an error if the string is invalid
         public void SetNumDoors(string i_NumDoors)
         {
-            bool isValidOption = false;
-            byte numDoors = Byte.Parse(i_NumDoors);
+            byte numDoors;
 
-            foreach (byte numDoorsOption in sr_PossibleNumDoors)
+            if (Byte.TryParse(i_NumDoors, out numDoors))
             {
-                if (numDoorsOption == numDoors)
+                bool isValidOption = false;
+
+                foreach (byte numDoorsOption in sr_PossibleNumDoors)
                 {
-                    m_NumDoors = numDoors;
-                    isValidOption = true;
-                    break;
+                    if (numDoorsOption == numDoors)
+                    {
+                        m_NumDoors = numDoors;
+                        isValidOption = true;
+                        break;
+                    }
+                }
+
+                if (!isValidOption)
+                {
+                    // not ValueOutOfRangeException because num doors doesnt have to be a range
+                    throw new ArgumentException("Invalid value for number of doors");
                 }
             }
-
-            if (!isValidOption)
+            else
             {
-                // not ValueOutOfRangeException because num doors doesnt have to be a range
-                throw new ArgumentException("Invalid value for number of doors");
+                throw new FormatException("Input value must be of type byte");
             }
         }
 

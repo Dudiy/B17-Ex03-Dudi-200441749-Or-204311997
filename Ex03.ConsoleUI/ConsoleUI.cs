@@ -84,14 +84,14 @@ action.Value.Key);
         // add a vehicle to the garage, assumption there is no vehicle in the garage with the given license plate
         private void addNewVehicleToGarage(string i_LicensePlate)
         {
-            Type vehicleType, engineType;
+            Type vehicleType/*, engineType*/;
             Vehicle vehicleToAdd;
             string customerName, customerNumber, modelName, wheelManufacturer;
 
             //vehicleType = getVehicleTypeFromUser();
             vehicleType = ConsoleUtils.SelectTypeFromListOfDescriptionAndTypePair(VehicleFactory.VehicleTypes, "vehicle");
-            getCommonPropertiesForAllVehicles(out engineType, out modelName, out wheelManufacturer);
-            vehicleToAdd = createNewVehicle(vehicleType, i_LicensePlate, engineType, modelName, wheelManufacturer);
+            getCommonPropertiesForAllVehicles(out modelName, out wheelManufacturer);
+            vehicleToAdd = createNewVehicle(vehicleType, i_LicensePlate, modelName, wheelManufacturer);
             getVehicleOwnerInformation(out customerName, out customerNumber);
             m_Garage.AddVehicleToGarage(customerName, customerNumber, vehicleToAdd);
             Console.WriteLine(
@@ -101,22 +101,21 @@ Vehicle with license plate {0}, was successfully added to the garage!
         }
 
         // get all properties that are relevant to all vehicle types
-        private void getCommonPropertiesForAllVehicles(out Type o_EngineType, out string o_ModelName, out string o_WheelManufacturer)
+        private void getCommonPropertiesForAllVehicles(out string o_ModelName, out string o_WheelManufacturer)
         {
-            o_EngineType = ConsoleUtils.SelectTypeFromListOfDescriptionAndTypePair(VehicleFactory.EngineTypes, "engine");
             o_ModelName = ConsoleUtils.GetNonEmptyStrFromUser("Model name: ");
             o_WheelManufacturer = ConsoleUtils.GetNonEmptyStrFromUser("Wheel manufacturer: ");
         }
 
         /* generate a new vehicle in the garage. Sets all available parameters, and then,
            using the type (known in runtime) get all the additional unique parameters from the user */
-        private Vehicle createNewVehicle(Type i_VehicleType, string i_LicensePlate, Type i_EngineType, string i_ModelName, string i_WheelManufacturer)
+        private Vehicle createNewVehicle(Type i_VehicleType, string i_LicensePlate, string i_ModelName, string i_WheelManufacturer)
         {
             bool setSucceded;
             string input;
             MethodInfo currentSetMethod;
             // creates a new vehicle with available parameters using the "VehicleFactory" via "Garage"
-            Vehicle vehicleToAdd = Garage.GetNewVehicleFromFactory(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer, i_EngineType);
+            Vehicle vehicleToAdd = Garage.GetNewVehicleFromFactory(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer);
 
             // after the type is known (in runtime) get the remaining parameters needed
             // setValueMethod is a pair of <description, function name>
