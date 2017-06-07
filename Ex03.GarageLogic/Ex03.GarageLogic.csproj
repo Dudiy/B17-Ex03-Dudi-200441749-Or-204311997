@@ -52,5 +52,8 @@
     <Compile Include="Vehicle\Vehicle.cs" />
     <Compile Include="Vehicle\Wheel.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

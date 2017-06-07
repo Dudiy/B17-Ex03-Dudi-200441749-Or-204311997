@@ -35,7 +35,7 @@ namespace Ex03.GarageLogic
 
         public void SetEngineType(string i_EngineType)
         {
-            string engineType = i_EngineType.ToUpper();
+            string engineType = i_EngineType.ToUpper().Trim();
 
             if (engineType.Equals("FUELED ENGINE") || engineType.Equals("FUELED"))
             {

@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Ex03.GarageLogic.ElectricEngine">
+    <Position X="8.5" Y="11" Width="2" />
+    <InheritanceLine Type="Ex03.GarageLogic.Engine" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.75" Y="10.563" />
+        <Point X="11.003" Y="10.563" />
+        <Point X="11.003" Y="11.812" />
+        <Point X="10.5" Y="11.812" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\ElectricEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ex03.GarageLogic.Engine">
+    <Position X="11.75" Y="9.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAUAAAAAAAEAQAAAAAgAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Engine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ex03.GarageLogic.FuelEngine">
+    <Position X="8.5" Y="8.5" Width="2" />
+    <InheritanceLine Type="Ex03.GarageLogic.Engine" FixedFromPoint="true">
+      <Path>
+        <Point X="11.75" Y="10.563" />
+        <Point X="11.003" Y="10.563" />
+        <Point X="11.003" Y="9.531" />
+        <Point X="10.5" Y="9.531" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAEAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\FuelEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ex03.GarageLogic.EnumUtils">
+    <Position X="3.5" Y="11.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>enums\EnumUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ex03.GarageLogic.ValueOutOfRangeException">
+    <Position X="4" Y="8.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAgAAAAAAAAAAAAIAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Exceptions\ValueOutOfRangeException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ex03.GarageLogic.Garage">
+    <Position X="9.5" Y="4.75" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAMAAAAAmAEAAABBCAAAABAQAAAAAgACAAAAAAA=</HashCode>
+      <FileName>Garage.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="sr_VehicleFactory" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="m_VehiclesInGarage" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Ex03.GarageLogic.Bike">
+    <Position X="11.5" Y="15" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAgAAAEAAAAIAAAAAAAABABEAUEAQBAAAA=</HashCode>
+      <FileName>Vehicle\Bike.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ex03.GarageLogic.Car">
+    <Position X="15.5" Y="15" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAQAAAQAEAAAAAAAAAAAAAQADFAgMCAAAAAA=</HashCode>
+      <FileName>Vehicle\Car.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ex03.GarageLogic.Truck">
+    <Position X="19.5" Y="15" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAABABAEAAAAAAAAAABAAAgBEAEEAAAAAAA=</HashCode>
+      <FileName>Vehicle\Truck.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ex03.GarageLogic.Vehicle">
+    <Position X="15.25" Y="9.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AQAAAEAQAAUAAgAEQAEEAFIACBAAAAAAAAAEAAgAAgA=</HashCode>
+      <FileName>Vehicle\Vehicle.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_Engine" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="m_Wheels" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Ex03.GarageLogic.Wheel">
+    <Position X="21.25" Y="9.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAACABAAACAAAAAEAAAAAAAAAEAAAAAg=</HashCode>
+      <FileName>Vehicle\Wheel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ex03.GarageLogic.VehicleFactory">
+    <Position X="4.25" Y="4.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAACAAACAAA=</HashCode>
+      <FileName>VehicleFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ex03.GarageLogic.VehicleInGarage">
+    <Position X="15.25" Y="4.75" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAUAgQAEAAEAAEAABAAABAAAQAAIAAAAAAAAAA=</HashCode>
+      <FileName>VehicleInGarage.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_Vehicle" />
+    </ShowAsAssociation>
+  </Class>
+  <Enum Name="Ex03.GarageLogic.eColor">
+    <Position X="4.75" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAGAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>enums\eColor.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ex03.GarageLogic.eFuelType">
+    <Position X="4.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>enums\eFuelType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ex03.GarageLogic.eLicenseType">
+    <Position X="3" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAACAAAAAAIAAAAAI=</HashCode>
+      <FileName>enums\eLicenseType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ex03.GarageLogic.eVehicleStatus">
+    <Position X="3" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAQAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>enums\eVehicleStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

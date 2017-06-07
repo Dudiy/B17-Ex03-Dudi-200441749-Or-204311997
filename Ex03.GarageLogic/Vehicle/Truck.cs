@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -33,7 +31,8 @@ namespace Ex03.GarageLogic
 
         public void SetCarriesHazardousMaterials(string i_CarriesHazardousMaterials)
         {
-            string input = i_CarriesHazardousMaterials.ToUpper();
+            string input = i_CarriesHazardousMaterials.ToUpper().Trim();
+
             if (input.Equals("Y") || input.Equals("YES"))
             {
                 m_CarriesHazardousMaterials = true;
