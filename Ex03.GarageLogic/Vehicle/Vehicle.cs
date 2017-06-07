@@ -74,7 +74,7 @@ namespace Ex03.GarageLogic
         // ==================================================== overrides and operators ====================================================
         public override string ToString()
         {
-            string output = String.Format(
+            string output = string.Format(
 @"License plate: {0}
 Model Name: {1}
 Vehicle type: {2}
@@ -90,8 +90,7 @@ ModelName,
 this.GetType().Name,
 m_Wheels[0].Manufacturer,
 m_Wheels[0].MaxAirPressure,
-m_Engine.ToString()
-);
+m_Engine.ToString());
 
             return output;
         }
@@ -146,7 +145,7 @@ m_Engine.ToString()
                 string exceptionMessage = string.Format("Can't charge an engine of type : {0} ", m_Engine.GetType());
 
                 throw new ArgumentException(exceptionMessage);
-            }            
+            }
         }
     }
 }

@@ -14,14 +14,14 @@ namespace Ex03.GarageLogic
 {
     public class Car : Vehicle
     {
-        private eColor m_CarColor = eColor.White;
-        private byte m_NumDoors = 4;
-        private static readonly byte[] sr_PossibleNumDoors = { 2, 3, 4, 5 };
         private const byte k_NumWheels = 4;
         private const byte k_MaxWheelAirPressForCar = 30;
         private const float k_MaxEnergyForElectricCar = 2.5f;
         private const float k_MaxEnergyForFueledCar = 42f;
         private const eFuelType k_FuelTypeForCar = eFuelType.Octan98;
+        private static readonly byte[] sr_PossibleNumDoors = { 2, 3, 4, 5 };
+        private eColor m_CarColor = eColor.White;
+        private byte m_NumDoors = 4;
 
         // assumption, input parameters are validated before calling the ctor  
         internal Car(string i_LicensePlate, string i_ModelName, string i_WheelManufacturer)
@@ -48,7 +48,7 @@ namespace Ex03.GarageLogic
 
             if (engineType.Equals("FUELED ENGINE") || engineType.Equals("FUELED"))
             {
-                m_Engine = new FuelEngine(k_MaxEnergyForFueledCar,k_FuelTypeForCar);
+                m_Engine = new FuelEngine(k_MaxEnergyForFueledCar, k_FuelTypeForCar);
             }
             else if (engineType.Equals("ELECTRIC ENGINE") || engineType.Equals("ELECTRIC"))
             {
@@ -65,7 +65,7 @@ namespace Ex03.GarageLogic
         {
             byte numDoors;
 
-            if (Byte.TryParse(i_NumDoors, out numDoors))
+            if (byte.TryParse(i_NumDoors, out numDoors))
             {
                 bool isValidOption = false;
 
@@ -100,7 +100,7 @@ namespace Ex03.GarageLogic
         // ======================================== Override ========================================        
         public override string ToString()
         {
-            string output = String.Format(
+            string output = string.Format(
 @"{0}
 
 Car Color: {1}

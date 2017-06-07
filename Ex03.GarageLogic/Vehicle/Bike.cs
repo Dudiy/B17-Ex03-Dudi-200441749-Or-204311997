@@ -14,18 +14,18 @@ namespace Ex03.GarageLogic
 {
     public class Bike : Vehicle
     {
-        private eLicenseType m_LicenseType = eLicenseType.A;
-        private int m_EngineCapacity = 0;
         private const byte k_NumWheels = 2;
         private const byte k_MaxWheelAirPressForBike = 33;
         private const float k_MaxEnergyForElectricBike = 2.7f;
         private const float k_MaxEnergyForFueledBike = 5.5f;
         private const eFuelType k_FuelTypeForBike = eFuelType.Octan95;
+        private eLicenseType m_LicenseType = eLicenseType.A;
+        private int m_EngineCapacity = 0;
 
         public Bike(string i_LicensePlate, string i_ModelName, string i_WheelManufacturer)
             : base(i_LicensePlate, i_ModelName)
         {
-            //setEngine(i_EngineType);
+            // setEngine(i_EngineType);
             m_MaxWheelAirPress = k_MaxWheelAirPressForBike;
             InitAllWheels(i_WheelManufacturer, k_MaxWheelAirPressForBike, k_NumWheels);
         }
@@ -89,7 +89,7 @@ namespace Ex03.GarageLogic
         // ======================================== Override ========================================        
         public override string ToString()
         {
-            string output = String.Format(
+            string output = string.Format(
 @"{0}
 
 License type: {1}
