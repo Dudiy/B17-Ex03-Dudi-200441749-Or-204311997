@@ -1,11 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Ex03.ConsoleUI
 {
     internal static class ConsoleUtils
     {
+        internal static string GetNonEmptyStrFromUser(string i_Prompt)
+        {
+            string inputStr = string.Empty;
+            bool isValidInput = false;
+
+            while (!isValidInput)
+            {
+                Console.Write(i_Prompt);
+                inputStr = Console.ReadLine();
+                if (inputStr.Equals(string.Empty))
+                {
+                    Console.WriteLine(
+@"empty string is invalid");
+                }
+                else
+                {
+                    isValidInput = true;
+                }
+            }
+
+            return inputStr;
+        }
+       
         // get a number selection from the user, the number must be between the given min and max values
         internal static ushort GetNumberInputFromUserInRange(ushort i_MinValidSelection, ushort i_MaxValidSelection)
         {
@@ -37,11 +59,12 @@ i_MaxValidSelection);
             return userSelection;
         }
 
-        internal static char GetYesOrNoFromUser()
+        internal static char GetYesOrNoFromUser(string i_Prompt)
         {
             string inputFromUser;
             char? selection = null;
 
+            Console.WriteLine(i_Prompt);
             while (selection == null)
             {
                 inputFromUser = Console.ReadLine();
@@ -63,27 +86,33 @@ i_MaxValidSelection);
             return (char)selection;
         }
 
-        internal static string GetNonEmptyStrFromUser(string i_Prompt)
+        internal static Enum GetEnumSelectionFromUser(Type i_EnumType, string i_Prompt)
         {
-            string inputStr = string.Empty;
-            bool isValidInput = false;
+            Dictionary<ushort, Enum> enumDictinary = new Dictionary<ushort, Enum>();
+            ushort enumCounter = 1;
+            ushort userSelection;
 
-            while (!isValidInput)
+            Console.WriteLine(i_Prompt);
+            foreach (Enum item in Enum.GetValues(i_EnumType))
             {
-                Console.Write(i_Prompt);
-                inputStr = Console.ReadLine();
-                if (inputStr.Equals(string.Empty))
-                {
-                    Console.WriteLine(
-@"empty string is invalid");
-                }
-                else
-                {
-                    isValidInput = true;
-                }
+                enumDictinary.Add(enumCounter, item);
+                enumCounter++;
             }
 
-            return inputStr;
+            foreach (KeyValuePair<ushort, Enum> item in enumDictinary)
+            {
+                Console.WriteLine("{0}. {1}", item.Key, item.Value);
+            }
+
+            userSelection = GetNumberInputFromUserInRange(1, (ushort)(enumCounter - 1));
+
+            return enumDictinary[userSelection];
+        }
+
+        internal static void PressAnyKeyToContinue()
+        {
+            Console.WriteLine("(press any key to continue)");
+            Console.ReadKey();
         }
     }
 }
