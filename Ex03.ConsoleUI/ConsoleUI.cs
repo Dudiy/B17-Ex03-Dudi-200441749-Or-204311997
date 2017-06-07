@@ -64,11 +64,12 @@ action.Value.Key);
         protected override void AddNewVehicleToGarage()
         {
             string licensePlate = string.Empty;
+            bool licensePlateExists = false;
             Type engineType = null;
             string modelName = string.Empty;
             string wheelManufacturer = string.Empty;
 
-            licensePlate = getLicensePlateFromUser();
+            getLicensePlateFromUser(out licensePlate, out licensePlateExists);
 
             // if the licnense plate exists set status to InProgress
             if (m_Garage.LicensePlateExists(licensePlate))
@@ -260,8 +261,9 @@ i_MaxValidSelection);
             char userSelection;
 
             Console.Write(
-@"Would you like to add a filter to the list of license plates? (Y/N): ");
+@"Would you like to add a filter to the list of license plates? (Y/N): ");            
             userSelection = getYesOrNoFromUser();
+            // the above fuction is guaranteed to return Y or N and no other char
             if (userSelection == 'Y')
             {
                 Console.WriteLine(
@@ -269,14 +271,14 @@ i_MaxValidSelection);
                 filter = (eVehicleStatus)getEnumSelectionFromUser(typeof(eVehicleStatus));
 
             }
-            else if (userSelection == 'N')
+            else // userSelection == 'N'
             {
                 filter = null;
             }
-            else
-            {
-                throw new Exception("Invalid char returned from \"getYesOrNoFromUser\"");
-            }
+            //else
+            //{
+            //    throw new Exception("Invalid char returned from \"getYesOrNoFromUser\"");
+            //}
 
             printLicensePlatesInGarageWithParameter(filter);
         }
@@ -399,7 +401,7 @@ the tank is currently {2} full.
 ", licensePlate,
 amountEnergyToAdd,
 m_Garage.GetPercentOfEnergyRemaining(licensePlate).ToString("P"));
-                        // will only reach the next lin eif no exception was thrown
+                        // will only reach the next line if no exception was thrown
                         fuelingSuccessfull = true;
                     }
                     catch (NotImplementedException notImplementedException)
@@ -523,7 +525,6 @@ Have a nice day.");
         private string getLicensePlateFromUser()
         {
             string userInput = string.Empty;
-
 
             do
             {
@@ -661,6 +662,12 @@ Have a nice day.");
             }
 
             return inputStr;
+        }
+
+        private void getLicensePlateFromUser(out string o_LicensePlate, out bool o_IsInGarage)
+        {
+            o_LicensePlate = getLicensePlateFromUser();
+            o_IsInGarage = m_Garage.LicensePlateExists(o_LicensePlate);
         }
     }
 }

@@ -14,6 +14,10 @@ namespace Ex03.GarageLogic
         protected List<Wheel> m_Wheels = new List<Wheel>();
         protected Engine m_Engine;
         protected static UserInputFunctions m_UserInputFunctions = new UserInputFunctions();
+        public UserInputFunctions UserInputFunctionsList
+        {
+            get { return m_UserInputFunctions; }
+        }
 
         // assumption, input parameters are validated before calling the ctor        
         internal Vehicle(string i_LicensePlate, string i_ModelName)
@@ -25,10 +29,6 @@ namespace Ex03.GarageLogic
 
         protected abstract void initUserInputFunctions();
 
-        public UserInputFunctions UserInputFunctionsList
-        {
-            get { return m_UserInputFunctions; }
-        }
 
         public float PercentOfEnergyRemaining
         {
