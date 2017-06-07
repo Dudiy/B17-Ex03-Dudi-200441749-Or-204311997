@@ -1,9 +1,7 @@
 ﻿using System;
 using Ex03.GarageLogic;
 using System.Collections.Generic;
-using System.Text;
 using System.Reflection;
-using System.Collections;
 
 namespace Ex03.ConsoleUI
 {
@@ -27,7 +25,6 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine(
 @"Hello and welcome to the new and improved garage managing application :)");
                 userSelection = getActionRequestFromUser();
-                //string str = sr_AvailableActionsForUser[userSelection].Value;
                 Console.Clear();
                 selectedMethodStr = sr_AvailableActionsForUser[userSelection].Value;
                 selectedMethod = GetType().GetMethod(selectedMethodStr, BindingFlags.NonPublic | BindingFlags.Instance);// TODO delete , BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Default);
@@ -54,7 +51,7 @@ action.Key,
 action.Value.Key);
             }
 
-            userSelection = getNumberInputFromUser(0, numOptions);
+            userSelection = ConsoleUtils.GetNumberInputFromUserInRange(0, numOptions);
 
             return userSelection;
         }
@@ -116,12 +113,11 @@ i + 1,
 VehicleFactory.GetVehicleTypeAtI(i).Key);
             }
 
-            input = getNumberInputFromUser(1, (ushort)VehicleFactory.NumOfVehicleTypes);
+            input = ConsoleUtils.GetNumberInputFromUserInRange(1, (ushort)VehicleFactory.NumOfVehicleTypes);
 
             return VehicleFactory.GetVehicleTypeAtI(input - 1).Value;
         }
 
-        // TODO - we know there are only 2 types, maybe we dont need this?!
         // display all engine types and get selection from user
         private Type selectEngineType()
         {
@@ -138,10 +134,9 @@ i + 1,
 VehicleFactory.GetEngineTypeAtI(i).Key);
             }
 
-            input = getNumberInputFromUser(1, (ushort)VehicleFactory.NumOfEngineTypes);
+            input = ConsoleUtils.GetNumberInputFromUserInRange(1, (ushort)VehicleFactory.NumOfEngineTypes);
 
             return VehicleFactory.GetEngineTypeAtI(input - 1).Value;
-
         }
 
         // get all properties that are relevant to all vehicle types
@@ -155,7 +150,6 @@ VehicleFactory.GetEngineTypeAtI(i).Key);
 @"Please enter the wheel manufacturer: ");
             o_WheelManufacturer = Console.ReadLine();
         }
-
 
         /* generate a new vehicle in the garag. Sets all available parameters, and then,
            using the type (know in runtime) get all the additional unique parameters from the user */
@@ -187,71 +181,10 @@ VehicleFactory.GetEngineTypeAtI(i).Key);
                 }
             }
 
-
-            // ==========================================================================================
-            //            MethodInfo userPropertiesMethod = vehicleToAdd.GetType().GetMethod("GetUserInputPropertiesForNewVehicle");
-            //            Dictionary<string, PropertyInfo> uninitializedProperties =
-            //                (Dictionary<string, PropertyInfo>)userPropertiesMethod.Invoke(vehicleToAdd, new object[] { });
-            //            string inputFromUser;
-
-            //            foreach (KeyValuePair<string, PropertyInfo> propertyAndDescriptionPair in uninitializedProperties)
-            //            {
-            //                bool validPropertyInput = false;
-
-            //                while (!validPropertyInput)
-            //                {
-            //                    Console.WriteLine(
-            //@"please input {0}:",
-            //propertyAndDescriptionPair.Key);
-            //                    inputFromUser = Console.ReadLine();
-            //                    try
-            //                    {
-            //                        propertyAndDescriptionPair.Value.GetSetMethod().Invoke(vehicleToAdd, new object[] { inputFromUser });
-            //                        validPropertyInput = true;
-            //                    }
-            //                    catch (Exception ex)
-            //                    {
-            //                        Console.WriteLine(
-            //@"error - {0}. please try again",
-            //ex.InnerException.Message);
-            //                    }
-            //                }
-            //            }
-
             return vehicleToAdd;
         }
 
-        // TODO name
-        // get aa number selection from the user, the number must be between the given min and max values
-        private ushort getNumberInputFromUser(ushort i_MinValidSelection, ushort i_MaxValidSelection)
-        {
-            bool isValidInput = false;
-            ushort userSelection = 0; // TODO change to nullable?
-
-            while (!isValidInput)
-            {
-                while (!ushort.TryParse(Console.ReadLine(), out userSelection))
-                {
-                    Console.WriteLine(
-@"Input format error please input a number");
-                }
-
-                if (userSelection >= i_MinValidSelection && userSelection <= i_MaxValidSelection)
-                {
-                    isValidInput = true;
-                }
-                else
-                {
-                    // TODO use exception
-                    Console.WriteLine(
-@"Please input a number between {0} and {1}",
-i_MinValidSelection,
-i_MaxValidSelection);
-                }
-            }
-
-            return userSelection;
-        }
+        
        
         protected override void PrintLicensePlatesInGarage()
         {
@@ -275,10 +208,6 @@ i_MaxValidSelection);
             {
                 filter = null;
             }
-            //else
-            //{
-            //    throw new Exception("Invalid char returned from \"getYesOrNoFromUser\"");
-            //}
 
             printLicensePlatesInGarageWithParameter(filter);
         }
@@ -559,7 +488,7 @@ Have a nice day.");
                 Console.WriteLine("{0}. {1}", item.Key, item.Value);
             }
 
-            userSelection = getNumberInputFromUser(1, (ushort)(enumCounter - 1));
+            userSelection = ConsoleUtils.GetNumberInputFromUserInRange(1, (ushort)(enumCounter - 1));
 
             return enumDictinary[userSelection];
         }
@@ -608,61 +537,10 @@ Have a nice day.");
 
         private void getOwnerInformation(out string o_Name, out string o_Number)
         {
-            // all name is valid 
-            o_Name = getNonEmptyStrFromUser(@"Customer name: ");
-            o_Number = getNonEmptyStrFromUser(@"Phone number: ");
-            // TODO check validation
-            // o_Number = getPhoneNumber();
+            o_Name = ConsoleUtils.GetNonEmptyStrFromUser(@"Customer name: ");
+            o_Number = ConsoleUtils.GetNonEmptyStrFromUser(@"Phone number: ");
         }
 
-        private char getYesOrNoFromUser()
-        {
-            string inputFromUser;
-            char? selection = null;
-
-            while (selection == null)
-            {
-                inputFromUser = Console.ReadLine();
-                if (inputFromUser.ToUpper() == "Y")
-                {
-                    selection = 'Y';
-                }
-                else if (inputFromUser.ToUpper() == "N")
-                {
-                    selection = 'N';
-                }
-                else
-                {
-                    Console.Write(
-@"invalid answer, please enter (Y/N): ");
-                }
-            }
-
-            return (char)selection;
-        }
-
-        private string getNonEmptyStrFromUser(string i_Prompt)
-        {
-            string inputStr = string.Empty;
-            bool isValidInput = false;
-
-            while (!isValidInput)
-            {
-                Console.Write(i_Prompt);
-                inputStr = Console.ReadLine();
-                if (inputStr.Equals(string.Empty))
-                {
-                    Console.WriteLine(
-@"empty string is invalid");
-                }
-                else
-                {
-                    isValidInput = true;
-                }
-            }
-
-            return inputStr;
-        }
 
         private void getLicensePlateFromUser(out string o_LicensePlate, out bool o_IsInGarage)
         {
