@@ -1,7 +1,7 @@
 ﻿using System;
-using Ex03.GarageLogic;
 using System.Collections.Generic;
 using System.Reflection;
+using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
 {
@@ -12,9 +12,9 @@ namespace Ex03.ConsoleUI
 
         internal ConsoleUI(Garage i_Garage) : base(i_Garage) { }
 
-        internal override void run()
+        // main function to start running the program using this user interface (console)
+        internal override void Run()
         {
-            ushort userSelection;
             string selectedMethodStr;
             MethodInfo selectedMethod;
 
@@ -24,24 +24,25 @@ namespace Ex03.ConsoleUI
                 Console.Clear();
                 Console.WriteLine(
 @"Hello and welcome to the new and improved garage managing application :)");
-                userSelection = getActionRequestFromUser();
+                selectedMethodStr = getActionRequestFromUser();
                 Console.Clear();
-                selectedMethodStr = sr_AvailableActionsForUser[userSelection].Value;
-                selectedMethod = base.GetType().GetMethod(selectedMethodStr, BindingFlags.NonPublic | BindingFlags.Instance);// TODO delete , BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Default);
+                // according to the user's selection, get and invoke the matching function
+                selectedMethod = GetType().GetMethod(selectedMethodStr, BindingFlags.NonPublic | BindingFlags.Instance);
                 selectedMethod.Invoke(this, new object[] { });
                 ConsoleUtils.PressAnyKeyToContinue();
             } while (!m_EndOfProgram);
         }
 
-        //display all available actions to the user and return he user's selection
-        private ushort getActionRequestFromUser()
+        //display all available actions to the user and return the user's selection
+        private string getActionRequestFromUser()
         {
-            ushort numOptions = (ushort)sr_AvailableActionsForUser.Count;
             ushort userSelection;
+            ushort numOptions = (ushort)sr_AvailableActionsForUser.Count;
 
             Console.WriteLine(
 @"What would you like to do next?
 ");
+            // display all options to the user
             foreach (KeyValuePair<ushort, KeyValuePair<string, string>> action in sr_AvailableActionsForUser)
             {
                 Console.WriteLine(
@@ -50,21 +51,22 @@ action.Key,
 action.Value.Key);
             }
 
+            // get the user's selection
             userSelection = ConsoleUtils.GetNumberInputFromUserInRange(0, numOptions);
 
-            return userSelection;
+            //return the name of the method that matches the user's selection
+            return sr_AvailableActionsForUser[userSelection].Value;
         }
 
-        // ===================================== Add New Vehicle To Garage Functions ====================================
+        // ==================================================== "AddNewVehicleToGarage" Functions ====================================================
         /* add a vehicle to the garage, if the license plate already exists in the garage 
            its status will be set to "in progress" otherwise a new vehicle will be added */
-        protected override void AddNewVehicleToGarage()
+        protected override void AddVehicleToGarage()
         {
-            string licensePlate;
+            string licensePlate = getLicensePlateFromUser();
 
-            licensePlate = getLicensePlateFromUser();
-            // if the licnense plate exists set status to InProgress
-            if (m_Garage.LicensePlateExists(licensePlate))
+            // if the license plate exists set status to InProgress
+            if (isInGarage(licensePlate))
             {
                 Console.WriteLine(
 @"The given license plate already exists");
@@ -72,88 +74,52 @@ action.Value.Key);
             }
             else
             {
-                AddVehicleToGarage(licensePlate);
+                Console.WriteLine(
+@"Please add the requested vehicle it to the garage
+");
+                addNewVehicleToGarage(licensePlate);
             }
         }
 
-        private void AddVehicleToGarage(string licensePlate)
+        // add a vehicle to the garage, assumption there is no vehicle in the garage with the given license plate
+        private void addNewVehicleToGarage(string i_LicensePlate)
         {
             Type vehicleType, engineType;
             Vehicle vehicleToAdd;
             string customerName, customerNumber, modelName, wheelManufacturer;
 
-            Console.WriteLine(
-@"The given license plate does not exist, please add it to the garage
-");
-            vehicleType = getVehicleTypeFromUser();
-            getCommonPropertiesForAllVehicles(out modelName, out wheelManufacturer, out engineType);
-            vehicleToAdd = createNewVehicle(vehicleType, licensePlate, modelName, wheelManufacturer, engineType);
+            //vehicleType = getVehicleTypeFromUser();
+            vehicleType = ConsoleUtils.SelectTypeFromListOfDescriptionAndTypePair(VehicleFactory.VehicleTypes, "vehicle");
+            getCommonPropertiesForAllVehicles(out engineType, out modelName, out wheelManufacturer);
+            vehicleToAdd = createNewVehicle(vehicleType, i_LicensePlate, engineType, modelName, wheelManufacturer);
             getVehicleOwnerInformation(out customerName, out customerNumber);
             m_Garage.AddVehicleToGarage(customerName, customerNumber, vehicleToAdd);
             Console.WriteLine(
 @"
-Successfully added the vehicle to the garage!
-");
-        }
-
-        // display all vehicle types and get selection from user
-        private Type getVehicleTypeFromUser()
-        {
-            ushort input = 0;
-
-            Console.WriteLine(
-@"Please select the vehicle type:");
-            // print all vehicle types available in VehicleFactory
-            for (int i = 0; i < VehicleFactory.NumOfVehicleTypes; i++)
-            {
-                Console.WriteLine(
-@"{0}. {1}",
-i + 1,
-VehicleFactory.GetVehicleTypeAtI(i).Key);
-            }
-
-            input = ConsoleUtils.GetNumberInputFromUserInRange(1, (ushort)VehicleFactory.NumOfVehicleTypes);
-
-            return VehicleFactory.GetVehicleTypeAtI(input - 1).Value;
+Vehicle with license plate {0}, was successfully added to the garage!
+", i_LicensePlate);
         }
 
         // get all properties that are relevant to all vehicle types
-        private void getCommonPropertiesForAllVehicles(out string o_ModelName, out string o_WheelManufacturer, out Type o_EngineType)
+        private void getCommonPropertiesForAllVehicles(out Type o_EngineType, out string o_ModelName, out string o_WheelManufacturer)
         {
-            o_EngineType = selectEngineType();
+            o_EngineType = ConsoleUtils.SelectTypeFromListOfDescriptionAndTypePair(VehicleFactory.EngineTypes, "engine");
             o_ModelName = ConsoleUtils.GetNonEmptyStrFromUser("Model name: ");
-            o_WheelManufacturer = ConsoleUtils.GetNonEmptyStrFromUser("wheel manufacturer: ");
+            o_WheelManufacturer = ConsoleUtils.GetNonEmptyStrFromUser("Wheel manufacturer: ");
         }
 
-        private Type selectEngineType()
+        /* generate a new vehicle in the garage. Sets all available parameters, and then,
+           using the type (known in runtime) get all the additional unique parameters from the user */
+        private Vehicle createNewVehicle(Type i_VehicleType, string i_LicensePlate, Type i_EngineType, string i_ModelName, string i_WheelManufacturer)
         {
-            ushort input = 0;
-
-            Console.WriteLine(
-@"Please select the engine type:");
-            // print all vehicle types available in VehicleFactory
-            for (int i = 0; i < VehicleFactory.NumOfEngineTypes; i++)
-            {
-                Console.WriteLine(
-@"{0}. {1}",
-i + 1,
-VehicleFactory.GetEngineTypeAtI(i).Key);
-            }
-
-            input = ConsoleUtils.GetNumberInputFromUserInRange(1, (ushort)VehicleFactory.NumOfEngineTypes);
-
-            return VehicleFactory.GetEngineTypeAtI(input - 1).Value;
-        }
-
-        /* generate a new vehicle in the garag. Sets all available parameters, and then,
-           using the type (know in runtime) get all the additional unique parameters from the user */
-        private Vehicle createNewVehicle(Type i_VehicleType, string i_LicensePlate, string i_ModelName, string i_WheelManufacturer, Type i_EngineType)
-        {
+            bool setSucceded;
+            string input;
+            MethodInfo currentSetMethod;
             // creates a new vehicle with available parameters using the "VehicleFactory" via "Garage"
             Vehicle vehicleToAdd = Garage.GetNewVehicleFromFactory(i_VehicleType, i_LicensePlate, i_ModelName, i_WheelManufacturer, i_EngineType);
-            bool setSucceded;
 
-            // after the type is know (in runtime) get the remaining parameters needed
+            // after the type is known (in runtime) get the remaining parameters needed
+            // setValueMethod is a pair of <description, function name>
             foreach (KeyValuePair<string, string> setValueMethod in vehicleToAdd.SetFunctionsForAddedParams)
             {
                 setSucceded = false;
@@ -161,9 +127,12 @@ VehicleFactory.GetEngineTypeAtI(i).Key);
                 {
                     try
                     {
-                        Console.Write("Enter {0}: ", setValueMethod.Key);
-                        string input = Console.ReadLine();
-                        vehicleToAdd.GetType().GetMethod(setValueMethod.Value).Invoke(vehicleToAdd, new object[] { input });
+                        Console.Write(
+@"Enter {0}: ",
+setValueMethod.Key);
+                        input = Console.ReadLine();
+                        currentSetMethod = vehicleToAdd.GetType().GetMethod(setValueMethod.Value);
+                        currentSetMethod.Invoke(vehicleToAdd, new object[] { input });
                         setSucceded = true;
                     }
                     catch (Exception ex)
@@ -182,19 +151,16 @@ VehicleFactory.GetEngineTypeAtI(i).Key);
             o_Number = ConsoleUtils.GetNonEmptyStrFromUser("Phone number: ");
         }
 
-        // ===================================== Print License Plates In Garage Functions ===============================
+        // ==================================================== "PrintLicensePlatesInGarage" Functions ====================================================
         protected override void PrintLicensePlatesInGarage()
         {
             eVehicleStatus? filter = null;
-            char userSelection;
+            char userSelection = ConsoleUtils.GetYesOrNoFromUser("Would you like to add a filter to the list of license plates? (Y/N): ");
 
-            userSelection = ConsoleUtils.GetYesOrNoFromUser("Would you like to add a filter to the list of license plates? (Y/N): ");
             // the above fuction is guaranteed to return Y or N and no other char
             if (userSelection == 'Y')
             {
-                Console.WriteLine(
-@"Select filter for list of license plates:");
-                filter = (eVehicleStatus)ConsoleUtils.GetEnumSelectionFromUser(typeof(eVehicleStatus));
+                filter = (eVehicleStatus)ConsoleUtils.GetEnumSelectionFromUser(typeof(eVehicleStatus), "Select filter for list of license plates: ");
 
             }
             else if (userSelection == 'N')
@@ -205,6 +171,7 @@ VehicleFactory.GetEngineTypeAtI(i).Key);
             printLicensePlatesInGarageWithParameter(filter);
         }
 
+        // prints all license plates in the garage according to the given filter value, if null prints all license plates
         private void printLicensePlatesInGarageWithParameter(eVehicleStatus? i_Status)
         {
             List<string> licensePlateArr = m_Garage.GetLicensePlatesByStatusFilter(i_Status);
@@ -225,7 +192,7 @@ VehicleFactory.GetEngineTypeAtI(i).Key);
             }
         }
 
-        // ===================================== Change Vehicle Status Functions ========================================
+        // ==================================================== "ChangeVehicleStatus" Functions ====================================================
         protected override void ChangeVehicleStatus()
         {
             string licensePlate;
@@ -234,13 +201,12 @@ VehicleFactory.GetEngineTypeAtI(i).Key);
 @"Change status of vehicle in garage.
 ");
             licensePlate = getLicensePlateFromUser();
-            if (m_Garage.LicensePlateExists(licensePlate))
+            if (isInGarage(licensePlate))
             {
                 eVehicleStatus newStatus;
                 eVehicleStatus prevStatus = m_Garage.GetVehicleStatus(licensePlate);
 
-                newStatus = (eVehicleStatus)ConsoleUtils.GetEnumSelectionFromUser(
-                    typeof(eVehicleStatus), "Please select the new status:");
+                newStatus = (eVehicleStatus)ConsoleUtils.GetEnumSelectionFromUser(typeof(eVehicleStatus), "Please select the new status:");
                 m_Garage.SetVehicleInGarageStatus(licensePlate, newStatus);
                 Console.WriteLine(
 @"The status of {0} was changed from {1} to {2}.
@@ -249,92 +215,92 @@ licensePlate,
 prevStatus.ToString(),
 newStatus.ToString());
             }
-            else
-            {
-                Console.WriteLine(
-@"The license plate {0}, is not in the garage.
-",
-licensePlate);
-            }
         }
 
-        // ===================================== Fill Air In Wheels Functions ===========================================
+        // ==================================================== "FillAirInWheels" Functions ====================================================
         protected override void FillAirInWheels()
         {
             string licensePlate;
 
             Console.WriteLine(
-@"Choose vehicle too fill air in all wheels to max");
-
+@"Choose vehicle too fill air in all wheels to max.");
             licensePlate = getLicensePlateFromUser();
-            try
+            if (isInGarage(licensePlate))
             {
-                m_Garage.FillAirInWheels(licensePlate);
-                Console.WriteLine(
+                try
+                {
+                    m_Garage.FillAirInWheels(licensePlate);
+                    Console.WriteLine(
 @"All wheels in {0} were filled to max
 "
 , licensePlate);
-            }
-            catch (ArgumentException keyEx)
-            {
-                Console.WriteLine(
-@"The given licence plate is not in the garage.
-");
-            }
-            catch (ValueOutOfRangeException valueRangeEx)
-            {
-                Console.WriteLine(
+                }
+                catch (ArgumentException argumentEx)
+                {
+                    Console.WriteLine(
+@"{0}
+", argumentEx.Message);
+                }
+                catch (ValueOutOfRangeException valueRangeEx)
+                {
+                    Console.WriteLine(
 @"{0}
 ", valueRangeEx.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(
 @"Error - {0}
 ", ex.Message);
+                }
             }
         }
 
-        // ===================================== Fill Fuel In Vehicle Functions =========================================
+        // ==================================================== "FillFuelInVehicle" Functions ====================================================
         protected override void FillFuelInVehicle()
         {
             string licensePlate;
             bool fuelingSuccessfull = false;
-            float amountEnergyToAdd;
 
             Console.WriteLine(
 @"Choose vehicle to fuel");
             licensePlate = getLicensePlateFromUser();
-            if (m_Garage.GetEngineType(licensePlate) == typeof(MotorEngine))
+            if (isInGarage(licensePlate))
             {
-                while (!fuelingSuccessfull)
+                if (m_Garage.GetEngineType(licensePlate) == typeof(MotorEngine))
                 {
-                    amountEnergyToAdd = getAmountEnergyToAddFromUser();
-                    fuelingSuccessfull = tryFillFuelInVehicle(licensePlate, amountEnergyToAdd);
+                    while (!fuelingSuccessfull)
+                    {
+                        fuelingSuccessfull = tryFillFuelInVehicle(licensePlate);
+                    }
                 }
-            }
-            else
-            {
-                Console.WriteLine(
-@"Can't fuel a non fuelable vehicle.
+                else
+                {
+                    Console.WriteLine(
+@"
+Can't fuel a non fuelable vehicle.
 ");
+                }
             }
         }
 
-        private bool tryFillFuelInVehicle(string i_LicensePlate, float i_AmountEnergyToAdd)
+        // assumption - the given license plate is in the garage
+        private bool tryFillFuelInVehicle(string i_LicensePlate)
         {
             bool fuelingSuccessfull = false;
-            eFuelType fuelType = (eFuelType)ConsoleUtils.GetEnumSelectionFromUser(
-                        typeof(eFuelType), "Please select engine type");
+            float amountEnergyToAdd;
+            eFuelType fuelType = (eFuelType)ConsoleUtils.GetEnumSelectionFromUser(typeof(eFuelType), "Please select fuel type");
 
             try
             {
-                m_Garage.FillEnergyInVehicle(i_LicensePlate, i_AmountEnergyToAdd, fuelType);
+                amountEnergyToAdd = getAmountEnergyToAddFromUser("Please enter amount of fuel to add in liters: ");
+                m_Garage.FuelVehicle(i_LicensePlate, amountEnergyToAdd, fuelType);
                 Console.WriteLine(
 @"Fueled vehicle {0} with {1} liters of fuel.
-the tank is currently {2} full.
-", i_LicensePlate,
-i_AmountEnergyToAdd,
+The tank is currently {2} full.
+",
+i_LicensePlate,
+amountEnergyToAdd,
 m_Garage.GetPercentOfEnergyRemaining(i_LicensePlate).ToString("P"));
                 // will only reach the next line if no exception was thrown
                 fuelingSuccessfull = true;
@@ -350,7 +316,8 @@ m_Garage.GetPercentOfEnergyRemaining(i_LicensePlate).ToString("P"));
             catch (ValueOutOfRangeException valueOutOfRangeException)
             {
                 Console.WriteLine(
-@"Fuel amount is invalid, valid range is: {0}-{1}"
+@"Fuel amount is invalid, valid range is: {0}-{1}
+"
 , valueOutOfRangeException.MinValue,
 valueOutOfRangeException.MaxValue);
             }
@@ -362,45 +329,49 @@ valueOutOfRangeException.MaxValue);
             return fuelingSuccessfull;
         }
 
-        // ===================================== Charge Battery In Vehicle Functions ====================================
+        // ==================================================== "ChargeBatteryInVehicle" Functions ====================================================
         protected override void ChargeBatteryInVehicle()
         {
             string licensePlate;
-            float amountEnergyToAdd;
             bool chargingSuccessfull = false;
 
             Console.WriteLine(
 @"Choose vehicle to charge");
             licensePlate = getLicensePlateFromUser();
-            if (m_Garage.GetEngineType(licensePlate) == typeof(ElectricEngine))
+            if (isInGarage(licensePlate))
             {
-                while (!chargingSuccessfull)
+                if (m_Garage.GetEngineType(licensePlate) == typeof(ElectricEngine))
                 {
-                    amountEnergyToAdd = getAmountEnergyToAddFromUser();
-                    chargingSuccessfull = tryChargeBatteryInVehicle(licensePlate, amountEnergyToAdd);
+                    while (!chargingSuccessfull)
+                    {
+
+                        chargingSuccessfull = tryChargeBatteryInVehicle(licensePlate);
+                    }
                 }
-            }
-            else
-            {
-                Console.WriteLine(
-@"Can't charge a non electric vehicle.
+                else
+                {
+                    Console.WriteLine(
+    @"Can't charge a non electric vehicle.
 ");
+                }
             }
         }
 
-        private bool tryChargeBatteryInVehicle(string i_LicensePlate, float i_AmountEnergyToAdd)
+        // assumption - the given license plate is in the garage
+        private bool tryChargeBatteryInVehicle(string i_LicensePlate)
         {
             bool chargingSuccessfull = false;
-            eFuelType fuelType = (eFuelType)ConsoleUtils.GetEnumSelectionFromUser(
-                        typeof(eFuelType), "Please select engine type");
+            float amountEnergyToAdd;
 
             try
             {
-                m_Garage.FillEnergyInVehicle(i_LicensePlate, i_AmountEnergyToAdd);
+                amountEnergyToAdd = getAmountEnergyToAddFromUser("Please enter amount to charge in hours: ");
+                m_Garage.ChargeVehicle(i_LicensePlate, amountEnergyToAdd);
                 Console.WriteLine(
 @"Added {0} hours to battery of {1}.
-the tank is currently {2} full.
-", i_AmountEnergyToAdd,
+The battery is currently {2} full.
+",
+amountEnergyToAdd,
 i_LicensePlate,
 m_Garage.GetPercentOfEnergyRemaining(i_LicensePlate).ToString("P"));
                 // will only reach the next line if no exception was thrown
@@ -417,7 +388,8 @@ m_Garage.GetPercentOfEnergyRemaining(i_LicensePlate).ToString("P"));
             catch (ValueOutOfRangeException valueOutOfRangeException)
             {
                 Console.WriteLine(
-@"Fuel amount is invalid, valid range is: {0}-{1}"
+@"Fuel amount is invalid, valid range is: {0}-{1}
+"
 , valueOutOfRangeException.MinValue,
 valueOutOfRangeException.MaxValue);
             }
@@ -429,50 +401,47 @@ valueOutOfRangeException.MaxValue);
             return chargingSuccessfull;
         }
 
-        // ===================================== Print Vehicle Info Function ============================================
+        // ==================================================== Print Vehicle Info Function ====================================================
         protected override void PrintVehicleInfo()
         {
             string licensePlate = getLicensePlateFromUser();
 
-            try
+            if (isInGarage(licensePlate))
             {
-                Console.WriteLine(m_Garage.GetVehicleInformation(licensePlate));
-            }
-            catch (KeyNotFoundException keyEx)
-            {
-                Console.WriteLine(
-@"The given licence plate is not in the garage.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(
-@"Error - {0}",
+                try
+                {
+                    Console.WriteLine(m_Garage.GetVehicleInformation(licensePlate));
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(
+ @"Error - {0}",
 ex.Message);
+                }
             }
         }
 
-        // ======================================== Exit Program Function ===============================================
+        // ==================================================== Exit Program Function ====================================================
         protected override void ExitProgram()
         {
             Console.WriteLine(
-@"End of program.
+@"Thank you for using the amazing garage manager app.
 Have a nice day.");
             m_EndOfProgram = true;
         }
 
-        // ========================================= Other Functions ====================================================
+        // ==================================================== Other Functions ====================================================
         private string getLicensePlateFromUser()
         {
             return ConsoleUtils.GetNonEmptyStrFromUser("License plate: ");
         }
 
-        private float getAmountEnergyToAddFromUser()
+        private float getAmountEnergyToAddFromUser(string i_Prompt)
         {
             string userInput;
             float amountEnergyToAdd;
 
-            Console.Write(
-@"Please enter amount energy to add: ");
+            Console.Write(i_Prompt);
             userInput = Console.ReadLine();
             while (!float.TryParse(userInput, out amountEnergyToAdd))
             {
@@ -482,6 +451,22 @@ Have a nice day.");
             }
 
             return amountEnergyToAdd;
+        }
+
+        // check if a given license plate is in the garage, output message to console if not
+        private bool isInGarage(string i_LicensePlate)
+        {
+            bool found = m_Garage.LicensePlateExists(i_LicensePlate);
+
+            if (!found)
+            {
+                Console.WriteLine(
+@"The license plate {0}, is not in the garage.
+",
+i_LicensePlate);
+            }
+
+            return found;
         }
     }
 }

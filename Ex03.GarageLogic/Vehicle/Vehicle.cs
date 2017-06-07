@@ -1,12 +1,14 @@
 ﻿/*
  * Instructions for inheritants:
- *  -   all inheritants must implement "initUserInputFunctions" which populates the static Dictionary "s_SetFunctionsForAddedParams"
- *      the dictionary will hold <description, function name> for all functions that will be used in order to set the data members
+ *  -   all functions referenced in s_SetFunctionsForAddedParams must be functions that recieve on string parameter
+ *  -   "initUserInputFunctions" implementation 
+ *      which populates the static Dictionary "s_SetFunctionsForAddedParams"
+ *  -   the dictionary will hold <description, function name> for all functions that will be used in order to set the data members
  *      added to Vehicle by the new inheritant class
  *  -   inheritants ctor 
  *      -   update value of k_MaxWheelAirPress
  *      -   initialize the m_Wheels list according to the number and type of wheels needed
- *      -   updates m_Engine to the correct engine
+ *      -   updates m_Engine to the correct engine      
  * 
  */
 using System;
@@ -21,7 +23,7 @@ namespace Ex03.GarageLogic
         protected float k_MaxWheelAirPress = 0;
         protected List<Wheel> m_Wheels = new List<Wheel>();
         protected Engine m_Engine = new MotorEngine(0, eFuelType.Octan95);
-        protected static Dictionary<string, string> s_SetFunctionsForAddedParams = null;
+        protected static Dictionary<string, string> s_SetFunctionsForAddedParams = new Dictionary<string, string>();
 
         // assumption, input parameters are validated before calling the ctor        
         internal Vehicle(string i_LicensePlate, string i_ModelName)

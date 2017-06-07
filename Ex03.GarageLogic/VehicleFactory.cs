@@ -11,6 +11,7 @@ namespace Ex03.GarageLogic
         static VehicleFactory()
         {
             sr_VehicleTypes.Add(new KeyValuePair<string, Type>("Car", typeof(Car)));
+            sr_VehicleTypes.Add(new KeyValuePair<string, Type>("Bike", typeof(Car)));
             sr_EngineTypes.Add(new KeyValuePair<string, Type>("Electric engine", typeof(ElectricEngine)));
             sr_EngineTypes.Add(new KeyValuePair<string, Type>("Fuel Engine", typeof(MotorEngine)));
         }
@@ -30,6 +31,16 @@ namespace Ex03.GarageLogic
             }
 
             return newVehicle;
+        }
+
+        public static List<KeyValuePair<string, Type>> VehicleTypes
+        {
+            get { return sr_VehicleTypes; }
+        }
+
+        public static List<KeyValuePair<string, Type>> EngineTypes
+        {
+            get { return sr_EngineTypes; }
         }
 
         public static KeyValuePair<string, Type> GetEngineTypeAtI(int i)

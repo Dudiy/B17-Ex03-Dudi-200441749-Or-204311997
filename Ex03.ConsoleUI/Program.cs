@@ -14,7 +14,7 @@ namespace Ex03.ConsoleUI
             Garage garage = new Garage();
             ConsoleUI userInterface = new ConsoleUI(garage);
 
-            userInterface.run();
+            userInterface.Run();
         }
     }
 }

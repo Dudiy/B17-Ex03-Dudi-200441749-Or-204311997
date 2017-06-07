@@ -9,10 +9,11 @@ namespace Ex03.ConsoleUI
         protected static readonly Dictionary<ushort, KeyValuePair<string, string>> sr_AvailableActionsForUser = 
             new Dictionary<ushort, KeyValuePair<string, string>>();
 
+        // initialize Dictionary of <id, <function description, function name>>
         static UserInterface()
         {
             sr_AvailableActionsForUser.Add(0, new KeyValuePair<string, string>("Exit program", "ExitProgram"));
-            sr_AvailableActionsForUser.Add(1, new KeyValuePair<string, string>("Add a new vehicle", "AddNewVehicleToGarage"));
+            sr_AvailableActionsForUser.Add(1, new KeyValuePair<string, string>("Add a vehicle to the garage", "AddVehicleToGarage"));
             sr_AvailableActionsForUser.Add(2, new KeyValuePair<string, string>("Display license plates", "PrintLicensePlatesInGarage"));
             sr_AvailableActionsForUser.Add(3, new KeyValuePair<string, string>("Change vehicle status", "ChangeVehicleStatus"));
             sr_AvailableActionsForUser.Add(4, new KeyValuePair<string, string>("Fill air in wheels", "FillAirInWheels"));
@@ -26,9 +27,9 @@ namespace Ex03.ConsoleUI
             m_Garage = i_Garage;
         }
 
-        internal abstract void run();
+        internal abstract void Run();
 
-        protected abstract void AddNewVehicleToGarage();
+        protected abstract void AddVehicleToGarage();
 
         protected abstract void PrintLicensePlatesInGarage();
 

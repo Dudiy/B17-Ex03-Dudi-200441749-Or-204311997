@@ -75,9 +75,8 @@ m_NumDoors);
         protected override void initUserInputFunctions()
         {
             // TODO try to improve
-            if (s_SetFunctionsForAddedParams == null)
+            if (s_SetFunctionsForAddedParams.Count == 0)
             {
-                s_SetFunctionsForAddedParams = new Dictionary<string, string>();
                 s_SetFunctionsForAddedParams.Add("number of doors", "SetNumDoors");
                 s_SetFunctionsForAddedParams.Add("color of car", "SetColor");
             }
