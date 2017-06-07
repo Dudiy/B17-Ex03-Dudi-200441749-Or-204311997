@@ -1,9 +1,17 @@
-﻿using System;
+﻿/*
+ * Instructions for inheritants:
+ *  -   all inheritants must implement "initUserInputFunctions" which populates the static Dictionary "s_SetFunctionsForAddedParams"
+ *      the dictionary will hold <description, function name> for all functions that will be used in order to set the data members
+ *      added to Vehicle by the new inheritant class
+ *  -   inheritants ctor 
+ *      -   update value of k_MaxWheelAirPress
+ *      -   initialize the m_Wheels list according to the number and type of wheels needed
+ *      -   updates m_Engine to the correct engine
+ * 
+ */
+using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 
-// TODO look for change public to internal
 namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
@@ -12,13 +20,8 @@ namespace Ex03.GarageLogic
         private readonly string m_ModelName = "No model name entered";
         protected float k_MaxWheelAirPress = 0;
         protected List<Wheel> m_Wheels = new List<Wheel>();
-        protected Engine m_Engine = null;
-        // a dictionary of <description, function name> of all functions used to set additional parameters
+        protected Engine m_Engine = new MotorEngine(0, eFuelType.Octan95);
         protected static Dictionary<string, string> s_SetFunctionsForAddedParams = null;
-        public Dictionary<string, string> SetFunctionsForAddedParams
-        {
-            get { return s_SetFunctionsForAddedParams; }
-        }
 
         // assumption, input parameters are validated before calling the ctor        
         internal Vehicle(string i_LicensePlate, string i_ModelName)
@@ -31,12 +34,46 @@ namespace Ex03.GarageLogic
         // all inheritants must provide a function to initialize a list of all user input functions
         protected abstract void initUserInputFunctions();
 
+        // ==================================================== Propeties ====================================================
+        public string LicensePlate
+        {
+            get { return m_LicensePlate; }
+        }
+
+        public string ModelName
+        {
+            get { return m_ModelName; }
+        }
+
+        public string WheelManufacturer
+        {
+            get { return m_Wheels[0].Manufacturer; }
+            set
+            {
+                foreach (Wheel wheel in m_Wheels)
+                {
+                    wheel.Manufacturer = value;
+                }
+            }
+        }
+
+        public Type EngineType
+        {
+            get { return m_Engine.GetType(); }
+        }
+
+        // a dictionary of <description, function name> of all functions used to set additional parameters
+        public Dictionary<string, string> SetFunctionsForAddedParams
+        {
+            get { return s_SetFunctionsForAddedParams; }
+        }
 
         public float PercentOfEnergyRemaining
         {
             get { return m_Engine.PercentOfEnergyRemaining; }
         }
 
+        // ==================================================== overrides and operators ====================================================
         public override bool Equals(object obj)
         {
             bool equals = false;
@@ -76,66 +113,6 @@ namespace Ex03.GarageLogic
             return m_LicensePlate.GetHashCode();
         }
 
-        // ==================================================== Propeties ====================================================
-        public string LicensePlate
-        {
-            get { return m_LicensePlate; }
-        }
-
-        public string ModelName
-        {
-            get { return m_ModelName; }
-        }
-
-        public string WheelManufacturer
-        {
-            get { return m_Wheels[0].Manufacturer; }
-            set
-            {
-                foreach (Wheel wheel in m_Wheels)
-                {
-                    wheel.Manufacturer = value;
-                }
-            }
-        }
-
-        public Type EngineType
-        {
-            get { return m_Engine.GetType(); }
-        }
-
-        // ==================================================== Methods ====================================================
-        // TODO delete
-        //protected void InitAllWheels(Wheel i_Wheel, byte i_NumWheels)
-        //{
-        //    for (byte i = 0; i < i_NumWheels; i++)
-        //    {
-        //        m_Wheels.Add((Wheel)(i_Wheel.Clone()));
-        //    }
-        //}
-        // all inheritants must provide a function to initialize and return 
-        //public abstract Dictionary<string, PropertyInfo> GetUserInputPropertiesForNewVehicle();
-
-        // initialize all wheels of a car, this is done from the ctor of the inheritant once we know the actual numWheels in runtime
-        protected void InitAllWheels(string i_WheelManufacturer, float i_MaxAirPress, byte i_NumWheels)
-        {
-            for (byte i = 0; i < i_NumWheels; i++)
-            {
-                m_Wheels.Add(new Wheel(i_WheelManufacturer, i_MaxAirPress));
-            }
-        }
-
-        // fill all wheels in the vehicle to maximum air pressure
-        public void FillAllWheelsToMaxAirPress()
-        {
-            foreach (Wheel wheel in m_Wheels)
-            {
-                float airToFill = wheel.MaxAirPressure - wheel.CurrentAirPressure;
-
-                wheel.FillAir(airToFill);
-            }
-        }
-
         public override string ToString()
         {
             return String.Format(
@@ -159,6 +136,27 @@ m_Engine.ToString()
 );
         }
 
+        // ==================================================== Methods ====================================================
+        // initialize all wheels of a car, this is done from the ctor of the inheritant once we know the actual numWheels in runtime
+        protected void InitAllWheels(string i_WheelManufacturer, float i_MaxAirPress, byte i_NumWheels)
+        {
+            for (byte i = 0; i < i_NumWheels; i++)
+            {
+                m_Wheels.Add(new Wheel(i_WheelManufacturer, i_MaxAirPress));
+            }
+        }
+
+        // fill all wheels in the vehicle to maximum air pressure
+        public void FillAllWheelsToMaxAirPress()
+        {
+            foreach (Wheel wheel in m_Wheels)
+            {
+                float airToFill = wheel.MaxAirPressure - wheel.CurrentAirPressure;
+
+                wheel.FillAir(airToFill);
+            }
+        }
+
         // charge an electric engine (if the caller does not have an electric engine an exception is thrown)
         public void Charge(float i_AmountEnergyToFill)
         {
@@ -173,6 +171,7 @@ m_Engine.ToString()
             }
         }
 
+        // fuel a fuelable engine (if the caller does not have an electric engine an exception is thrown)
         public void FillFuel(float i_AmountEnergyToFill, eFuelType i_FuelType)
         {
             if (m_Engine.GetType() == typeof(MotorEngine))
