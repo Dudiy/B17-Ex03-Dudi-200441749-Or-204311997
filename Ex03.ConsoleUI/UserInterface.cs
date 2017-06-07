@@ -1,7 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Ex03.GarageLogic;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Ex03.ConsoleUI
 {
