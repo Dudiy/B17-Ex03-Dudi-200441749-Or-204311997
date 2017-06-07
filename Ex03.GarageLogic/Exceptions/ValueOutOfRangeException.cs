@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+ * B17_Ex03: ValueOutOfRangeException.cs
+ * 
+ * Exception that will be thrown when an input is out of range, 
+ * returns the minimal and maximal valid values as properties.
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+ */
+using System;
 
 namespace Ex03.GarageLogic
 {

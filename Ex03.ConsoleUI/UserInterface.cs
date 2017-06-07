@@ -1,4 +1,15 @@
-﻿using System.Collections.Generic;
+﻿/*
+ * B17_Ex03: UserInterface.cs
+ * 
+ * Abstract class that defines all functions that any user interface must implement.
+ * hold a dictionary of all available functions for the application.
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+ */
+
+using System.Collections.Generic;
 using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI

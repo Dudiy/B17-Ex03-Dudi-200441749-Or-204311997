@@ -1,17 +1,22 @@
 ﻿/*
- * Instructions for inheritants:
- *  -   all functions referenced in s_SetFunctionsForAddedParams must be functions that recieve on string parameter
- *  -   "initUserInputFunctions" implementation 
- *      which populates the static Dictionary "s_SetFunctionsForAddedParams"
- *  -   the dictionary will hold <description, function name> for all functions that will be used in order to set the data members
- *      added to Vehicle by the new inheritant class
- *  -   inheritants ctor 
- *      -   update value of k_MaxWheelAirPress
- *      -   initialize the m_Wheels list according to the number and type of wheels needed
- *      -   updates m_Engine to the correct engine      
+ * B17_Ex03: Vehicle.cs
  * 
+ * A base class of all vehicles.
+ * 
+ * Instructions for inheritants:
+ *  -   all functions referenced in s_SetFunctionsForAddedParams must be void functions that recieve one string parameter
+ *  -   "InitValuesInSetFunctionsForAddedProperties" implementation:
+ *      -   populates the static Dictionary "r_SetFunctionsForAddedProperties" according to the additional values in the "child"
+ *      -   the dictionary will hold <description, function name> for all functions that will be used in order to set the additional data members
+ *          added to Vehicle by the new inheritant class
+ *  -   inheritants ctor 
+ *      -   update value of m_MaxWheelAirPress
+ *      -   initialize the m_Wheels list according to the number and type of wheels needed
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
  */
-
 using System;
 using System.Collections.Generic;
 

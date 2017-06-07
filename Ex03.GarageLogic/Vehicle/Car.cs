@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+ * B17_Ex03: Car.cs
+ * 
+ * A type of vehicle, can have an electric or fueled engine
+ * has two additional fields: car color and number of doors.
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+ */
+using System;
 
 namespace Ex03.GarageLogic
 {
@@ -17,7 +27,6 @@ namespace Ex03.GarageLogic
         internal Car(string i_LicensePlate, string i_ModelName, string i_WheelManufacturer)
             : base(i_LicensePlate, i_ModelName)
         {
-            //setEngine(i_EngineType);
             m_MaxWheelAirPress = k_MaxWheelAirPressForCar;
             InitAllWheels(i_WheelManufacturer, k_MaxWheelAirPressForCar, k_NumWheels);
         }

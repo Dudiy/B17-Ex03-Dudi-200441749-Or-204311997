@@ -1,10 +1,17 @@
 ﻿/*
+ * B17_Ex03: Garage.cs
+ * 
+ * The main class of the GarageLogic, is used to connect between the UI and the logic.
+ * Forwards all user requests to the functions needed.
+ * 
  * assumption for all functions in this class:
- *  - all calls to functions with a specific license plate assume that the license plate is in the garage,
+ *    all calls to functions with a specific license plate assume that the license plate is in the garage,
  *    if a function is called with a license plate that is not in the garage it will do nothing and return null/0 value
  * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
  */
-
 using System;
 using System.Collections.Generic;
 

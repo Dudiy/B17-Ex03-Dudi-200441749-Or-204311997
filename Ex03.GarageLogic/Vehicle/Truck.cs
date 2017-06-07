@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+ * B17_Ex03: Truck.cs
+ * 
+ * A type of vehicle, can have an only a fueled engine,
+ * has two additional fields: if it carries hazrdous materials and max carrying weight.
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+ */
+using System;
 
 namespace Ex03.GarageLogic
 {

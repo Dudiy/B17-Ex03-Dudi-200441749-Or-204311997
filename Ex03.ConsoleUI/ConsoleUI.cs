@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+ * B17_Ex03: ConsoleUI.cs
+ * 
+ * Class for managing all UI of the garage app
+ * this UI is made for running the app using the console window.
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+ */
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Ex03.GarageLogic;
@@ -10,7 +20,9 @@ namespace Ex03.ConsoleUI
     {
         private bool m_EndOfProgram = false;
 
-        internal ConsoleUI(Garage i_Garage) : base(i_Garage) { }
+        internal ConsoleUI(Garage i_Garage) : base(i_Garage)
+        {
+        }
 
         // main function to start running the program using this user interface (console)
         internal override void Run()

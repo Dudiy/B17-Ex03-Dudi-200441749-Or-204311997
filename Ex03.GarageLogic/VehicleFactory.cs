@@ -1,10 +1,16 @@
 ﻿/*
+ * B17_Ex03: VehicleFactory.cs
+ * 
+ * The only class that can generate new vehicles, according to the input a matching type of Vehicle is created and returned.
+ * 
  * Instructions for adding a new class that was inherited from Vehicle:
  *  1. add the decription and type to sr_VehicleTypes
  *  2. add "else if" to "NewVehicle" method
  * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
  */
-
 using System;
 using System.Collections.Generic;
 
@@ -20,6 +26,7 @@ namespace Ex03.GarageLogic
             sr_VehicleTypes.Add(new KeyValuePair<string, Type>("Car", typeof(Car)));
             sr_VehicleTypes.Add(new KeyValuePair<string, Type>("Bike", typeof(Bike)));
             sr_VehicleTypes.Add(new KeyValuePair<string, Type>("Truck", typeof(Truck)));
+            // #############  Add new vehicle type to list here  #############
         }
 
         // ==================================================== Properties ====================================================
@@ -46,6 +53,7 @@ namespace Ex03.GarageLogic
             {
                 newVehicle = new Truck(i_LicensePlate, i_ModelName, i_WheelManufacturer);
             }
+            // #############  Add new vehicle ctor here  #############
             else
             {
                 throw new NotImplementedException();

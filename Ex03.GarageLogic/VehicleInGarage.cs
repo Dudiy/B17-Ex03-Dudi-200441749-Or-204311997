@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+ * B17_Ex03: VehicleInGarage.cs
+ * 
+ * A class that connects between a customer of the garage and the vehicle itself.
+ * also includes the current status of the vehicle.
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+ */
+using System;
 
 namespace Ex03.GarageLogic
 {

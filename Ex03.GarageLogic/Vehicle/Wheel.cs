@@ -1,4 +1,13 @@
-﻿namespace Ex03.GarageLogic
+﻿/*
+ * B17_Ex03: Wheel.cs
+ * 
+ * Each vehicle holds a collection of this class - the wheels of the vehicle.
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+ */
+namespace Ex03.GarageLogic
 {
     public class Wheel
     {

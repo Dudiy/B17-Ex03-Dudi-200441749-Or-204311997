@@ -1,7 +1,12 @@
 ﻿/*
- * This abstract class is the base class of both "Electric" and "Fueled" engine types
+ * B17_Ex03: Engine.cs
+ * 
+ * Abstract class - functions as the base class of both "Electric" and "Fueled" engine types
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
  */
-
 namespace Ex03.GarageLogic
 {
     public abstract class Engine

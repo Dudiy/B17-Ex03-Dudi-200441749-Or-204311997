@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+ * B17_Ex03: Bike.cs
+ * 
+ * A type of vehicle, can have an electric or fueled engine
+ * has two additional fields: engine capacity and license type.
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+ */
+using System;
 
 namespace Ex03.GarageLogic
 {

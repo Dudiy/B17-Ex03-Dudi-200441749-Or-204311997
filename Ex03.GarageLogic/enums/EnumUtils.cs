@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * B17_Ex03: EnumUtils.cs
+ * 
+ * Class that provides generic functionality for enums
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+ */
+using System;
 using System.Text;
 
 namespace Ex03.GarageLogic

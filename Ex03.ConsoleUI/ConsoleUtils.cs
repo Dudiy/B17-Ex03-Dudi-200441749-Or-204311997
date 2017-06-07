@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * B17_Ex03: ConsoleUtils.cs
+ * 
+ * Generic class for managing console UI.
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+*/
+using System;
 using System.Collections.Generic;
 
 namespace Ex03.ConsoleUI
